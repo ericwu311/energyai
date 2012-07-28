@@ -31,8 +31,8 @@ group :test do
   gem 'guard-spork', '0.3.2'  	#spork and guard for testing environment.
   gem 'spork', '0.9.0'
   gem 'launchy', '2.1.0'        # not sure what this gem does
-  gem 'rb-fsevent', '0.9.1', :require => false  # not quite sure if this is necessary
-  gem 'growl', '1.0.3'
+  gem 'rb-fsevent', '0.9.1', :require => false  # fs event for mac osx
+  gem 'growl', '1.0.3'    # this is for testing on mac osx
 end
 
 # Bundle edge Rails instead:
