@@ -1,11 +1,31 @@
 require 'spec_helper'
 
 describe "StaticPages" do
-  describe "GET /static_pages" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get static_pages_index_path
-      response.status.should be(200)
-    end
-  end
+	
+	let (:base_title) { "Verdigristech Energy.AI" }
+	subject { page }
+
+	shared_examples_for "all static pages" do
+		it { should have_selector('h1', text: heading) }
+		it { should have_selector('title', text: full_title(page_title)) }
+	end
+
+	describe "Home Page and Login" do
+		#before(:each) { visit root_path }
+		before(:each) { visit '/static_pages/home' }
+		let(:heading) { 'Energy.AI' }
+		let(:page_title) { 'Login' }
+
+		it_should_behave_like "all static pages"
+		
+		# all the right links should exist in the footer
+		it { should have_link("About Us", href: aboutus_path) }
+	    it { should have_link("Help", href: help_path) }
+		it { should have_link("Blog", href: blog_path) }
+	    it { should have_link("Terms", href: terms_path) }
+	    
+	    it { should have_link("Sign Up", href: signup_path) }    	
+		# it should have google login form
+		# it should have normal login form
+	end
 end
