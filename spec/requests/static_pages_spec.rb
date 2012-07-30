@@ -12,7 +12,7 @@ describe "StaticPages" do
 
 	describe "Home Page and Login" do
 		#before(:each) { visit root_path }
-		before(:each) { visit '/static_pages/home' }
+		before(:each) { visit root_path }
 		let(:heading) { 'Energy.AI' }
 		let(:page_title) { 'Login' }
 

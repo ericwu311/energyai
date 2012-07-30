@@ -266,3 +266,14 @@ input.error, textarea.error {
 .error {
     color: red;
 }
+
+/* login page unique background */
+#Login-page {
+	background-image: image-url('login_bg.jpg');
+	background-attachment: fixed;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+  	-moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+}
