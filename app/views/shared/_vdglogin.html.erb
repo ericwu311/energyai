@@ -1,0 +1,38 @@
+<div id="verdigris-login" class="row-fluid">
+		<table>
+		  <tbody>
+		  	<tr>
+				<td></td>
+				<td>
+					<%= link_to "Login with Google Account", '#', class: "btn btn-large btn-primary" %>
+				</td>
+		  	</tr>
+		  	<tr>
+		  		<td></td>
+		  		<td>
+			  		<div id="login-separator" class="separator">
+					<div class="or-separator">- or -</div>
+					</div>
+				</td>
+		  	</tr>
+			<%= form_tag '#' do %>
+
+		    <tr>
+		      <td><%= label_tag :email %></td>
+		      <td><%= text_field_tag :email, params[:email] %></td>
+		    </tr>
+		    <tr>
+		      <td><%= label_tag :password %></td>
+		      <td><%= password_field_tag :password %></td>
+		    </tr>
+		    <tr>
+		    	<td></td>
+		    	<td><%= submit_tag "Sign in", class: "btn btn-large btn-primary" %>
+		    	</td>
+		    </tr>
+		    <% end %>
+		  </tbody>
+		</table>
+			
+
+</div>

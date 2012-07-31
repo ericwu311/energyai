@@ -9,14 +9,14 @@
 		  <%= favicon_link_tag 'iphone-dark-l.png', :rel => 'apple-touch-icon', :type => 'image/png' %>
 		  <%= render 'layouts/shim' %>
 	</head>
-	<body <%= label_pageid(yield(:title)) %>> 
-		<%= render 'layouts/header' %>
+	<body <%= label_pageid(yield(:title)) %>>
+		<%= render 'layouts/header' unless skip_header?(yield(:title)) %>
 		<div class="container">
 			<% flash.each do |key, value| %>
 				<%= content_tag(:div, value, class: "alert alert-#{key}") %>
 			<% end %>
 			<%= yield %>
-			<%= render 'layouts/footer' %>
+			<%= render 'layouts/footer' unless skip_footer?(yield(:title)) %>
 			<%= debug(params) if Rails.env.development? %>
 		</div>
 	</body>

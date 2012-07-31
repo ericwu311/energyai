@@ -19,5 +19,23 @@ module ApplicationHelper
 			"id=#{page_title}-page"
 		end
 	end
+
+	# determine whether to skip the header and footer links.
+	def skip_header?(page_title)
+		if page_title == "Login"
+			true
+		else
+			false
+		end
+	end
+
+	def skip_footer?(page_title)
+		if page_title == "Login"
+			true
+		else
+			false
+		end
+	end
+
 end
 
