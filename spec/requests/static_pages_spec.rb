@@ -6,7 +6,7 @@ describe "StaticPages" do
 	subject { page }
 
 	shared_examples_for "all static pages" do
-		it { should have_selector('h1', text: heading) }
+		it { should have_selector('img', alt: heading) }
 		it { should have_selector('title', text: full_title(page_title)) }
 	end
 
@@ -19,13 +19,15 @@ describe "StaticPages" do
 		it_should_behave_like "all static pages"
 		
 		# all the right links should exist in the footer
-		it { should have_link("About Us", href: aboutus_path) }
+		it { should have_link("About Verdigris", href: aboutus_path) }
 	    it { should have_link("Help", href: help_path) }
 		it { should have_link("Blog", href: blog_path) }
 	    it { should have_link("Terms", href: terms_path) }
 	    
-	    it { should have_link("Sign Up", href: signup_path) }    	
+	    it { should have_link("Sign Up", href: '#') }    	
 		# it should have google login form
 		# it should have normal login form
+
+
 	end
 end
