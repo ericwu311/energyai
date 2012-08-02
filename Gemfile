@@ -12,7 +12,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 group :development, :test do
   gem 'rspec-rails', '2.10.0'	# rspec
   gem 'guard-rspec', '0.5.5'	# using guard for testing
-  gem 'annotate', '~> 2.4.1.beta' # annotates models.
+  gem 'annotate', '~> 2.5.0' # annotates models.
 end
 
 # Gems used only for assets and not required

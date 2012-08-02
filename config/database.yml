@@ -2,7 +2,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: sample_app_development
+  database: energyai_development
   username: 
   password:
   host: localhost
@@ -11,7 +11,7 @@ development:
 test: &test
   adapter: postgresql
   encoding: unicode
-  database: sample_app_test
+  database: energyai_test
   pool: 5
   username: 
   password:
@@ -19,7 +19,7 @@ test: &test
 production:
   adapter: postgresql
   encoding: unicode
-  database: sample_app_production
+  database: energyai_production
   pool: 5
   username: 
   password:
