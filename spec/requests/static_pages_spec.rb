@@ -24,7 +24,7 @@ describe "StaticPages" do
 		it { should have_link("Blog", href: blog_path) }
 	    it { should have_link("Terms", href: terms_path) }
 	    
-	    it { should have_link("Sign Up", href: '#') } 
+	    it { should have_link("Sign Up", href: signup_path) } 
 	    it { should_not have_selector('header') } 
 	    it { should_not have_selector('footer') }  	
 		it { should have_link("Login with Google Account", href: '#') }

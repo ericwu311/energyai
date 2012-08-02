@@ -11,13 +11,13 @@
 	</head>
 	<body <%= label_pageid(yield(:title)) %>>
 		<%= render 'layouts/header' unless skip_header?(yield(:title)) %>
-		<div class="container">
+		<div class="container-fluid">
 			<% flash.each do |key, value| %>
 				<%= content_tag(:div, value, class: "alert alert-#{key}") %>
 			<% end %>
 			<%= yield %>
-			<%= render 'layouts/footer' unless skip_footer?(yield(:title)) %>
-			<%= debug(params) if Rails.env.development? %>
 		</div>
+		<%= render 'layouts/footer' unless skip_footer?(yield(:title)) %>
+		<%= debug(params) if Rails.env.development? %>
 	</body>
 </html>

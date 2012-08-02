@@ -1,6 +1,9 @@
 Energyai::Application.routes.draw do
+  get "users/new"
+
   root to: 'static_pages#home'
 
+  match '/signup', to: 'users#new'
   match '/help'  => redirect("http://help.verdigristech.com"), as: :help
   match '/about' => redirect("http://www.verdigristech.com/about-us"), as: :aboutus
   match '/blog'  => redirect("http://www.verdigristech.com/blog"), as: :blog

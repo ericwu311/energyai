@@ -6,7 +6,14 @@
 $grayMediumLight: #eaeaea;
 $gray80: #393939;
 $gray92: #131313;
+$gray97: #080808;
+$gray15: #d8d8d8;
+$gray5: #f2f2f2;
 $blueinfo: #3a87ad;
+//$navbarbluedark: #1f3c49;
+//$navbarbluelite: #396072;
+$navbarbluedark: #242d38;
+$navbarbluelite: #334050;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box; 
@@ -78,6 +85,9 @@ p {
   padding-top: 9px;
   font-weight: bold;
   line-height: 1;
+  img {
+    width: 84%;
+  }
   &:hover {
       color: white;
       text-decoration: none;
@@ -87,28 +97,83 @@ p {
 /* footer */
 
 footer {
-  margin-top: 45px;
-  padding-top: 5px;
-  border-top: 1px solid $grayMediumLight;
-  color: $grayLight;
-  a {
-    color: $gray;
-    &:hover {
-      color: $grayDarker;   
-    }
-  }
-  small {
-    float: left;
-  }
-  ul {
+  #logo {
     float: right;
-    list-style: none;
-    li {
-      float: left;
-      margin-left: 10px;
+    margin-right: 0px;
+    padding: 3px 0px 0px 0px;
+    img {
+      width: 135px;
     }
   }
+  .navbar {
+    margin-bottom:0;
+  }
+  .navbar-fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    .brand {
+      padding-right: 0;
+      padding-left: 0;
+      margin-left: 0px;
+      float: right;
+      font-weight: bold;
+      color: black;
+    }
+  }
+  .navbar-inner {
+    min-height: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: rgba(0,0,0,.7);
+    background-image: none;
+    background-repeat: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
+    -moz-box-shadow: 0px 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
+    box-shadow: 0px 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.3);
+    .nav > li > a {
+      padding: 14px 15px 8px;
+      font-size: 14px;
+      line-height: 18px;
+      color: $gray15;
+      text-decoration: none;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+      &:hover {
+        background-color: transparent;
+        color: white;
+        text-decoration: none;
+      }
+    }
 }
+}
+// footer {
+//   margin-top: 45px;
+//   padding-top: 5px;
+//   border-top: 1px solid $grayMediumLight;
+//   color: $grayLight;
+//   a {
+//     color: $gray;
+//     &:hover {
+//       color: $grayDarker;   
+//     }
+//   }
+//   small {
+//     float: left;
+//   }
+//   ul {
+//     float: right;
+//     list-style: none;
+//     li {
+//       float: left;
+//       margin-left: 10px;
+//     }
+//   }
+// }
 
 /* sidebar */
 
@@ -384,3 +449,95 @@ input.error, textarea.error {
     	color: $grayLighter;
     }
 }
+
+/* navbar related styling */
+/* recoloring the navbar hopefully */
+.navbar-inner {
+  min-height: 48px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: $navbarbluelite;
+  background-image: -moz-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: -ms-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($navbarbluelite), to($navbarbluedark));
+  background-image: -webkit-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: -o-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$navbarbluelite', endColorstr='$navbarbluedark', GradientType=0);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.3);
+  .nav > li > a {
+    padding: 14px 15px 8px;
+    font-size: 14px;
+    line-height: 18px;
+    color: $gray15;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    &:hover {
+      background-color: transparent;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+.navbar {
+  .divider-vertical {
+    height: 48px;
+    width: 1px;
+    margin: 0 9px;
+    overflow: hidden;
+    background-color: $navbarbluedark;
+    border-right: 1px solid $navbarbluelite;
+  }
+  .btn, .btn-group {
+    margin-top: 7px;
+    background-color: $navbarbluedark;  
+  }
+}
+.btn-navbar {
+  display: none;
+  float: right;
+  padding: 8px 10px 8;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: $navbarbluedark;
+  background-image: -moz-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: -ms-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($navbarbluelite), to($navbarbluedark));
+  background-image: -webkit-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: -o-linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-image: linear-gradient(top, $navbarbluelite, $navbarbluedark);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$navbarbluelite', endColorstr='$navbarbluedark', GradientType=0);
+  border-color: #222222 #222222 #000000;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075);
+  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075);
+  &:hover, &:active, &.active, &.disabled, &[disabled] {
+    background-color: white;
+  }
+  &:active, &.active {
+    background-color: $gray97;
+  }
+  &:hover {
+    color: gray20;
+    text-decoration: none;
+    /* Buttons in IE7 don't get borders, so darken on hover */
+    -webkit-transition: All 0.1s ease;
+    -moz-transition: All 0.1s ease;
+    -ms-transition:  All 0.1s ease;
+    -o-transition:   All 0.1s ease;
+    transition:      All 0.1s ease;    
+  }
+}
+
+/* end of the recoloring navbar */
