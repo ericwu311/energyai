@@ -29,8 +29,7 @@ describe "StaticPages" do
 	    it { should_not have_selector('footer') }  	
 		it { should have_link("Login with Google Account", href: '#') }
 		# it should have normal login form
-	
-
-
 	end
+
+	
 end
