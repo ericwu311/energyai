@@ -1,0 +1,9 @@
+<a href-"<%= user_path(object) %>">
+	<%= gravatar_for object, size: 52%>
+</a>
+<h1>
+	<%= object.name %>, <%= object.email %>
+</h1>
+<span>
+	<%= link_to "view my profile", object %>
+</span>

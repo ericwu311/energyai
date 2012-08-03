@@ -9,10 +9,6 @@ describe "User pages" do
 
 		it { should have_selector 'h1',  text: 'Sign Up' }
 	  	it { should have_selector('title', text: full_title('Sign Up')) }
-	end
-
-	describe "signup" do
-	  	before { visit signup_path }
 
 	  	let(:submit) { "Create my account" }
 
@@ -23,7 +19,7 @@ describe "User pages" do
 
 	  		describe "after submission" do
 	  			before { click_button submit }
-	  			it { should have_selector('title', text: 'Sign up') }
+	  			it { should have_selector('title', text: 'Sign Up') }
 	  			it { should have_content('error') }
 	  			it { should have_content('can\'t be blank') }
 	  		end
@@ -37,8 +33,8 @@ describe "User pages" do
 	  	        fill_in "Confirmation", with: "foobar"
 		    end
 
-	      it "should create a user" do
-	      	expect { click_button submit }.to change(User, :count).by(1)
+			it "should create a user" do
+		      	expect { click_button submit }.to change(User, :count).by(1)
 	    	end
 
 	    	describe "after saving the user" do
@@ -46,9 +42,18 @@ describe "User pages" do
 	    		let(:user) { User.find_by_email('user@example.com') }
 
 	    		it { should have_selector('title', text: user.name) }
-	    		it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+	    		it { should have_selector('div.alert.alert-success', text: 'Welcome to Energy.AI') }
 	        	it { should have_link('Sign out') }
 	    	end
 	  	end
   	end
+
+  	describe "profile page" do
+	  	# code to make a user variable
+		let(:user) { FactoryGirl.create(:user) }    
+	  	before(:each) { visit user_path(user) }
+
+	  	it { should have_selector('h1', text: user.name) }
+	  	it { should have_selector('title', text: user.name) }
+	end
 end

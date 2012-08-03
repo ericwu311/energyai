@@ -151,4 +151,7 @@ describe User do
 		its(:remember_token) { should_not be_blank }
 	end
 
+	describe "buildings" do
+		pending # users should follow biuldings.
+	end
 end
