@@ -1,8 +1,12 @@
 Energyai::Application.routes.draw do
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
+ 
   root to: 'static_pages#home'
-
-  match '/signup', to: 'users#new'
+  
+  match '/signin',  to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
+  match '/signup',  to: 'users#new'
   match '/help'  => redirect("http://help.verdigristech.com"), as: :help
   match '/about' => redirect("http://www.verdigristech.com/about-us"), as: :aboutus
   match '/blog'  => redirect("http://www.verdigristech.com/blog"), as: :blog

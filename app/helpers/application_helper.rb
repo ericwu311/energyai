@@ -16,13 +16,14 @@ module ApplicationHelper
 		if page_title.empty?
 			default_id
 		else
-			"id=#{page_title}-page"
+			#remove spaces and downcase
+			"id=#{page_title.gsub(/ /, '').downcase}-page"
 		end
 	end
 
 	# determine whether to skip the header and footer links.
 	def skip_header?(page_title)
-		if page_title == "Login"
+		if page_title == "Sign in"
 			true
 		else
 			false
@@ -30,7 +31,7 @@ module ApplicationHelper
 	end
 
 	def skip_footer?(page_title)
-		if page_title == "Login"
+		if page_title == "Sign in"
 			true
 		else
 			false

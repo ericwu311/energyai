@@ -10,11 +10,11 @@ describe "StaticPages" do
 		it { should have_selector('title', text: full_title(page_title)) }
 	end
 
-	describe "Home Page and Login" do
+	describe "Home Page and Sign in" do
 		#before(:each) { visit root_path }
 		before(:each) { visit root_path }
 		let(:heading) { 'Energy.AI' }
-		let(:page_title) { 'Login' }
+		let(:page_title) { 'Sign in' }
 
 		it_should_behave_like "all static pages"
 		
@@ -24,12 +24,14 @@ describe "StaticPages" do
 		it { should have_link("Blog", href: blog_path) }
 	    it { should have_link("Terms", href: terms_path) }
 	    
-	    it { should have_link("Sign Up", href: signup_path) } 
+	    it { should have_link("Sign up", href: signup_path) } 
 	    it { should_not have_selector('header') } 
 	    it { should_not have_selector('footer') }  	
-		it { should have_link("Login with Google Account", href: '#') }
-		# it should have normal login form
+		it { should have_link("Sign in with Google Account", href: '#') }
+		# it should have normal signin form
+		it { should have_content('Email')}
+		it { should have_content('Password')}
 	end
 
-	
+
 end

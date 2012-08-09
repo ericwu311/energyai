@@ -1,0 +1,6 @@
+<% if @buildings.any? %>
+	<ol class="buildinglist">
+		<%= render partial: 'shared/building_highlight', collection: @buildings %>
+	</ol>
+	<%= will_paginate @buildings %>
+<% end %>

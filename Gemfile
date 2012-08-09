@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.7'
 gem 'pg', '0.12.2'				# use postgres
 gem 'jquery-rails', '2.0.2'
-gem 'bootstrap-sass', '2.0.0'	# To use twitterbootstrap base css
+gem 'bootstrap-sass', '~> 2.0.4.0'	# To use twitterbootstrap base css
 gem 'bcrypt-ruby', ' ~> 3.0.1'	# To use ActiveModel has_secure_password
 gem 'faker', '1.0.1'			# gem for simulating data creation
 gem 'will_paginate', '3.0.3'	# gem for autopaginating lists

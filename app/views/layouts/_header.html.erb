@@ -4,7 +4,24 @@
         	<%= link_to image_tag("EnergyAI-small-shadow.png", alt: "Energy.AI"), root_path, id: "logo" %>
         	<nav>
 	            <ul class="nav pull-right">
-		              	<li><%= link_to "Log In", root_path %></li>
+					<% if signed_in? %>              
+						<li><%= link_to "Users", users_path %></li>
+						<li id="fat-menu" class="dropdown">
+							<a href=# class="dropdown-toggle" data-toggle="dropdown"> Buildings <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><%= link_to "My Buildings", current_user %></li>
+								<li><%= link_to "Alert Settings", edit_user_path(current_user) %></li>
+								<li class="divider"></li>
+								<li> <%= link_to "Moscone [default]", signout_path, method: "delete" %></li>
+							</ul>
+						</li>
+	              	<% else %>
+		              	<li id="fat-menu" class="dropdown">
+			          		<a href=# class="dropdown-toggle" data-toggle="dropdown"> Sign in <b class="caret"></b></a>
+		              		<ul class="dropdown-menu">
+								<%= render 'shared/vdgsignin_menu' %>
+			              	</ul>
+	              	<% end %>
 	            </ul>
 	        </nav>
 	    </div>

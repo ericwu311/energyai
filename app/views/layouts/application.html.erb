@@ -12,9 +12,7 @@
 	<body <%= label_pageid(yield(:title)) %>>
 		<%= render 'layouts/header' unless skip_header?(yield(:title)) %>
 		<div class="container-fluid">
-			<% flash.each do |key, value| %>
-				<%= content_tag(:div, value, class: "alert alert-#{key}") %>
-			<% end %>
+			<%= render 'shared/flash_messages' unless skip_header?(yield(:title)) %>
 			<%= yield %>
 		</div>
 		<%= render 'layouts/footer' unless skip_footer?(yield(:title)) %>
