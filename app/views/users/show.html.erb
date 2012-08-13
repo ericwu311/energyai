@@ -6,8 +6,16 @@
 			<%= render 'shared/user_info', object: @user %>
 		</section>
 		<section>
+			<% if @user.microalerts.any? %>
+				<h3> Alerts (<%= @user.microalerts.count %>)</h3>
+				<ol class="microalerts">
+					<%= render @microalerts %>
+				</ol>
+				<%= will_paginate @microalerts %>
+			<% end %>
 		</section>
 	</aside>
 	<div class="span10">
+
 	</div>
 </div>

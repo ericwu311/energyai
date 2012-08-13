@@ -100,12 +100,26 @@ describe "User pages" do
 
   	describe "profile page" do
 	  	# code to make a user variable
-		let(:user) { FactoryGirl.create(:user) }    
+		let(:user) { FactoryGirl.create(:user) }
+
+		# create a bunch of microalerts
+	    let!(:m1) { FactoryGirl.create(:microalert, user: user, content: "foo", created_at: 1.second.ago) }
+	    let!(:m2) { FactoryGirl.create(:microalert, user: user, content: "bar", created_at: 1.second.ago) }
+        
 	  	before(:each) { visit user_path(user) }
 
 	  	it { should have_selector('h1', text: user.name) }
 	  	it { should have_selector('title', text: user.name) }
 	  	it { should have_content(user.email) }
+
+	  	describe "microalerts" do
+	  		#verify that microalerts show up
+	  		it { should have_content(m1.content) }
+	  		it { should have_content(m2.content) }
+
+	  		#verify the number appears on top
+	  		it { should have_content(user.microalerts.count) }
+	  	end
 	end
 
 	describe "edit" do

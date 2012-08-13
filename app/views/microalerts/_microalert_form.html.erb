@@ -1,0 +1,18 @@
+<%= form_for (@microalert) do |f| %>
+	<%= render 'shared/error_messages', object: f.object %>
+	<div id="microalert_content" class="field">
+		<%= f.text_area :content, placeholder: "new microalert..." %>
+	</div>
+	<script>
+		$(function() {
+			$('#microalert_content textarea').miniCount({
+					max :  <%= MAX_MICROALERT_LENGTH %>,
+					unit: 'character',
+					text: 'characters left.',
+					invalidText: 'characters',
+					countdown: true
+			});
+		});
+	</script>
+	<%= f.submit "Create", class: "btn btn-large btn-primary" %>
+<% end %>

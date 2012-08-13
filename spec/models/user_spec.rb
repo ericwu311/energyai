@@ -8,6 +8,8 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  password_digest :string(255)
+#  remember_token  :string(255)
+#  admin           :boolean          default(FALSE)
 #
 
 require 'spec_helper'
@@ -29,7 +31,7 @@ describe User do
 	it { should respond_to(:remember_token) }
 	it { should respond_to(:admin) }
 	it { should respond_to(:authenticate) }
-	# it { should respond_to(:microposts) }
+	it { should respond_to(:microalerts) }
 	# it { should respond_to(:feed) }
 	# it { should respond_to(:relationships) }
 	# it { should respond_to(:followed_users) }
@@ -153,7 +155,53 @@ describe User do
 		its(:remember_token) { should_not be_blank }
 	end
 
+	describe "microalert associations" do
+
+		before { @user.save }
+		let!(:older_microalert) do
+			FactoryGirl.create(:microalert, user: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_microalert) do
+			FactoryGirl.create(:microalert, user: @user, created_at: 1.hour.ago)
+		end
+
+		it "should have the right microalerts in the right order" do
+			@user.microalerts.should == [newer_microalert, older_microalert]
+		end
+
+		it "should destroy associated microalerts" do
+			microalerts = @user.microalerts
+			@user.destroy
+			microalerts.each do |microalert|
+				Microalert.find_by_id(microalert.id).should be_nil
+			end
+		end
+
+		# describe "status" do
+		# 	let(:unfollowed_alert) do
+		# 		FactoryGirl.create(:microalert, user: FactoryGirl.create(:user))
+		# 	end
+		# 	let(:followed_user) { FactoryGirl.create(:user) }
+
+		# 	before do
+		# 		@user.follow!(followed_user)
+		# 		3.times { followed_user.microalerts.create!(content: "Lorem ipsum") }
+		# 	end
+
+		# 	its(:feed) { should include(newer_microalert) }
+		# 	its(:feed) { should include(older_microalert) }
+		# 	its(:feed) { should_not include(unfollowed_alert) }
+		# 	its(:feed) do
+		# 		followed_user.microalerts.each do |microalert|
+		# 		 	should include(microalert)
+		# 		end
+		# 	end
+		# end				
+	end
+
 	describe "buildings" do
 		pending # users should follow biuldings.
 	end
+
+
 end

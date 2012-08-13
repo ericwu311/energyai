@@ -1,0 +1,7 @@
+<li>
+	<span class="content"><%= wrap(microalert.content) %></span>
+	<span class="timestamp">
+		<%= time_ago_in_words(microalert.created_at) %> ago.
+	</span>
+	<%= render 'shared/delete_link', object: microalert %>
+</li>

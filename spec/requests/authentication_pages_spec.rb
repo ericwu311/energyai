@@ -100,6 +100,19 @@ describe "AuthenticationPages" do
 					it { should have_selector('title', text: 'Sign in') }
 				end
 			end
+
+			describe "in the Microalerts controller" do
+
+				describe "submitting to the create action" do
+					before { post microalerts_path }
+					specify { response.should redirect_to(signin_path) }
+				end
+
+				describe "submitting to the destroy action" do
+					before { delete microalert_path(FactoryGirl.create(:microalert)) }
+					specify { response.should redirect_to(signin_path) }
+				end
+			end
 		end
 
 		describe "as wrong user" do
