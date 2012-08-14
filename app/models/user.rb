@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :microalerts, dependent: :destroy
 
-  # has_many :microposts, dependent: :destroy
   # has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   # has_many :followed_users, through: :relationships, source: :followed
   # has_many :reverse_relationships, foreign_key: "followed_id",
@@ -37,9 +36,11 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
-  # def feed
-  #   Micropost.from_users_followed_by(self)
-  # end
+  def feed
+     # Microalert.from_buildings_followed_by(self) 
+     # Micropost.from_users_followed_by(self)
+     Microalert.where("user_id = ?", id)
+  end
 
   # def following?(other_user)
   #   self.relationships.find_by_followed_id(other_user.id)

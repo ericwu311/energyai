@@ -1,8 +1,14 @@
 <div class="row-fluid">
 	<aside class="span2">
 	<section>
+		
 	</section>
 	<section>
+		<h3>Alert Feed</h3>
+		<span>
+			<%= pluralize(current_user.microalerts.count, "alert") %>
+		</span>
+		<%= render 'shared/feed' %>
 	</section>
 	</aside>
 	<div class="span10">
