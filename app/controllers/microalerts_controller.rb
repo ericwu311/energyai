@@ -21,14 +21,14 @@ class MicroalertsController < ApplicationController
 	  			redirect_to root_path
 	  		else
 	  			@feed_items = []
-	  			render 'new'  #broken
+	  			render 'new'  
 	  		end
 		#end
 	end
 
 	def destroy
 		@microalert.destroy
-		redirect_to root_path    #broken
+		redirect_back_or root_path    #broken needs to remember where it deleted from.
 	end
 
 	private
@@ -37,4 +37,5 @@ class MicroalertsController < ApplicationController
 			@microalert = current_user.microalerts.find_by_id(params[:id])
 			redirect_to root_path if @microalert.nil?
 		end
+
 end

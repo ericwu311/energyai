@@ -36,10 +36,29 @@ describe "Microalert Pages" do
 		before { FactoryGirl.create(:microalert, user: user) }
 
 		describe "as correct user" do
-			before { visit user_path(user) }
+			describe "from the userpath" do
+				before { visit user_path(user) }
+				it "should delete a microalert" do
+					expect { click_link "delete" }.should change(Microalert, :count).by(-1)
+				end
+				
+				describe "submitting to the destroy action" do
+					before {  delete microalert_path(FactoryGirl.create(:microalert)) }
+					pending { response.should redirect_to(user_path(user)) }
+				end
+			end
 
-			it "should delete a microalert" do
-				expect { click_link "delete" }.should change(Microalert, :count).by(-1)
+			describe "from the homepage" do
+				before { visit root_path }
+				it "should delete a microalert" do
+					expect { click_link "delete" }.should change(Microalert, :count).by(-1)
+				end
+
+				describe "submitting to the destroy action" do
+					before {  delete microalert_path(FactoryGirl.create(:microalert)) }
+					specify { response.should redirect_to(root_path) }
+				end
+
 			end
 		end
 
