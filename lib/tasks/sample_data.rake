@@ -3,7 +3,7 @@ namespace :db do
 	task populate: :environment do
 	    make_users
 	    make_microalerts
-	    # make_relationships
+	    make_user_user_relationships
 	end
 end
 
@@ -32,7 +32,7 @@ def make_microalerts
     end
 end	
 
-def make_relationships
+def make_user_user_relationships
 	users = User.all 
 	user = users.first
 	followed_users = users[2..50]

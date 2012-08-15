@@ -33,13 +33,13 @@ describe User do
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:microalerts) }
 	it { should respond_to(:feed) }
-	# it { should respond_to(:relationships) }
-	# it { should respond_to(:followed_users) }
-	# it { should respond_to(:following?) }
-	# it { should respond_to(:follow!) }
-	# it { should respond_to(:unfollow!) }
-	# it { should respond_to(:reverse_relationships) }	
-	# it { should respond_to(:followers) }	
+	it { should respond_to(:user_user_relationships) }
+	it { should respond_to(:followed_users) }
+	it { should respond_to(:following?) }
+	it { should respond_to(:follow!) }
+	it { should respond_to(:unfollow!) }
+	it { should respond_to(:reverse_user_user_relationships) }	
+	it { should respond_to(:followers) }	
 	it { should be_valid }
  	it { should_not be_admin }
 
@@ -197,6 +197,47 @@ describe User do
 		# 		end
 		# 	end
 		end				
+	end
+
+	describe "following" do
+		let(:other_user) { FactoryGirl.create(:user) }
+
+		before do
+			@user.save
+			@user.follow!(other_user)
+			other_user.follow!(@user)
+		end
+
+		it { should be_following(other_user) }
+		its(:followed_users) { should include(other_user) }
+		
+		describe "followed user" do
+			subject { other_user }
+			its(:followers) { should include(@user) }
+		end
+
+ 		describe "and unfollowing" do
+			before { @user.unfollow!(other_user) }
+
+			it { should_not be_following(other_user) }
+			its(:followed_users) {should_not include(other_user) }
+		end
+
+		it "should destroy associated relationships" do
+			relationships = @user.user_user_relationships
+			@user.destroy
+			relationships.each do |relationship|
+				Relationship.find_by_id(relationship.id).should be_nil
+			end
+		end
+
+		it "should destroy associated reverse_relationships" do
+			reverse_relationships = @user.reverse_user_user_relationships
+			@user.destroy
+			reverse_relationships.each do |reverse_relationship|
+				Relationship.find_by_id(reverse_relationship.id).should be_nil
+			end
+		end
 	end
 
 	describe "building associations" do
