@@ -181,21 +181,21 @@ describe User do
 			let(:unfollowed_alert) do
 				FactoryGirl.create(:microalert, user: FactoryGirl.create(:user))
 			end
-		# 	let(:followed_user) { FactoryGirl.create(:user) }
+			let(:followed_user) { FactoryGirl.create(:user) }
 
-		# 	before do
-		# 		@user.follow!(followed_user)
-		# 		3.times { followed_user.microalerts.create!(content: "Lorem ipsum") }
-		# 	end
+			before do
+				@user.follow!(followed_user)
+				3.times { followed_user.microalerts.create!(content: "Lorem ipsum") }
+			end
 
 			its(:feed) { should include(newer_microalert) }
 			its(:feed) { should include(older_microalert) }
 			its(:feed) { should_not include(unfollowed_alert) }
-		# 	its(:feed) do
-		# 		followed_user.microalerts.each do |microalert|
-		# 		 	should include(microalert)
-		# 		end
-		# 	end
+			its(:feed) do
+				followed_user.microalerts.each do |microalert|
+				 	should include(microalert)
+				end
+			end
 		end				
 	end
 

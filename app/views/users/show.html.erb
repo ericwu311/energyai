@@ -6,6 +6,12 @@
 			<%= render 'shared/user_info', object: @user %>
 		</section>
 		<section>
+			<%= render 'shared/stats' %>
+		</section>
+		<section>
+			<%= render 'follow_form' if signed_in? %>
+		</section>
+		<section>
 			<% if @user.microalerts.any? %>
 				<h3> Alerts (<%= @user.microalerts.count %>)</h3>
 				<ol class="microalerts">

@@ -37,8 +37,8 @@ class User < ActiveRecord::Base
 
   def feed
      # Microalert.from_buildings_followed_by(self) 
-     # Micropost.from_users_followed_by(self)
-     Microalert.where("user_id = ?", id)
+     # Microalert.where("user_id = ?", id)
+     Microalert.from_users_followed_by(self)
   end
 
   def following?(other_user)

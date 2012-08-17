@@ -1,7 +1,13 @@
 Energyai::Application.routes.draw do
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers #, :buildings
+    end
+  end
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :microalerts, only: [:new, :create, :destroy]
+  resources :user_user_relationships, only: [:create, :destroy]
 
   root to: 'static_pages#home'
   
