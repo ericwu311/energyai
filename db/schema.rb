@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815164857) do
+ActiveRecord::Schema.define(:version => 20120817072345) do
+
+  create_table "buildings", :force => true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "buildings", ["name", "address"], :name => "index_buildings_on_name_and_address", :unique => true
 
   create_table "microalerts", :force => true do |t|
     t.string   "content"

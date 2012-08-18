@@ -1,4 +1,5 @@
 Energyai::Application.routes.draw do
+
   resources :users do
     member do
       get :following, :followers #, :buildings
@@ -8,6 +9,11 @@ Energyai::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :microalerts, only: [:new, :create, :destroy]
   resources :user_user_relationships, only: [:create, :destroy]
+  resources :buildings do
+    member do
+      get :followers, :devices, :buds
+    end
+  end
 
   root to: 'static_pages#home'
   
@@ -18,7 +24,7 @@ Energyai::Application.routes.draw do
   match '/about' => redirect("http://www.verdigristech.com/about-us"), as: :aboutus
   match '/blog'  => redirect("http://www.verdigristech.com/blog"), as: :blog
   match '/terms' => redirect("http://www.verdigristech.com/terms"), as: :terms
-  
+  match '/build',   to: 'buildings#new'
 
 #  get "static_pages/home"
 
