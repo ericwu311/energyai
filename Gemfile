@@ -8,6 +8,9 @@ gem 'bcrypt-ruby', ' ~> 3.0.1'	# To use ActiveModel has_secure_password
 gem 'faker', '1.0.1'			# gem for simulating data creation
 gem 'will_paginate', '3.0.3'	# gem for autopaginating lists
 gem 'bootstrap-will_paginate', '0.0.6'
+gem 'carrierwave', '0.6.2'    # this gem is for building an uploder
+gem "mime-types", "~> 1.19"   # this gem is a dependency for carrierwave
+
 
 group :development, :test do
   gem 'rspec-rails', '2.10.0'	# rspec

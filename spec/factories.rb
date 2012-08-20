@@ -15,5 +15,11 @@ FactoryGirl.define do
 		sequence(:content) { |n| "Lorem Ipsum #{n}" }
 		user
 	end
+
+	factory :building do
+		sequence(:name)  { |n| "Building #{n}" }
+		sequence(:address) { |n| "123 Builing_#{n} ST, Moffett Field, CA 94035" }
+	end		
+
 	
 end

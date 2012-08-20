@@ -10,8 +10,9 @@
 #
 
 class Building < ActiveRecord::Base
-	attr_accessible :address, :name
+	attr_accessible :address, :name, :avatar
 
+	mount_uploader :avatar, AvatarUploader
 	validates :name, presence: true, length: { maximum: 50 }
 	validates_uniqueness_of :name, scope: :address, case_sensitive: false
 	validates :address, presence: true
