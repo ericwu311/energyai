@@ -4,27 +4,32 @@
 #
 #  id         :integer          not null, primary key
 #  content    :string(255)
-#  user_id    :integer
+#  vocal_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  vocal_type :string(255)
 #
+
 
 class Microalert < ActiveRecord::Base
 	attr_accessible :content
-	belongs_to :user
+	belongs_to :vocal, :polymorphic => true
+
 	self.per_page = 10   #paginate variable that declares number of alerts to list
 
 	validates :content, presence: true, length: { maximum: MAX_MICROALERT_LENGTH }
-	validates :user_id, presence: true
+	validates :vocal_id, presence: true
+	validates :vocal_type, presence: true
 
 	default_scope order: 'microalerts.created_at DESC'
 
-		# returns microposts from the users being
-  	def self.from_users_followed_by(user)
+	# returns microalerts from the users being
+  	def self.from_users_followed_by(vocal)
   		# followed_user_ids = user.followed_user_ids # initial code loads all id's into memory
   		followed_user_ids = "SELECT followed_id FROM user_user_relationships 
   						     WHERE follower_id = :user_id"
-  		where("user_id in (#{followed_user_ids}) OR user_id = :user_id", user_id: user.id)
+  		vocal_type = "User"
+  		where("vocal_type = '#{vocal_type}' AND (vocal_id in (#{followed_user_ids}) OR vocal_id = :user_id)", user_id: vocal.id)
  	end
 
 end

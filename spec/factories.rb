@@ -13,7 +13,7 @@ FactoryGirl.define do
 	factory :microalert do
 		#content = Faker::Lorem.sentence(5) doesn't work in rspec environment
 		sequence(:content) { |n| "Lorem Ipsum #{n}" }
-		user
+		association :vocal, factory: :user
 	end
 
 	factory :building do

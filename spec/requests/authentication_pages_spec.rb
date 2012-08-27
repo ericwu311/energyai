@@ -57,6 +57,7 @@ describe "AuthenticationPages" do
 
 		describe "for non-signed-in users" do
 			let(:user) { FactoryGirl.create(:user) }
+			let(:building) { FactoryGirl.create(:building) }
 
 			describe "when attempting to visit a protected page" do
 				before do
@@ -113,14 +114,30 @@ describe "AuthenticationPages" do
 
 			describe "in the Microalerts controller" do
 
-				describe "submitting to the create action" do
-					before { post microalerts_path }
-					specify { response.should redirect_to(signin_path) }
+				describe "as a user" do 
+
+					describe "submitting to the create action" do
+						before { post user_microalerts_path(user) }
+						specify { response.should redirect_to(signin_path) }
+					end
+
+					describe "submitting to the destroy action" do
+						before { delete user_microalert_path(user, FactoryGirl.create(:microalert)) }
+						specify { response.should redirect_to(signin_path) }
+					end
 				end
 
-				describe "submitting to the destroy action" do
-					before { delete microalert_path(FactoryGirl.create(:microalert)) }
-					specify { response.should redirect_to(signin_path) }
+				describe "as a building" do
+
+					describe "submitting to the create action" do
+						before { post building_microalerts_path(building) }
+						specify { response.should redirect_to(signin_path) }
+					end
+
+					describe "submitting to the destroy action" do
+						before { delete building_microalert_path(building, FactoryGirl.create(:microalert)) }
+						specify { response.should redirect_to(signin_path) }
+					end
 				end
 			end
 
@@ -133,6 +150,36 @@ describe "AuthenticationPages" do
 				describe "submitting to the destroy action" do
 					before { delete user_user_relationship_path(1) }
 					specify { response.should redirect_to(signin_path) }
+				end
+			end
+
+			describe "in the Buildings controller" do
+
+				let(:building) { FactoryGirl.create(:building) }
+
+				describe "visiting the edit page" do
+					before { visit edit_building_path(building) }
+					it { should have_selector('title', text: 'Sign in') }
+				end
+
+				describe "submitting to the update action" do
+					before { put building_path(building) }
+					specify { response.should redirect_to(signin_path) }
+				end
+
+				describe "visiting the building index" do
+					before { visit buildings_path }
+					it { should have_selector('title', text: 'Sign in') }
+				end
+
+				describe "visiting the following page" do
+					before { visit following_building_path(building) }
+					it { should have_selector('title', text: 'Sign in') }
+				end
+
+				describe "visiting the followers page" do
+					before { visit followers_building_path(building) }
+					it { should have_selector('title', text: 'Sign in') }
 				end
 			end
 

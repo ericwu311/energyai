@@ -38,8 +38,8 @@ describe "StaticPages" do
 		describe "for signed-in users" do
 			let(:user) { FactoryGirl.create(:user) }
 			before do
-        		FactoryGirl.create(:microalert, user: user, content: "Lorem ipsum")
-        		FactoryGirl.create(:microalert, user: user, content: "Dolor sit amet")
+        		FactoryGirl.create(:microalert, vocal: user, content: "Lorem ipsum")
+        		FactoryGirl.create(:microalert, vocal: user, content: "Dolor sit amet")
         		sign_in user
         		visit root_path
         	end

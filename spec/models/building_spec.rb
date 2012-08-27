@@ -7,6 +7,7 @@
 #  address    :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  avatar     :string(255)
 #
 
 require 'spec_helper'
@@ -21,6 +22,16 @@ describe Building do
 
 	it { should respond_to(:name) }
 	it { should respond_to(:address) }
+	it { should respond_to(:creator) }
+	it { should respond_to(:managers) }
+	it { should respond_to(:feed) }
+	it { should respond_to(:followers) }
+	it { should respond_to(:followed_users) }
+	it { should respond_to(:following?) }
+	it { should respond_to(:follow!) }
+	it { should respond_to(:unfollow!) }
+	it { should respond_to(:user_bldg_relationships) }
+	it { should respond_to(:bldg_user_relationships) }
 
 	it { should be_valid }
 

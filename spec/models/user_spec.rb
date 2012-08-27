@@ -39,7 +39,11 @@ describe User do
 	it { should respond_to(:follow!) }
 	it { should respond_to(:unfollow!) }
 	it { should respond_to(:reverse_user_user_relationships) }	
-	it { should respond_to(:followers) }	
+	it { should respond_to(:followers) }
+	it { should respond_to(:managed_buildings) }
+	it { should respond_to(:followed_buildings) }
+	it { should respond_to(:building_followers) }
+	it { should respond_to(:default_building) }	
 	it { should be_valid }
  	it { should_not be_admin }
 
@@ -159,10 +163,10 @@ describe User do
 
 		before { @user.save }
 		let!(:older_microalert) do
-			FactoryGirl.create(:microalert, user: @user, created_at: 1.day.ago)
+			FactoryGirl.create(:microalert, vocal: @user, created_at: 1.day.ago)
 		end
 		let!(:newer_microalert) do
-			FactoryGirl.create(:microalert, user: @user, created_at: 1.hour.ago)
+			FactoryGirl.create(:microalert, vocal: @user, created_at: 1.hour.ago)
 		end
 
 		it "should have the right microalerts in the right order" do
@@ -179,7 +183,7 @@ describe User do
 
 		describe "status" do
 			let(:unfollowed_alert) do
-				FactoryGirl.create(:microalert, user: FactoryGirl.create(:user))
+				FactoryGirl.create(:microalert, vocal: FactoryGirl.create(:user))
 			end
 			let(:followed_user) { FactoryGirl.create(:user) }
 
@@ -241,6 +245,8 @@ describe User do
 	end
 
 	describe "building associations" do
+
+		its(:managed_buildings) { should include(its(:default_building)) }
 		pending # users should follow biuldings.
 	end
 

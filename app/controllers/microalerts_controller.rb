@@ -1,12 +1,14 @@
 class MicroalertsController < ApplicationController
-  before_filter :signed_in_user, only: [:new, :create, :destroy]
-  before_filter :correct_user, only: [:destroy]
+	before_filter :load_vocal
+	before_filter :signed_in_user, only: [:new, :create, :destroy]
+	before_filter :correct_user, only: [:destroy]
 	
 	def new
-		@microalert = current_user.microalerts.build
+		@microalert = @vocal.microalerts.new
 	end
 
 	def index
+		@microalerts = @vocal.microalerts
 	end
 
 	def create
@@ -14,11 +16,11 @@ class MicroalertsController < ApplicationController
 	    #if signed_in?
 	    #  redirect_to root_path
 	    #else
-	  		@microalert = current_user.microalerts.build(params[:microalert])
+	  		@microalert = @vocal.microalerts.new(params[:microalert])
 	  		if @microalert.save
 	  			# Handle a sucessful save.
 	        	flash[:success] = "Microalert created!"
-	  			redirect_to root_path
+	  			redirect_to @vocal
 	  		else
 	  			@feed_items = []
 	  			render 'new'  
@@ -36,6 +38,11 @@ class MicroalertsController < ApplicationController
 		def correct_user
 			@microalert = current_user.microalerts.find_by_id(params[:id])
 			redirect_to root_path if @microalert.nil?
+		end
+
+		def load_vocal
+			resource, id = request.path.split('/')[1,2]  # users/1
+			@vocal = resource.singularize.classify.constantize.find(id)  # User.find(1)
 		end
 
 end

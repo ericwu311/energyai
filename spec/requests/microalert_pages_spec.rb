@@ -9,7 +9,7 @@ describe "Microalert Pages" do
 
 
 	describe "microalert creation" do
-		before { visit new_microalert_path }
+		before { visit new_user_microalert_path(user) }
 
 		describe "with invalid information" do
 			
@@ -33,36 +33,42 @@ describe "Microalert Pages" do
 	end
 	
 	describe "microalert destruction" do
-		before { FactoryGirl.create(:microalert, user: user) }
 
-		describe "as correct user" do
-			describe "from the userpath" do
-				before { visit user_path(user) }
-				it "should delete a microalert" do
-					expect { click_link "delete" }.should change(Microalert, :count).by(-1)
+		describe "as a user" do 
+			before { FactoryGirl.create(:microalert, vocal: user) }
+
+			describe "as correct user" do
+				describe "from the userpath" do
+					before { visit user_path(user) }
+					it "should delete a microalert" do
+						expect { click_link "delete" }.should change(Microalert, :count).by(-1)
+					end
+					
+					describe "submitting to the destroy action" do
+						before {  delete user_microalert_path(user, FactoryGirl.create(:microalert)) }
+						pending { response.should redirect_to(user_path(user)) }
+					end
 				end
-				
-				describe "submitting to the destroy action" do
-					before {  delete microalert_path(FactoryGirl.create(:microalert)) }
-					pending { response.should redirect_to(user_path(user)) }
+
+				describe "from the homepage" do
+					before { visit root_path }
+					it "should delete a microalert" do
+						expect { click_link "delete" }.should change(Microalert, :count).by(-1)
+					end
+
+					describe "submitting to the destroy action" do
+						before {  delete user_microalert_path(user, FactoryGirl.create(:microalert)) }
+						specify { response.should redirect_to(root_path) }
+					end
+
 				end
 			end
-
-			describe "from the homepage" do
-				before { visit root_path }
-				it "should delete a microalert" do
-					expect { click_link "delete" }.should change(Microalert, :count).by(-1)
-				end
-
-				describe "submitting to the destroy action" do
-					before {  delete microalert_path(FactoryGirl.create(:microalert)) }
-					specify { response.should redirect_to(root_path) }
-				end
-
-			end
-		end
-
 #		describe "as incorrect user" do
 #			before 
+		end
+
+		describe "as a building" do
+			pending "test api"
+		end
 	end
 end

@@ -104,8 +104,8 @@ describe "User pages" do
 		let(:user) { FactoryGirl.create(:user) }
 
 		# create a bunch of microalerts
-	    let!(:m1) { FactoryGirl.create(:microalert, user: user, content: "foo", created_at: 1.second.ago) }
-	    let!(:m2) { FactoryGirl.create(:microalert, user: user, content: "bar", created_at: 1.second.ago) }
+	    let!(:m1) { FactoryGirl.create(:microalert, vocal: user, content: "foo", created_at: 1.second.ago) }
+	    let!(:m2) { FactoryGirl.create(:microalert, vocal: user, content: "bar", created_at: 1.second.ago) }
         
 	  	before(:each) { visit user_path(user) }
 

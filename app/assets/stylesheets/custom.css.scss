@@ -576,3 +576,88 @@ input.error, textarea.error {
 }
 
 /* end of the recoloring navbar */
+
+/* form css */
+.boxlabel-rt {
+  position: relative;
+  margin: 15px 0;
+  padding: 25px 12px 14px;
+  *padding-top: 19px;
+  background-color: white;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+          /* Echo out a label for the example */
+  &:after {
+    content: "Right now";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    padding: 1px 4px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: $gray5;
+    border: 1px solid #ddd;
+    color: #9da0a4;
+    -webkit-border-radius: 4px 0 4px 0;
+       -moz-border-radius: 4px 0 4px 0;
+            border-radius: 4px 0 4px 0;
+  }
+}
+
+.boxlabel-topconsume {
+  position: relative;
+  margin: 15px 0;
+  padding: 25px 12px 14px;
+  *padding-top: 19px;
+  background-color: white;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+          /* Echo out a label for the example */
+  &:after {
+    content: "Top Consumers";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    padding: 1px 4px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: $gray5;
+    border: 1px solid #ddd;
+    color: #9da0a4;
+    -webkit-border-radius: 4px 0 4px 0;
+       -moz-border-radius: 4px 0 4px 0;
+            border-radius: 4px 0 4px 0;
+  }
+}
+
+.boxlabel-topproduce {
+  position: relative;
+  margin: 15px 0;
+  padding: 25px 12px 14px;
+  *padding-top: 19px;
+  background-color: white;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+          /* Echo out a label for the example */
+  &:after {
+    content: "Top Producers";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    padding: 1px 4px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: $gray5;
+    border: 1px solid #ddd;
+    color: #9da0a4;
+    -webkit-border-radius: 4px 0 4px 0;
+       -moz-border-radius: 4px 0 4px 0;
+            border-radius: 4px 0 4px 0;
+  }
+}

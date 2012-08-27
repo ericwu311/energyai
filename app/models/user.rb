@@ -12,10 +12,11 @@
 #  admin           :boolean          default(FALSE)
 #
 
+
 class User < ActiveRecord::Base
   attr_accessible  :email, :name, :password, :password_confirmation
   has_secure_password
-  has_many :microalerts, dependent: :destroy
+  has_many :microalerts, as: :vocal, dependent: :destroy
   has_many :user_user_relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :user_user_relationships, source: :followed
   has_many :reverse_user_user_relationships, foreign_key: "followed_id",

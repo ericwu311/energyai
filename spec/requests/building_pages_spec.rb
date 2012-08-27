@@ -16,6 +16,12 @@ describe "Building pages" do
 			it "should not create a building" do
 				expect { click_button submit }.not_to change(Building, :count)
 			end
+
+			describe "after submission" do
+				before { click_button submit }
+				it { should have_selector('title', text: 'New Building') }
+				it { should have_content('error') }
+			end
 		end
 
 		describe "with valid information" do
@@ -26,6 +32,15 @@ describe "Building pages" do
 
 			it "should create a Building" do
 				expect { click_button submit }.to change(Building, :count).by(1)
+			end
+
+			describe "after saving the building" do
+				before { click_button submit }
+				# this is broken since we don't have a specific unique identifier for buildings
+				let(:building) { Building.find_by_address('252 Liebre CT, Sunnyvale, CA 94086') }
+
+				it { should have_selector('title', text: building.name) }
+				it { should have_selector('div.alert.alert-success', text: 'success')}
 			end
 		end
 	end
@@ -38,6 +53,13 @@ describe "Building pages" do
 
 		it { should have_selector('h1',    text: building.name) }
 		it { should have_selector('title', text: building.name) }
+		it { should have_content(building.address) }
+
+		it "should render the building's feed" do
+    		building.feed.each do |item|
+    			page.should have_selector("li##{item.id}", text: item.content)
+    		end
+        end
 	end
 
 
