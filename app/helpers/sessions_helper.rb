@@ -41,4 +41,16 @@ module SessionsHelper
 	def store_location
 		session[:return_to] = request.fullpath
 	end
+
+	def current_building=(building)
+		@current_building = building
+	end
+
+    def recent_buildings
+    	current_user.recent_buildings
+    end
+
+	# def current_building
+	# 	@current_building ||= Building.find_by_remember_token(cookies[:current_building])
+	# end
 end

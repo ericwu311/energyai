@@ -1,5 +1,4 @@
-# == Schema Information
-#
+ 
 # Table name: microalerts
 #
 #  id         :integer          not null, primary key

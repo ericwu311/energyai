@@ -40,10 +40,11 @@ describe User do
 	it { should respond_to(:unfollow!) }
 	it { should respond_to(:reverse_user_user_relationships) }	
 	it { should respond_to(:followers) }
-	it { should respond_to(:managed_buildings) }
+	it { should respond_to(:created_buildings) }  # these are buildings that user created
 	it { should respond_to(:followed_buildings) }
-	it { should respond_to(:building_followers) }
-	it { should respond_to(:default_building) }	
+	it { should respond_to(:managed_buildings) }  # these are buildings that follow the user.
+	it { should respond_to(:default_building) }  # need to add a session cookie to make this work
+	it { should respond_to(:recent_buildings) }  # these are the past 3 buildings that have been used
 	it { should be_valid }
  	it { should_not be_admin }
 
@@ -246,9 +247,20 @@ describe User do
 
 	describe "building associations" do
 
-		its(:managed_buildings) { should include(its(:default_building)) }
-		pending # users should follow biuldings.
-	end
+		before { @user.save }
+		let!(:older_building) do
+			FactoryGirl.create(:building, creator: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_building) do
+			FactoryGirl.create(:building, creator: @user, created_at: 1.hour.ago)
+		end
 
+		it "should have the right buildings in the right order" do
+			@user.buildings.should == [newer_building, older_building]
+		end
+
+		its(:managed_buildings) { should include(its(:default_building)) }
+		pending # users should follow buildings.
+	end
 
 end

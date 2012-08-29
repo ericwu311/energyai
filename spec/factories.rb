@@ -19,7 +19,7 @@ FactoryGirl.define do
 	factory :building do
 		sequence(:name)  { |n| "Building #{n}" }
 		sequence(:address) { |n| "123 Builing_#{n} ST, Moffett Field, CA 94035" }
+		association :creator, factory: :user
 	end		
-
 	
 end

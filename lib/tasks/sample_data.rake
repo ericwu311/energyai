@@ -4,6 +4,8 @@ namespace :db do
 	    make_users
 	    make_microalerts
 	    make_user_user_relationships
+	    make_buildings
+	    make_building_microalerts
 	end
 end
 
@@ -40,3 +42,26 @@ def make_user_user_relationships
 	followed_users.each { |followed| user.follow!(followed) }
 	followers.each      { |follower| follower.follow!(user) }
 end
+
+def make_buildings
+	user = User.first
+	building = user.buildings.create!(name: "NASA Ames Building 19",
+		                 address: "NASA Ames Research Park, Moffett Field, CA, 94035")
+    40.times do |n|
+    	name  = Faker::Company.name
+    	street_address = Faker::Address.street_address
+    	city = Faker::Address.city
+    	state = Faker::Address.state_abbr
+    	zip = Faker::Address.zip
+    	user.buildings.create!(name: name,
+    				 address: "#{street_address} #{city}, #{state} #{zip}")
+    end
+end
+
+def make_building_microalerts
+    buildings = Building.all(limit: 6)
+    50.times do
+    	content = Faker::Lorem.sentence(5)
+    	buildings.each { |building| building.microalerts.create!(content: content)}
+    end
+end	

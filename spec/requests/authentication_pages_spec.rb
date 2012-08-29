@@ -34,12 +34,13 @@ describe "AuthenticationPages" do
 
  			it { should have_selector('title', text: user.name) }
  			it { should have_link('Users',   href: users_path) }
+ 			it { should have_link('Buildings',  href: buildings_path) }
  			it { should have_link('My Account', href: user_path(user)) }
  			it { should have_link('Settings', href: edit_user_path(user)) }
  			it { should have_link('Sign out', href: signout_path) }
  			it { should_not have_link('Sign in', href: signin_path) }
 
- 			pending { should have_link('My Buildings',   href: '#') } #update with real path
+ 			pending { should have_link('My Buildings',   href: buildings_user) } #update with real path
 			pending { should have_link('Alert Settings', href: '#') } #update with real alerts.			
 			# for each recent buildings |building| do
 			pending { should have_link(building.name, href: '#') } # update with dashboard path for building.

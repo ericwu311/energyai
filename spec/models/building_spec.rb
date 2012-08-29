@@ -14,8 +14,10 @@ require 'spec_helper'
 
 describe Building do
 
+	let(:user) { FactoryGirl.create(:user) }
+
 	before do
-		@building = Building.new(name: "Example Building", address: "252 Liebre CT, Sunnyvale, CA 94086") 
+		@building = user.buildings.new(name: "Example Building", address: "252 Liebre CT, Sunnyvale, CA 94086") 
 	end
 
 	subject { @building }
@@ -24,6 +26,7 @@ describe Building do
 	it { should respond_to(:address) }
 	it { should respond_to(:creator) }
 	it { should respond_to(:managers) }
+	it { should respond_to(:microalerts) }
 	it { should respond_to(:feed) }
 	it { should respond_to(:followers) }
 	it { should respond_to(:followed_users) }
@@ -54,4 +57,61 @@ describe Building do
 		it { should_not be_valid }
 	end
 
+	describe "microalert associations" do
+
+		before { @building.save }
+		let!(:older_microalert) do
+			FactoryGirl.create(:microalert, vocal: @building, created_at: 1.day.ago)
+		end
+		let!(:newer_microalert) do
+			FactoryGirl.create(:microalert, vocal: @building, created_at: 1.hour.ago)
+		end
+
+		it "should have the right microalerts in the right order" do
+			@building.microalerts.should == [newer_microalert, older_microalert]
+		end
+
+		it "should destroy associated microalerts" do
+			microalerts = @building.microalerts
+			@building.destroy
+			microalerts.each do |microalert|
+				Microalert.find_by_id(microalert.id).should be_nil
+			end
+		end
+
+		describe "status" do
+			let(:unfollowed_alert) do
+				FactoryGirl.create(:microalert, vocal: FactoryGirl.create(:building))
+			end
+			let(:followed_user) { FactoryGirl.create(:user) }
+
+			before do
+				@building.follow!(followed_user)
+				3.times { followed_user.microalerts.create!(content: "Lorem ipsum") }
+			end
+
+			its(:feed) { should include(newer_microalert) }
+			its(:feed) { should include(older_microalert) }
+			its(:feed) { should_not include(unfollowed_alert) }
+			its(:feed) do
+				followed_user.microalerts.each do |microalert|
+				 	should include(microalert)
+				end
+			end
+		end
+	end	
+
+	describe "user relationships" do
+
+		its(:creator) { should == user }
+
+		describe "should always follow its creator" do
+			its(:followed_users) { should include(user) }
+		end
+
+		describe "managers should alias followed_users" do
+			its(:followed_users) { should be its(:managers) }
+		end
+	end
+		
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120825040323) do
+ActiveRecord::Schema.define(:version => 20120828020511) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120825040323) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "avatar"
+    t.integer  "creator_id"
   end
 
   add_index "buildings", ["name", "address"], :name => "index_buildings_on_name_and_address", :unique => true

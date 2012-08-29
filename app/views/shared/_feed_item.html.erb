@@ -1,5 +1,9 @@
 <li id="<%= feed_item.id %>">
-	<%= link_to gravatar_for(feed_item.vocal, size: 30), feed_item.vocal %>
+	<% if feed_item.vocal.class.name == "User" %>
+		<%= link_to gravatar_for(feed_item.vocal, size: 30), feed_item.vocal %>
+	<% else %>
+		<%= link_to avatar_for(feed_item.vocal, size: 30), feed_item.vocal %>
+	<% end %> 
 	<span class="user">
 	<%= link_to feed_item.vocal.name, feed_item.vocal %>
 	</span>

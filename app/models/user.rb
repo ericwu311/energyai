@@ -23,7 +23,8 @@ class User < ActiveRecord::Base
                                      class_name: "UserUserRelationship", 
                                      dependent: :destroy
   has_many :followers, through: :reverse_user_user_relationships, source: :follower
-	
+	has_many :buildings, :foreign_key => :creator_id
+
 	# before_save { |user| user.email = email.downcase }
   before_save { self.email.downcase! }
   before_save :create_remember_token
@@ -52,6 +53,15 @@ class User < ActiveRecord::Base
 
   def unfollow!(other_user)
     self.user_user_relationships.find_by_followed_id(other_user.id).destroy
+  end
+
+  def created_buildings
+    self.buildings
+  end
+  
+  def recent_buildings
+    # need to create a better algorithm for this
+    self.buildings
   end
 
   private
