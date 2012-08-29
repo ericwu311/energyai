@@ -4,16 +4,17 @@ namespace :db do
 	    make_users
 	    make_microalerts
 	    make_user_user_relationships
+	    make_buds
 	end
 end
 
 def make_users
-	admin = User.create!(name: "Mark Chung",
-		                 email: "mark.y.chung@gmail.com",
+	admin = User.create!(name: "Luke",
+		                 email: "luke@email.com",
 		                 password: "foobar",
 		                 password_confirmation: "foobar")
     admin.toggle!(:admin)
-    99.times do |n|
+    35.times do |n|
     	name  = Faker::Name.name
     	email = "example-#{n+1}@railstutorial.org"
     	password = "password"
@@ -24,9 +25,22 @@ def make_users
     end
 end
 
+def make_buds
+	35.times do |n|
+    	name  = Faker::PhoneNumber.phone_number
+    	uid = "#{n+1}"
+    	hardware_v = "1.0"
+    	firmware_v = "1.0"
+    	Bud.create!(name: name,
+    				 uid: uid,
+    				 hardware_v: hardware_v,
+	    			 firmware_v: firmware_v)
+    end
+end
+
 def make_microalerts
     users = User.all(limit: 6)
-    50.times do
+    35.times do
     	content = Faker::Lorem.sentence(5)
     	users.each { |user| user.microalerts.create!(content: content)}
     end

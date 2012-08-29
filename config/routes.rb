@@ -16,6 +16,10 @@ Energyai::Application.routes.draw do
     resources :microalerts, only: [:new, :create, :destroy]
   end
 
+  resources :buds do
+
+  end
+
   root to: 'static_pages#home'
   
   match '/signin',  to: 'sessions#new'

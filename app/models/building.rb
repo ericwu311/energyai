@@ -14,6 +14,7 @@
 class Building < ActiveRecord::Base
 	attr_accessible :address, :name, :avatar
 	has_many :microalerts, as: :vocal, dependent: :destroy
+	#has_many :buds
 	mount_uploader :avatar, AvatarUploader
 	validates :name, presence: true, length: { maximum: 50 }
 	validates_uniqueness_of :name, scope: :address, case_sensitive: false

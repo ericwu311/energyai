@@ -1,3 +1,21 @@
+<script type="text/javascript" src="jquery-draggable-droppable.custom.min.js">
+</script>
+<script type="text/javascript" src="relax.js"></script>
+
+<!-- Dev manager js -->
+<script type="text/javascript">
+$(function() {
+  $("ul.menu") .relax({
+    "animate" : "fast",
+    "activate-links" : false, // or "deactivate-links" : true
+    "openondrag" : true,
+    ondrop: function(dropped, into, contained) {
+    }, // or null
+    opacity: 0.7
+  });
+});
+</script>
+
 <div class="row-fluid">
 	<aside class="span2">
 	<section>
@@ -14,7 +32,22 @@
 		<section>
 			<%= render 'shared/stats' %>
 		</section>
+
 		<h3>Information</h3>
+
+		<div id="accordion">
+          	<ul class="menu">
+          		<% for b in Bud.find(:all) %>
+            		<li>
+            			<a class="m1" href="#"><%= b.name %></a>
+            			<ul>
+            				<li><a href="#"><%= b.hardware_v %></a></li>
+            				<li><a href="#"><%= b.firmware_v %></a></li>
+            			</ul>
+            		</li>
+            	<% end %>
+          	</ul>
+    	</div>
 
 	</div>
 </div>

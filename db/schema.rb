@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120825040323) do
+ActiveRecord::Schema.define(:version => 20120829201945) do
+
+  create_table "buds", :force => true do |t|
+    t.string   "name"
+    t.string   "panel"
+    t.string   "uid"
+    t.string   "hardware_v"
+    t.string   "firmware_v"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -31,7 +41,7 @@ ActiveRecord::Schema.define(:version => 20120825040323) do
     t.string   "vocal_type"
   end
 
-  add_index "microalerts", ["vocal_id", "created_at"], :name => "index_microalerts_on_vocal_id_and_created_at"
+  add_index "microalerts", ["vocal_id", "vocal_type", "created_at"], :name => "index_microalerts_on_vocal_id_and_vocal_type_and_created_at"
 
   create_table "user_user_relationships", :force => true do |t|
     t.integer  "follower_id"

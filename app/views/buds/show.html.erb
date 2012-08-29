@@ -1,0 +1,19 @@
+<% provide(:title, @bud.uid) %>
+
+<h1>Bud uid : <%= @bud.uid %></h1>
+
+<div class="row">
+  	<aside class="span4">
+    	<section>
+      		<h1>
+        		Panel Label : <%= @bud.name %>
+      		</h1>
+    	</section>
+    	<section>
+     		<h1>Details</h1>
+          hardware : <%= @bud.hardware_v %><br>
+          firmware : <%= @bud.firmware_v %>
+    	</section>
+  	</aside>
+    <%= link_to "Edit", edit_bud_path, class: "btn btn-large btn-primary" %>
+</div>
