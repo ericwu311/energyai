@@ -112,6 +112,10 @@ describe Building do
 		describe "managers should alias followed_users" do
 			its(:followed_users) { should be its(:managers) }
 		end
+
+		describe "following user" do
+			its(:followers) { should include(other_user)}
+
 	end
 		
 end

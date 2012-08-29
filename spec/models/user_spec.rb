@@ -261,6 +261,14 @@ describe User do
 
 		its(:managed_buildings) { should include(its(:default_building)) }
 		pending # users should follow buildings.
+
+		pending # recent_buildings should have 3 most recent buildings accessed
+
+		describe "following buildings not created by user" do
+			it { should be_following(building) }
+			its(:followed_buildings) { should include(building) }
+		end
+
 	end
 
 end
