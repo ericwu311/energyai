@@ -269,6 +269,15 @@ describe User do
 			its(:followed_buildings) { should include(building) }
 		end
 
+		describe "default_building" do
+			
+			# set default building
+			before { @user.default_building = older_building }
+			# check that default building was set
+			its(:default_building) { should be older_building } 
+		end
+
+
 	end
 
 end

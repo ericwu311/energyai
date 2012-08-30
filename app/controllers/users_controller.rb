@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
-  before_filter :correct_user,   only: [:edit, :update]
+  before_filter :correct_user, only: [:edit, :update]
   before_filter :admin_user, only: :destroy
   
   def index
@@ -41,11 +41,11 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(params[:user])
+    if @user.custom_update_attributes(params[:user])
       # Handle a successful update
       flash[:success] = "Profile updated"
       sign_in @user
-      redirect_to @user
+      redirect_back_or @user
     else
       render 'edit'
     end

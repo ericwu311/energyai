@@ -103,6 +103,10 @@ describe Building do
 
 	describe "user relationships" do
 
+		let!(:other_user) do
+			FactoryGirl.create(:user)
+		end
+
 		its(:creator) { should == user }
 
 		describe "should always follow its creator" do
@@ -114,8 +118,14 @@ describe Building do
 		end
 
 		describe "following user" do
-			its(:followers) { should include(other_user)}
+			its(:followers) { should include(other_user) }
+		end
 
+		describe "user sets default building" do
+			before do
+				other_user.default_building = @building
+			end
+			its(:default_users) { should include(other_user) } 
+		end
 	end
-		
 end

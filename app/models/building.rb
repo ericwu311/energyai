@@ -15,7 +15,8 @@ class Building < ActiveRecord::Base
 	attr_accessible :address, :name, :avatar
 	has_many :microalerts, as: :vocal, dependent: :destroy
 	belongs_to :creator, class_name: "User", foreign_key: :creator_id
-	
+	has_many :default_users, class_name:"User", foreign_key: :default_building_id
+
 	mount_uploader :avatar, AvatarUploader
 
 	validates :name, presence: true, length: { maximum: 50 }

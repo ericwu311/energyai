@@ -1,5 +1,9 @@
 <% if signed_in? %>
-	<%= render 'shared/user_home_page' %>
+	<% if @user.default_building.nil? %>
+		<%= render 'shared/select_default_building' %>
+	<% else %>
+		<%= render 'shared/user_home_page' %>
+	<% end %>
 <% else %>
 	<%= render 'shared/signin_page' %>
 <% end %>
