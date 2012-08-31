@@ -25,4 +25,10 @@ class Building < ActiveRecord::Base
 
 	default_scope order: 'buildings.created_at DESC'
 	# need to make an optional address identifier to bypass uniqueness limit
+
+	def feed
+		# Microalert.from_buildings_followed_by(self) 
+		Microalert.where("vocal_type = ? AND vocal_id = ?", self.class.name, id)
+		#Microalert.from_buildings_followed_by(self)
+	end
 end

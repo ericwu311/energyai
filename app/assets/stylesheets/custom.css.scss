@@ -300,6 +300,20 @@ input, textarea, select, .uneditable-input {
   }
 }
 
+/* buildings index */
+.buildings {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:last-child {
+      border-bottom: 1px solid $grayLighter;
+    }
+  }
+}
+
 /* microalerts */
 
 .microalerts {

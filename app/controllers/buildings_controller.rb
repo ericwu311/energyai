@@ -9,7 +9,7 @@ class BuildingsController < ApplicationController
 
 	def show
 		@building =  Building.find(params[:id])
-        @feed_items = @building.microalerts.paginate(page: params[:page])
+        @feed_items = @building.feed.paginate(page: params[:page])
 	end
 
 	def new
@@ -28,13 +28,24 @@ class BuildingsController < ApplicationController
     end
 
     def edit
-        
+        @building = Building.find(params[:id])
     end
 
     def update
+        @building = Building.find(params[:id])
+        if @building.update_attributes(params[:building])
+            #handle a successful update.
+            flash[:success] = "Building successfully configured."
+            redirect_to @building
+        else
+            render 'edit'
+        end
     end
 
     def destroy
+        Building.find(params[:id]).destroy
+        flash[:success] = "Building demolished."
+        redirect_to buildings_path
     end
 
     def following

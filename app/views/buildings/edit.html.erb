@@ -1,0 +1,15 @@
+<% provide(:title, "Configure Building #{@building.name}") %>
+<h1>Configure Building</h1>
+
+<div class="row-fluid">
+  <div class="span2">
+    <%= avatar_for @building %>
+    <a href="#" target="_new">change</a >
+
+    <%= form_for(@building) do |f| %>
+      <%= render 'fields', f: f %>
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+
+  </div>
+</div>

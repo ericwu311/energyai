@@ -76,17 +76,17 @@ describe Microalert do
 		end
 
 		describe "when vocal_id is not present" do
-			before { @microalert.vocal_id = nil }
+			before { @building_alert.vocal_id = nil }
 	        it { should_not be_valid }
 		end
 
 		describe "when content is blank" do 
-			before { @microalert.content = " " }
+			before { @building_alert.content = " " }
 			it { should_not be_valid }
 		end
 
 		describe "with content that is too long" do
-			before { @microalert.content = "a" * 141 }
+			before { @building_alert.content = "a" * 141 }
 			it { should_not be_valid }
 		end
 	end
