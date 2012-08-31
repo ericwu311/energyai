@@ -2,7 +2,9 @@
 <h1>All Buds</h1>
 
 <!-- temporary button, should only be accessable by admins -->
-<%= link_to "Create Bud", new_bud_path, class: "btn btn-large btn-primary" %>
+<%= if signed_in? && current_user.admin?
+		link_to "Create Bud", new_bud_path, class: "btn btn-large btn-primary"
+	end %>
 
 <%= will_paginate %>
 

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Bud do
-  before do
-		@bud = Bud.new(name: "bud 1", uid: "130", hardware_v: "1.0", firmware_v: "1.0") 
+  	before do
+		@bud = Bud.new(name: "bud 1", uid: "test 130", hardware_v: "1.0", firmware_v: "1.0") 
 	end
 
 	subject { @bud }
@@ -11,6 +11,8 @@ describe Bud do
 	it { should respond_to(:uid) }
 	it { should respond_to(:hardware_v) }
 	it { should respond_to(:firmware_v) }
+	it { should respond_to(:active) }
+	it { should respond_to(:circuits) }
 
 	it { should be_valid }
 

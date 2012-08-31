@@ -1,0 +1,14 @@
+<%= form_for(@bud) do |f| %>
+    <%= render 'shared/error_messages', object: @bud %>
+    <%= f.label :uid %>
+    <%= f.text_field :uid %>
+
+    Panel Label
+    <%= f.text_field :name %>
+
+    Active?
+    <%= f.check_box :active %>
+
+	<%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+<% end %>
+<%= link_to "Edit", edit_bud_path, class: "btn btn-large btn-primary" %>

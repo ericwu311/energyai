@@ -12,8 +12,37 @@
     	<section>
      		<h1>Details</h1>
           hardware : <%= @bud.hardware_v %><br>
-          firmware : <%= @bud.firmware_v %>
+          firmware : <%= @bud.firmware_v %><br>
+          active : <%= @bud.active %>
     	</section>
+
+      <h2>Circuit Labels</h2>
+        <div id="leftcolumn">
+          spi0:id
+          <section>
+            <% if @bud.circuits.any? %>
+              <h3> (<%= @bud.circuits.count %>)</h3>
+              <ol class="circuits">
+                <%= render @bud.circuits %>
+              </ol>
+              <%= will_paginate @circuits %>
+            <% end %>
+          </section>
+        </div>
+
+        <div id="rightcolumn">
+          spi1:id
+          <section>
+          <% if @bud.circuits.any? %>
+            <h3> (<%= @bud.circuits.count %>)</h3>
+            <ol class="circuits">
+              <%= render @bud.circuits %>
+            </ol>
+            <%= will_paginate @circuits %>
+          <% end %>
+        </section>
+        </div>
+
   	</aside>
     <%= link_to "Edit", edit_bud_path, class: "btn btn-large btn-primary" %>
 </div>

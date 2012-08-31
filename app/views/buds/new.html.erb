@@ -1,6 +1,6 @@
 <% provide(:title, 'New Bud') %>
 
-<h1>Activate New Bud</h1>
+<h1>Track New Bud</h1>
 
 <div class="row">
   	<div class="span6 offset3">
@@ -8,9 +8,6 @@
       		<%= render 'shared/error_messages', object: @bud %>
       		<%= f.label :uid %>
       		<%= f.text_field :uid %>
-
-          <%= f.label :name %>
-          <%= f.text_field :name %>
 
       		<%= f.label :hardware_v %>
       		<%= f.text_field :hardware_v %>

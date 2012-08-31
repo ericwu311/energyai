@@ -5,6 +5,7 @@ namespace :db do
 	    make_microalerts
 	    make_user_user_relationships
 	    make_buds
+        make_circuits
 	end
 end
 
@@ -35,6 +36,14 @@ def make_buds
     				 uid: uid,
     				 hardware_v: hardware_v,
 	    			 firmware_v: firmware_v)
+    end
+end
+
+def make_circuits
+    buds = Bud.all(limit: 6)
+    8.times do |n|
+        name  = "#{n/4}.#{n}"
+        buds.each { |bud| bud.circuits.create!(name: name)}
     end
 end
 

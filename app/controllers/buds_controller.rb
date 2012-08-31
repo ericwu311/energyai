@@ -5,6 +5,7 @@ class BudsController < ApplicationController
 
   	def show
   		@bud = Bud.find(params[:id])
+      @circuits = @bud.circuits.paginate(page: params[:page])
   	end
 
   	def edit
@@ -35,4 +36,14 @@ class BudsController < ApplicationController
      		render 'new'
    		end
   	end
+
+    def destroy
+      if signed_in? && current_user.admin?
+        Bud.find(params[:id]).destroy
+        flash[:success] = "Bud destroyed."
+        redirect_to root_path
+      else 
+        flash[:error] = "That requires admin priveleges"
+      end
+    end
 end

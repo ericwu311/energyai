@@ -11,16 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120829201945) do
+ActiveRecord::Schema.define(:version => 20120830232742) do
 
   create_table "buds", :force => true do |t|
     t.string   "name"
-    t.string   "panel"
     t.string   "uid"
     t.string   "hardware_v"
     t.string   "firmware_v"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "active",     :default => false
   end
 
   create_table "buildings", :force => true do |t|
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(:version => 20120829201945) do
   end
 
   add_index "buildings", ["name", "address"], :name => "index_buildings_on_name_and_address", :unique => true
+
+  create_table "circuits", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "bud_id"
+  end
+
+  add_index "circuits", ["bud_id", "created_at"], :name => "index_circuits_on_bud_id_and_created_at"
 
   create_table "microalerts", :force => true do |t|
     t.string   "content"

@@ -9,6 +9,5 @@ class CreateBuds < ActiveRecord::Migration
 
       t.timestamps
     end
-    remove_column :buds, :panel
   end
 end

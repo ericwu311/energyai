@@ -12,7 +12,7 @@ FactoryGirl.define do
 
 	factory :bud do
 		sequence(:name)  { |n| "Bud #{n}" }
-		sequence(:uid)  { |n| "UID #{n}" }
+		sequence(:uid)  { |n| "U #{n}" }
 		hardware_v "1.0"
 		firmware_v "1.0"
 	end	

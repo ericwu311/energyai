@@ -12,6 +12,7 @@ test: &test
   adapter: postgresql
   encoding: unicode
   database: energyai_development
+  #database: energyai_test
   pool: 5
   username: 
   password:

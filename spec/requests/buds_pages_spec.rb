@@ -7,7 +7,7 @@ describe "bud pages" do
 	describe "new" do
 		before(:each) { visit new_bud_path }
 
-		it { should have_selector 'h1',  text: 'Activate New Bud' }
+		it { should have_selector 'h1',  text: 'Track New Bud' }
 	  	it { should have_selector('title', text: full_title('New Bud')) }
 
 	  	let(:submit) { "Activate New Bud" }
@@ -28,7 +28,6 @@ describe "bud pages" do
  	  	describe "with valid information" do
 	  		before(:each) do
 	  			fill_in 'bud_uid',  		with: "Example Bud"
-	  			fill_in 'bud_name',  		with: "Example Bud"
 	  			fill_in 'bud_hardware_v',  	with: "1.0"
 	  			fill_in 'bud_firmware_v',  	with: "1.0"
 		    end
@@ -40,8 +39,11 @@ describe "bud pages" do
 	end
 
 	describe "index" do
-		#before(:all) { 30.times { FactoryGirl.create(:bud) } }
+		#removed for shared development and test database
+		#population is necessary for pagination test
+		#before(:all) { 31.times { FactoryGirl.create(:bud) } }
 		#after(:all) { Bud.delete_all }
+
 		before(:each) { visit buds_path }
 
 		it { should have_selector('title', text: 'All Buds') }
@@ -56,6 +58,22 @@ describe "bud pages" do
 				end
 			end
 		end
+
+		#only admin should be able to see add button
+		describe "add button" do
+			describe "without admin" do
+				it { should_not have_content('Create Bud') }
+			end
+
+			describe "with admin" do
+				let(:admin)  { FactoryGirl.create(:admin) }
+				before do
+					sign_in admin
+					visit buds_path
+				end
+				it { should have_content('Create Bud') }
+			end
+		end
 	end
 
 	describe "show" do
@@ -66,6 +84,9 @@ describe "bud pages" do
 	  	it { should have_selector('title', text: bud.uid) }
 		it { should have_content(bud.uid) }
 	  	it { should have_content(bud.name) }
+	  	it { should have_content(bud.hardware_v) }
+	  	it { should have_content(bud.firmware_v) }
+	  	it { should have_content(bud.active) }
 	end
 
 	describe "edit" do
@@ -73,7 +94,18 @@ describe "bud pages" do
 		before(:each) { visit edit_bud_path(bud) }
 
 		it { should have_selector('h1', text: 'Bud Configuration') }
-	  	it { should have_selector('title', text: 'Edit #{bud.name}') }
+	  	it { should have_selector('title', text: bud.name) }
+	  	#only active for admin
+	  	it { should_not have_content ('Remove Bud') }
+
+	  	describe "without entering name" do
+	  		before do
+	  			fill_in 'bud_name', with: ''
+	  			click_button "Save changes"
+	  		end
+	  		#activated buds should have a panel name
+	  		it { should have_content('error') }
+	  	end
 
 	  	describe "with invalid information" do
 	  		let(:temp) { FactoryGirl.create(:bud) }
@@ -95,6 +127,17 @@ describe "bud pages" do
 			it { should have_content(new_name) }
 			it { should have_selector('div.alert.alert-success') }
 			specify { bud.reload.name.should == new_name }
+		end
+
+		describe "with admin delete" do
+			let(:admin)  { FactoryGirl.create(:admin) }
+			before do
+				sign_in admin
+				visit edit_bud_path(bud)
+			end
+			it "should remove a bud" do
+				expect { click_button "Remove Bud" }.to change(Bud, :count).by(-1)
+			end
 		end
 	end
 
