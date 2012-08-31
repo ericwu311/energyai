@@ -142,14 +142,14 @@ describe "AuthenticationPages" do
 				end
 			end
 
-			describe "in the UserUserRelationships controller" do
+			describe "in the Relationships controller" do
 				describe "submitting to the create action" do
-					before { post user_user_relationships_path }
+					before { post relationships_path }
 					specify { response.should redirect_to(signin_path) }
 				end
 
 				describe "submitting to the destroy action" do
-					before { delete user_user_relationship_path(1) }
+					before { delete relationship_path(1) }
 					specify { response.should redirect_to(signin_path) }
 				end
 			end

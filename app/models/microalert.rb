@@ -25,7 +25,7 @@ class Microalert < ActiveRecord::Base
 	# returns microalerts from the users being
   	def self.from_users_followed_by(vocal)
   		# followed_user_ids = user.followed_user_ids # initial code loads all id's into memory
-  		followed_user_ids = "SELECT followed_id FROM user_user_relationships 
+  		followed_user_ids = "SELECT followed_id FROM relationships 
   						     WHERE follower_id = :user_id"
   		vocal_type = "User"
   		where("vocal_type = '#{vocal_type}' AND (vocal_id in (#{followed_user_ids}) OR vocal_id = :user_id)", user_id: vocal.id)

@@ -17,12 +17,12 @@ class User < ActiveRecord::Base
   attr_accessible  :email, :name, :password, :password_confirmation, :default_building_id
   has_secure_password
   has_many :microalerts, as: :vocal, dependent: :destroy
-  has_many :user_user_relationships, foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users, through: :user_user_relationships, source: :followed
-  has_many :reverse_user_user_relationships, foreign_key: "followed_id",
-                                     class_name: "UserUserRelationship", 
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed
+  has_many :reverse_relationships, foreign_key: "followed_id",
+                                     class_name: "Relationship", 
                                      dependent: :destroy
-  has_many :followers, through: :reverse_user_user_relationships, source: :follower
+  has_many :followers, through: :reverse_relationships, source: :follower
 	has_many :buildings, :foreign_key => :creator_id
   belongs_to :default_building, class_name: "Building", foreign_key: :default_building_id
 
@@ -47,15 +47,15 @@ class User < ActiveRecord::Base
   end
 
   def following?(other_user)
-    self.user_user_relationships.find_by_followed_id(other_user.id)
+    self.relationships.find_by_followed_id(other_user.id)
   end
 
   def follow!(other_user)
-    self.user_user_relationships.create!(followed_id: other_user.id)
+    self.relationships.create!(followed_id: other_user.id)
   end
 
   def unfollow!(other_user)
-    self.user_user_relationships.find_by_followed_id(other_user.id).destroy
+    self.relationships.find_by_followed_id(other_user.id).destroy
   end
 
   def created_buildings

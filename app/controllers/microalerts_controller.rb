@@ -1,7 +1,7 @@
 class MicroalertsController < ApplicationController
 	before_filter :load_vocal
 	before_filter :signed_in_user, only: [:new, :create, :destroy]
-	before_filter :correct_user, only: [:destroy]
+	before_filter :correct_user, only: :destroy
 	
 	def new
 		@microalert = @vocal.microalerts.new

@@ -33,12 +33,12 @@ describe User do
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:microalerts) }
 	it { should respond_to(:feed) }
-	it { should respond_to(:user_user_relationships) }
+	it { should respond_to(:relationships) }
 	it { should respond_to(:followed_users) }
 	it { should respond_to(:following?) }
 	it { should respond_to(:follow!) }
 	it { should respond_to(:unfollow!) }
-	it { should respond_to(:reverse_user_user_relationships) }	
+	it { should respond_to(:reverse_relationships) }	
 	it { should respond_to(:followers) }
 	it { should respond_to(:created_buildings) }  # these are buildings that user created
 	it { should respond_to(:followed_buildings) }
@@ -229,7 +229,7 @@ describe User do
 		end
 
 		it "should destroy associated relationships" do
-			relationships = @user.user_user_relationships
+			relationships = @user.relationships
 			@user.destroy
 			relationships.each do |relationship|
 				Relationship.find_by_id(relationship.id).should be_nil
@@ -237,7 +237,7 @@ describe User do
 		end
 
 		it "should destroy associated reverse_relationships" do
-			reverse_relationships = @user.reverse_user_user_relationships
+			reverse_relationships = @user.reverse_relationships
 			@user.destroy
 			reverse_relationships.each do |reverse_relationship|
 				Relationship.find_by_id(reverse_relationship.id).should be_nil

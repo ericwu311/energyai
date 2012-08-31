@@ -5,8 +5,6 @@
     <%= form_for(@user) do |f| %>
 		<%= f.hidden_field :name, value: @user.name %>
 		<%= f.hidden_field :email, value: @user.email %>
-		<%= f.hidden_field :password, value: @user.password %>
-		<%= f.hidden_field :password_confirmation, value: @user.password %>
     	<%= f.label :default_building_id, "Select Default Building" %>
 		<%= f.collection_select :default_building_id, Building.order(:name), :id, :name %> 
         <%= f.submit "Save", class: "btn btn-large btn-primary" %>

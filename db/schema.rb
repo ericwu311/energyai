@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120829195222) do
+ActiveRecord::Schema.define(:version => 20120831200658) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -34,16 +34,16 @@ ActiveRecord::Schema.define(:version => 20120829195222) do
 
   add_index "microalerts", ["vocal_id", "created_at"], :name => "index_microalerts_on_vocal_id_and_created_at"
 
-  create_table "user_user_relationships", :force => true do |t|
+  create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
     t.integer  "followed_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "user_user_relationships", ["followed_id"], :name => "index_user_user_relationships_on_followed_id"
-  add_index "user_user_relationships", ["follower_id", "followed_id"], :name => "index_user_user_relationships_on_follower_id_and_followed_id", :unique => true
-  add_index "user_user_relationships", ["follower_id"], :name => "index_user_user_relationships_on_follower_id"
+  add_index "relationships", ["followed_id"], :name => "index_user_user_relationships_on_followed_id"
+  add_index "relationships", ["follower_id", "followed_id"], :name => "index_user_user_relationships_on_follower_id_and_followed_id", :unique => true
+  add_index "relationships", ["follower_id"], :name => "index_user_user_relationships_on_follower_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

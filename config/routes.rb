@@ -8,7 +8,7 @@ Energyai::Application.routes.draw do
   end
 
   resources :sessions, only: [:new, :create, :destroy]
-  resources :user_user_relationships, only: [:create, :destroy]
+  resources :relationships, only: [:create, :destroy]
   resources :buildings do
     member do
       get :following, :followers, :devices, :buds

@@ -1,30 +1,20 @@
-# == Schema Information
-#
-# Table name: user_user_relationships
-#
-#  id          :integer          not null, primary key
-#  follower_id :integer
-#  followed_id :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#
 
 require 'spec_helper'
 
-describe UserUserRelationship do
+describe Relationship do
  	
 	let(:follower) { FactoryGirl.create(:user) }
 	let(:followed) { FactoryGirl.create(:user) }
-	let(:user_user_relationship) { follower.user_user_relationships.build(followed_id: followed.id) }
+	let(:relationship) { follower.relationships.build(followed_id: followed.id) }
 
-	subject { user_user_relationship }
+	subject { relationship }
 
 	it { should be_valid }
 
 	describe "accessible attributes" do
 		it "should not allow access to follower_id" do
 			expect do
-				UserUserRelationship.new(follower_id: follower.id)
+				Relationship.new(follower_id: follower.id)
 			end.should raise_error(ActiveModel::MassAssignmentSecurity::Error)
 		end
 	end
@@ -37,12 +27,12 @@ describe UserUserRelationship do
 	end
 
 	describe "when followed id is not present" do
-		before { user_user_relationship.followed_id = nil }
+		before { relationship.followed_id = nil }
 		it { should_not be_valid }
 	end
 
 	describe "when follower id is not present" do
-		before { user_user_relationship.follower_id = nil }
+		before { relationship.follower_id = nil }
 		it { should_not be_valid }
 	end
 
