@@ -17,7 +17,7 @@ Energyai::Application.routes.draw do
   end
 
   resources :buds do
-
+    resources :circuits
   end
 
   root to: 'static_pages#home'

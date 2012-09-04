@@ -6,10 +6,7 @@ class Bud < ActiveRecord::Base
 	validates_presence_of :name, on: :update
 	validates_uniqueness_of :uid, case_sensitive: false
 	validates :uid, presence: true
-
-	def feed
-    	Circuit.where("bud_id = ?", id)
-  	end
+	#validates :building_id, presence: true
 
 	#might want to know: last packet, heart beat, 
 end

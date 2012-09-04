@@ -11,17 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120830232742) do
+ActiveRecord::Schema.define(:version => 20120831174642) do
 
   create_table "buds", :force => true do |t|
     t.string   "name"
     t.string   "uid"
     t.string   "hardware_v"
     t.string   "firmware_v"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-    t.boolean  "active",     :default => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.boolean  "active",      :default => false
+    t.integer  "building_id"
   end
+
+  add_index "buds", ["building_id", "created_at"], :name => "index_buds_on_building_id_and_created_at"
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -38,6 +41,8 @@ ActiveRecord::Schema.define(:version => 20120830232742) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "bud_id"
+    t.float    "location"
+    t.integer  "side"
   end
 
   add_index "circuits", ["bud_id", "created_at"], :name => "index_circuits_on_bud_id_and_created_at"

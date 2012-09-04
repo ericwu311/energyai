@@ -2,14 +2,16 @@ require 'spec_helper'
 
 describe Circuit do
 	let(:bud) { FactoryGirl.create(:bud) }
-	before { @circuit = bud.circuits.build(name: "Lorem ipsum") }
+	before { @circuit = bud.circuits.build(name: "Lorem ipsum", location: 0.0, side: 0) }
 
 	subject { @circuit }
 
 	it { should respond_to(:name) }
-  	it { should respond_to(:bud_id) }
-  	it { should respond_to(:bud) }
-  	its(:bud) { should == bud }
+  it { should respond_to(:location) }
+  it { should respond_to(:side) }
+  it { should respond_to(:bud_id) }
+  it { should respond_to(:bud) }
+  its(:bud) { should == bud }
 	it { should be_valid }
 
 	describe "accessible attributes" do

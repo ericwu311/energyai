@@ -17,6 +17,13 @@ FactoryGirl.define do
 		firmware_v "1.0"
 	end	
 
+	factory :circuit do
+		sequence(:name) { |n| "Circuit #{n}" }
+		sequence(:location) { |n| n+(n*0.1) }
+		sequence(:side) { |n| (n/8) }
+		association :bud, factory: :bud
+	end
+
 	factory :microalert do
 		#content = Faker::Lorem.sentence(5) doesn't work in rspec environment
 		sequence(:content) { |n| "Lorem Ipsum #{n}" }

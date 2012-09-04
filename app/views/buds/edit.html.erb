@@ -24,10 +24,23 @@
 
         <h2>Circuit Labels</h2>
         <div id="leftcolumn">
-            spi0:id
+          <h3>spi0:id</h3>
+            <% if @bud.circuits.any? %>
+                <% for c in @bud.circuits.where("side = ?", 0) do %>
+                    <%= render 'circuits/circuit_form', bud: @bud, circuit: c %>
+                <% end %>
+            <% end %>
+            <%= link_to "+", new_bud_circuit_path(@bud, c), class: "btn btn-large btn-primary" %>
         </div>
+
         <div id="rightcolumn">
-            spi1:id
+          <h3>spi1:id</h3>
+            <% if @bud.circuits.any? %>
+                <% for c in @bud.circuits.where("side = ?", 1) do %>
+                    <%= render 'circuits/circuit_form', bud: @bud, circuit: c %>
+                <% end %>
+            <% end %>
+            <%= link_to "+", new_bud_circuit_path(@bud, c), class: "btn btn-large btn-primary" %>
         </div>
     </div>
 </div>

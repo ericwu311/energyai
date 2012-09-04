@@ -1,0 +1,15 @@
+<section>
+	<div class="inline">
+		<%= form_for [bud, circuit] do |f| %>
+  			<%= render 'shared/error_messages', object: circuit %>
+    		<%= f.text_field :name %>
+		<% end %>
+	</div>
+	<div class="inline">
+		<b><%= circuit.location %></b>
+	</div>
+	<div class="inline">
+		<%= button_to "X", bud_circuit_path(bud, circuit), method: :delete, class: :destroy, class: "btn",
+			data: { confirm: "Are you sure?" } %>
+	</div>
+</section>

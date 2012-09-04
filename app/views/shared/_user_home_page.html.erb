@@ -36,16 +36,18 @@ $(function() {
 
 		<h3>Information</h3>
 
-    <br><h3>Buds</h3>
+    <br><h3>Buds Hierarchy</h3>
 		<div id="accordion">
       <ul class="menu">
         <% for b in Bud.find(:all) %>
           <li>
             <a class="m1" href="#"><%= b.name %></a>
             <ul>
-              <li><a href="#">uid : <%= b.uid %></a></li>
-            	<li><a href="#">h : <%= b.hardware_v %></a></li>
-            	<li><a href="#">f : <%= b.firmware_v %></a></li>
+              <% if b.circuits.any? %>
+                <% for c in b.circuits %>
+                  <li><a class="m1" href="#"><%= c.name %></a></li>
+                <% end %>
+              <% end %>
             </ul>
           </li>
         <% end %>
