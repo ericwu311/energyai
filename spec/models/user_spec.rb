@@ -38,7 +38,8 @@ describe User do
 	it { should respond_to(:following?) }
 	it { should respond_to(:follow!) }
 	it { should respond_to(:unfollow!) }
-	it { should respond_to(:reverse_relationships) }	
+	it { should respond_to(:reverse_user_relationships) }	
+	it { should respond_to(:reverse_bldg_relationships) }	
 	it { should respond_to(:followers) }
 	it { should respond_to(:created_buildings) }  # these are buildings that user created
 	it { should respond_to(:followed_buildings) }
@@ -254,31 +255,23 @@ describe User do
 			relationships = @user.relationships
 			@user.destroy
 			relationships.each do |relationship|
-				Relationship.find_by_id(relationship.id).should be_nil
+				UserRelationship.find_by_id(relationship.id).should be_nil
 			end
 		end
 
-		it "should destroy associated reverse_relationships" do
-			reverse_relationships = @user.reverse_relationships
+		it "should destroy associated reverse_user_relationships" do
+			reverse_user_relationships = @user.reverse_user_relationships
 			@user.destroy
-			reverse_relationships.each do |reverse_relationship|
-				Relationship.find_by_id(reverse_relationship.id).should be_nil
-			end
-		end
-
-		it "should destroy associated building relationships" do
-			user_bldg_relationships = @user.user_bldg_relationships
-			@user.destroy
-			user_bldg_relationships.each do |user_bldg_relationship|
-				UserBldgRelationship.find_by_id(user_bldg_relationship.id).should be_nil
+			reverse_user_relationships.each do |reverse_user_relationship|
+				UserRelationship.find_by_id(reverse_user_relationship.id).should be_nil
 			end
 		end
 
 		it "should destroy associated reverse_building_relationships" do
-			bldg_user_relationships = @user.bldg_user_relationships
+			reverse_bldg_relationships = @user.reverse_bldg_relationships
 			@user.destroy
-			bldg_user_relationships.each do |bldg_user_relationship|
-				BldgRelationship.find_by_id(bldg_user_relationship.id).should be_nil
+			reverse_bldg_relationships.each do |reverse_bldg_relationship|
+				BldgRelationship.find_by_id(reverse_bldg_relationship.id).should be_nil
 			end
 		end
 	end

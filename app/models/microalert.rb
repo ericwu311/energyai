@@ -27,8 +27,8 @@ class Microalert < ActiveRecord::Base
   		vocal_type = "User"
 		if vocal_follower.is_a?(User)
 	  		# followed_user_ids = user.followed_user_ids # initial code loads all id's into memory
-	  		followed_user_ids = "SELECT followed_id FROM relationships 
-	  						     WHERE follower_id = :user_id"
+	  		followed_user_ids = "SELECT followed_id FROM user_relationships 
+	  						     WHERE follower_id = :user_id AND followed_type = :vocal_type"
 	  		where("vocal_type = '#{vocal_type}' AND (vocal_id in (#{followed_user_ids}) OR vocal_id = :user_id)", user_id: vocal_follower.id, vocal_type: vocal_type)
 	  	else 
 	  		followed_user_ids = "SELECT followed_id FROM bldg_relationships
@@ -41,11 +41,11 @@ class Microalert < ActiveRecord::Base
  		vocal_type = "Building"
  		if vocal_follower.is_a?(User)
 	  		# followed_user_ids = user.followed_user_ids # initial code loads all id's into memory
-	  		followed_bldg_ids = "SELECT followed_id FROM user_bldg_relationships 
+	  		followed_bldg_ids = "SELECT followed_id FROM user_relationships 
 	  						     WHERE follower_id = :user_id AND followed_type = :vocal_type"
 	  		where("vocal_type = '#{vocal_type}' AND (vocal_id in (#{followed_bldg_ids}))", user_id: vocal_follower.id, vocal_type: vocal_type)
 	  	else 
-	  		followed_bldg_ids = "SELECT followed_id FROM user_bldg_relationships 
+	  		followed_bldg_ids = "SELECT followed_id FROM bldg_relationships 
 	  						     WHERE follower_id = :building_id AND followed_type = :vocal_type"
 	  		where("vocal_type = '#{vocal_type}' AND (vocal_id in (#{followed_bldg_ids}) OR vocal_id = :building_id)", building_id: vocal_follower.id, vocal_type: vocal_type)
   		end	
@@ -53,9 +53,9 @@ class Microalert < ActiveRecord::Base
 
 	def self.from_all_followed_by(follower)
 		if follower.is_a?(User)
-			followed_user_ids = "SELECT followed_id FROM relationships
-								WHERE follower_id = :user_id"
-		    followed_bldg_ids = "SELECT followed_id FROM user_bldg_relationships 
+			followed_user_ids = "SELECT followed_id FROM user_relationships
+								WHERE follower_id = :user_id AND followed_type = :user_type"
+		    followed_bldg_ids = "SELECT followed_id FROM user_relationships 
 	  						     WHERE follower_id = :user_id AND followed_type = :building_type"
 	  		where("(vocal_type = :user_type AND (vocal_id in (#{followed_user_ids}) OR vocal_id = :user_id))
 	  				OR (vocal_type = :building_type AND vocal_id in (#{followed_bldg_ids}))", 
@@ -63,7 +63,7 @@ class Microalert < ActiveRecord::Base
 	  	else
 	  		followed_user_ids = "SELECT followed_id FROM bldg_relationships
 								WHERE follower_id = :building_id AND followed_type = :user_type"
-		    followed_bldg_ids = "SELECT followed_id FROM user_bldg_relationships 
+		    followed_bldg_ids = "SELECT followed_id FROM bldg_relationships 
 	  						     WHERE follower_id = :building_id AND followed_type = :building_type"
 	  		where("(vocal_type = :user_type AND vocal_id in (#{followed_user_ids}))
 	  				OR (vocal_type = :building_type AND (vocal_id in (#{followed_bldg_ids}) OR vocal_id = :building_id))", 

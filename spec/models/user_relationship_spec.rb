@@ -1,8 +1,9 @@
+
 require 'spec_helper'
 
-describe BldgRelationship do
-
-	let(:follower) { FactoryGirl.create(:building) }
+describe UserRelationship do
+ 	
+	let(:follower) { FactoryGirl.create(:user) }
 	let(:followed_user) { FactoryGirl.create(:user) }
 	let(:followed_building) { FactoryGirl.create(:building) }
 	let(:user_relationship) { follower.relationships.build(followed_id: followed_user.id, followed_type: followed_user.class.name) }
@@ -16,7 +17,7 @@ describe BldgRelationship do
 		describe "accessible attributes" do
 			it "should not allow access to follower_id" do
 				expect do
-					BldgRelationship.new(follower_id: follower.id)
+					UserRelationship.new(follower_id: follower.id)
 				end.should raise_error(ActiveModel::MassAssignmentSecurity::Error)
 			end
 		end

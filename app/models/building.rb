@@ -18,7 +18,7 @@ class Building < ActiveRecord::Base
 	has_many :relationships, class_name: "BldgRelationship", foreign_key: "follower_id", dependent: :destroy
 	has_many :followed_users, through: :relationships, source: :followed, source_type: "User"
 	has_many :followed_buildings, through: :relationships, source: :followed, source_type: "Building"
-	has_many :reverse_user_relationships, class_name: "UserBldgRelationship", as: :followed, dependent: :destroy
+	has_many :reverse_user_relationships, class_name: "UserRelationship", as: :followed, dependent: :destroy
 	has_many :reverse_bldg_relationships, class_name: "BldgRelationship", as: :followed, dependent: :destroy
 	has_many :followers, through: :reverse_user_relationships, source: :follower
 	has_many :follower_buildings, through: :reverse_bldg_relationships, source: :follower	

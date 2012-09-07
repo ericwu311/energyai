@@ -9,6 +9,6 @@ class CreateBldgRelationships < ActiveRecord::Migration
 
     add_index :bldg_relationships, :follower_id
     add_index :bldg_relationships, [:followed_id, :followed_type]
-    add_index :bldg_relationships, [:follower_id, :followed_id, :followed_type], unique: true, name: 'uniquify_each_relation'
+    add_index :bldg_relationships, [:follower_id, :followed_id, :followed_type], unique: true, name: 'unique_bldg_relation'
   end
 end

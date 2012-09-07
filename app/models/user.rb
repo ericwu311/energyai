@@ -17,18 +17,13 @@ class User < ActiveRecord::Base
   attr_accessible  :email, :name, :password, :password_confirmation, :default_building_id
   has_secure_password
   has_many :microalerts, as: :vocal, dependent: :destroy
-  has_many :relationships, foreign_key: "follower_id", dependent: :destroy
-  has_many :user_bldg_relationships, foreign_key: "follower_id", dependent: :destroy
-  has_many :followed_users, through: :relationships, source: :followed
-  has_many :followed_buildings, through: :user_bldg_relationships, source: :followed, source_type: "Building"
-  has_many :reverse_relationships, foreign_key: "followed_id",
-                                     class_name: "Relationship", 
-                                     dependent: :destroy
-  has_many :bldg_user_relationships, as: :followed,
-                                                 class_name: "BldgRelationship",
-                                                 dependent: :destroy
-  has_many :followers, through: :reverse_relationships, source: :follower
-  has_many :managed_buildings, through: :bldg_user_relationships, source: :follower
+  has_many :relationships, class_name: "UserRelationship", foreign_key: "follower_id", dependent: :destroy
+  has_many :followed_users, through: :relationships, source: :followed, source_type: "User"
+  has_many :followed_buildings, through: :relationships, source: :followed, source_type: "Building"
+  has_many :reverse_user_relationships, class_name: "UserRelationship", as: :followed, dependent: :destroy
+  has_many :reverse_bldg_relationships, class_name: "BldgRelationship", as: :followed, dependent: :destroy
+  has_many :followers, through: :reverse_user_relationships, source: :follower
+  has_many :managed_buildings, through: :reverse_bldg_relationships, source: :follower
 	has_many :buildings, :foreign_key => :creator_id
   belongs_to :default_building, class_name: "Building", inverse_of: :default_users
 
@@ -54,27 +49,15 @@ class User < ActiveRecord::Base
   end
 
   def following?(object)
-    if object.is_a?(User)
-      !self.relationships.find_by_followed_id(object.id).nil?
-    else
-      !self.user_bldg_relationships.find_by_followed_type_and_followed_id(object.class.name, object.id).nil?
-    end
+    !self.relationships.find_by_followed_type_and_followed_id(object.class.name, object.id).nil?
   end
 
   def follow!(object)
-    if object.is_a?(User)
-      self.relationships.create!(followed_id: object.id)
-    else 
-      self.user_bldg_relationships.create!(followed_id: object.id, followed_type: "Building")
-    end
+    self.relationships.create!(followed_id: object.id, followed_type: object.class.name)
   end
 
   def unfollow!(object)
-    if object.is_a?(User)
-      self.relationships.find_by_followed_id(object.id).destroy
-    else 
-      self.user_bldg_relationships.find_by_followed_type_and_followed_id(object.class.name, object.id).destroy
-    end
+    self.relationships.find_by_followed_type_and_followed_id(object.class.name, object.id).destroy
   end
 
   def created_buildings
