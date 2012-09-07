@@ -30,7 +30,7 @@
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: c %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud, c), class: "btn btn-large btn-primary" %>
+            <%= link_to "+", new_bud_circuit_path(@bud, d_side: 0), class: "btn btn-large btn-primary" %>
         </div>
 
         <div id="rightcolumn">
@@ -40,7 +40,7 @@
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: c %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud, c), class: "btn btn-large btn-primary" %>
+            <%= link_to "+", new_bud_circuit_path(@bud, d_side: 1), class: "btn btn-large btn-primary" %>
         </div>
     </div>
 </div>

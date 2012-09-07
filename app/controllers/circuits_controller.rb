@@ -3,6 +3,8 @@ class CircuitsController < ApplicationController
 
   	def new
   		@circuit = @bud.circuits.new
+      # set the spi side based on which button press
+      @d_side = params[:d_side]
   	end
 
     def index
@@ -29,7 +31,7 @@ class CircuitsController < ApplicationController
         if @circuit.save
           # Handle a sucessful save.
           flash[:success] = "Circuit created!"
-          redirect_to @bud
+          redirect_to edit_bud_path(@bud)
         else
           render 'new'
         end

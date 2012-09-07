@@ -5,4 +5,6 @@ class Circuit < ActiveRecord::Base
   belongs_to :bud
   validates :bud_id, presence: true
   validates :name, presence: true
+  validates :side, presence: true, numericality: { greater_than: -1, less_than: 2, message: "must be 0 or 1" }
+  default_scope order: 'circuits.location ASC'
 end

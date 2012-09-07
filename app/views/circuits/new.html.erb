@@ -1,10 +1,15 @@
-<%= form_for [@bud, @circuit] do |f| %>
-  <%= render 'shared/error_messages', object: @circuit %>
-  	<%= f.label :name %>
-    <%= f.text_field :name %>
-    Side: 0 (left) or 1 (right)
-    <%= f.text_field :side %>
-    Location: id format: x.y
-    <%= f.text_field :location %>
-  <%= f.submit "Create", class: "btn btn-large btn-primary" %>
-<% end %>
+<% provide(:title, 'New Circuit') %>
+<h1>New Circuit</h1>
+
+<aside class="span3 offset5">
+	<%= form_for [@bud, @circuit] do |f| %>
+  	<%= render 'shared/error_messages', object: @circuit %>
+  		<%= f.label :name %>
+    	<%= f.text_field :name %>
+    	Side: spi, 0 (left) or 1 (right)
+    	<%= f.text_field :side, value: @d_side %>
+    	Location: id, format: x.y
+    	<%= f.text_field :location %>
+  	<%= f.submit "Create", class: "btn btn-large btn-primary" %>
+	<% end %>
+</aside>

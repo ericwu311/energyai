@@ -93,13 +93,11 @@ describe "bud pages" do
 
 	describe "edit" do
 		let(:bud) { FactoryGirl.create(:bud) }
-		#let(:c1) { bud.circuits.build(name: "Lorem ipsum", location: 0.0, side: 0) }
-		#let(:c2) { bud.circuits.build(name: "Finding Nemo", location: 0.0, side: 0) }
 		before(:each) { visit edit_bud_path(bud) }
 
 		it { should have_selector('h1', text: 'Bud Configuration') }
 	  	it { should have_selector('title', text: bud.name) }
-
+		it { should have_content("+") }
 
 	  	#should only be active for admin
 	  	it { should_not have_content ('Remove Bud') }
