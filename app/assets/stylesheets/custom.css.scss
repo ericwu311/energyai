@@ -662,12 +662,24 @@ input.error, textarea.error {
   }
 }
 
+/* buds and circuits */
+
 #leftcolumn {
   float: left;
 }
+
 #rightcolumn {
   float: right; 
 }
-.inline form {display: inline; }
-div.inline { float:left; }
-.clearBoth { clear:both; }
+
+.inline form {
+  display: inline;
+}
+
+div.inline {
+  float:left;
+}
+
+.clearBoth {
+clear:both;
+}

@@ -7,7 +7,8 @@ class Bud < ActiveRecord::Base
 	validates_uniqueness_of :uid, case_sensitive: false
 	validates :uid, presence: true
 	default_scope order: 'buds.created_at ASC'
+	#needs building id for belongs_to
 	#validates :building_id, presence: true
 
-	#might want to know: last packet, heart beat, 
+	#might want to know: last packet, heart beat... unless accessed through children
 end

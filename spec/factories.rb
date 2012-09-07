@@ -20,7 +20,9 @@ FactoryGirl.define do
 	factory :circuit do
 		sequence(:name) { |n| "Circuit #{n}" }
 		sequence(:location) { |n| n+(n*0.1) }
-		sequence(:side) { |n| (n/8) }
+		#only build up to 8 at a time
+		#sequence(:side) { n/8 }
+		side 0
 		association :bud, factory: :bud
 	end
 

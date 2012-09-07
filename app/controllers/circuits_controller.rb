@@ -3,7 +3,7 @@ class CircuitsController < ApplicationController
 
   	def new
   		@circuit = @bud.circuits.new
-      # set the spi side based on which button press
+      # set the spi side based on which button press for display
       @d_side = params[:d_side]
   	end
 
@@ -38,6 +38,8 @@ class CircuitsController < ApplicationController
   	end
 
     def destroy
+      #right now anyone can destroy any circuit
+      #eventually put in priveleges: owner or admin only
       @circuit = @bud.circuits.find(params[:id])
       @circuit.destroy
       flash[:success] = "Circuit removed"
@@ -46,6 +48,7 @@ class CircuitsController < ApplicationController
 
     private
       def load_bud
+        #initialize bud w/ ability to expand for other parents
         resource, id = request.path.split('/')[1,2]  # buds/1
         @bud = resource.singularize.classify.constantize.find(id)  # Bud.find(1)
       end

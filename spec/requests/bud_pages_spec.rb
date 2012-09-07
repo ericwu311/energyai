@@ -19,6 +19,7 @@ describe "bud pages" do
 
 	  		describe "after submission" do
 	  			before { click_button submit }
+
 	  			it { should have_selector('title', text: 'New Bud') }
 	  			it { should have_content('error') }
 	  			it { should have_content('can\'t be blank') }
@@ -39,15 +40,18 @@ describe "bud pages" do
 	end
 
 	describe "index" do
-		#removed for shared development and test database
-		#population is necessary for pagination test
-		#before(:all) { 31.times { FactoryGirl.create(:bud) } }
-		#after(:all) { Bud.delete_all }
+		before(:all) { 31.times { FactoryGirl.create(:bud) } }
+		after(:all) { Bud.delete_all }
 
 		before(:each) { visit buds_path }
 
+		let(:bud) { Bud.first }
+
 		it { should have_selector('title', text: 'All Buds') }
 		it { should have_selector('h1',    text: 'All Buds') }
+		it { should have_selector('a',		href: "/buds/#{bud.id}") }
+		it { should have_content(bud.uid) }
+		it { should have_content(bud.name) }
 
 		describe "pagination" do
 			it { should have_selector('div.pagination') }
@@ -97,6 +101,8 @@ describe "bud pages" do
 
 		it { should have_selector('h1', text: 'Bud Configuration') }
 	  	it { should have_selector('title', text: bud.name) }
+	  	it { should have_selector('a', href: "/buds/#{bud.id}/circuits/new?d_side=0") }
+	  	it { should have_selector('a', href: "/buds/#{bud.id}/circuits/new?d_side=1") }
 		it { should have_content("+") }
 
 	  	#should only be active for admin
@@ -109,6 +115,7 @@ describe "bud pages" do
 	  		end
 	  		#activated buds should have a panel name
 	  		it { should have_content('error') }
+			specify { bud.reload.name.should_not == '' }
 	  	end
 
 	  	describe "with invalid information" do
@@ -119,6 +126,7 @@ describe "bud pages" do
 	  		end 
 	  		#shouldn't be able to re-use uid
 			it { should have_content('error') }
+			specify { bud.reload.uid.should_not == temp.uid }
 		end
 
 		describe "with valid information" do
@@ -135,14 +143,21 @@ describe "bud pages" do
 
 		describe "with admin delete" do
 			let(:admin)  { FactoryGirl.create(:admin) }
+			let(:submit) { "Remove Bud" }
 			before do
 				sign_in admin
 				visit edit_bud_path(bud)
 			end
 			it "should remove a bud" do
-				expect { click_button "Remove Bud" }.to change(Bud, :count).by(-1)
+				expect { click_button submit }.to change(Bud, :count).by(-1)
+			end
+			describe "after submission" do
+				before do
+					click_button submit
+					visit buds_path
+				end
+				it { should_not have_content(bud.name) }
 			end
 		end
 	end
-
 end

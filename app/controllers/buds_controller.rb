@@ -39,6 +39,7 @@ class BudsController < ApplicationController
 
     def destroy
       if signed_in? && current_user.admin?
+        #only admin has access to bud deletion
         Bud.find(params[:id]).destroy
         flash[:success] = "Bud destroyed."
         redirect_to root_path
