@@ -18,13 +18,19 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :microalerts, as: :vocal, dependent: :destroy
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
+  has_many :user_bldg_relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
+  has_many :followed_buildings, through: :user_bldg_relationships, source: :followed, source_type: "Building"
   has_many :reverse_relationships, foreign_key: "followed_id",
                                      class_name: "Relationship", 
                                      dependent: :destroy
+  has_many :bldg_user_relationships, as: :followed,
+                                                 class_name: "BldgRelationship",
+                                                 dependent: :destroy
   has_many :followers, through: :reverse_relationships, source: :follower
+  has_many :managed_buildings, through: :bldg_user_relationships, source: :follower
 	has_many :buildings, :foreign_key => :creator_id
-  belongs_to :default_building, class_name: "Building", foreign_key: :default_building_id
+  belongs_to :default_building, class_name: "Building", inverse_of: :default_users
 
 	# before_save { |user| user.email = email.downcase }
   before_save { self.email.downcase! }
@@ -43,19 +49,32 @@ class User < ActiveRecord::Base
   def feed
      # Microalert.from_buildings_followed_by(self) 
      # Microalert.where("user_id = ?", id)
-     Microalert.from_users_followed_by(self)
+     #Microalert.from_users_followed_by(self)
+     Microalert.from_all_followed_by(self)
   end
 
-  def following?(other_user)
-    self.relationships.find_by_followed_id(other_user.id)
+  def following?(object)
+    if object.is_a?(User)
+      !self.relationships.find_by_followed_id(object.id).nil?
+    else
+      !self.user_bldg_relationships.find_by_followed_type_and_followed_id(object.class.name, object.id).nil?
+    end
   end
 
-  def follow!(other_user)
-    self.relationships.create!(followed_id: other_user.id)
+  def follow!(object)
+    if object.is_a?(User)
+      self.relationships.create!(followed_id: object.id)
+    else 
+      self.user_bldg_relationships.create!(followed_id: object.id, followed_type: "Building")
+    end
   end
 
-  def unfollow!(other_user)
-    self.relationships.find_by_followed_id(other_user.id).destroy
+  def unfollow!(object)
+    if object.is_a?(User)
+      self.relationships.find_by_followed_id(object.id).destroy
+    else 
+      self.user_bldg_relationships.find_by_followed_type_and_followed_id(object.class.name, object.id).destroy
+    end
   end
 
   def created_buildings

@@ -41,15 +41,27 @@ describe "Building pages" do
 
 			describe "as an admin user" do
 				let(:admin)  { FactoryGirl.create(:admin) }
-				before do
+				before(:each) do
 					sign_in admin
 					visit buildings_path
 				end
 
-				it { should have_link('delete', href: building_path(Building.first)) }
+				# this shit is fucking broken,  I have to test with a separate test.
+				# it { should have_link('delete', href: building_path(Building.first)) }
+				# it { should have_content('delete')}
 				it "should be able to delete buildings" do
+					# should have_content('delete')
 					expect { click_link('delete') }.to change(Building, :count).by(-1)
 				end
+			end
+
+			describe "as an admin user testing existence of link" do
+				let(:admin2)  { FactoryGirl.create(:admin) }
+				before(:each) do
+					sign_in admin2
+					visit buildings_path
+				end
+				it { should have_link('delete', href: building_path(Building.first)) }
 			end
 		end
 	end
@@ -99,6 +111,11 @@ describe "Building pages" do
 				it { should have_selector('div.alert.alert-success', text: 'success')}
 			end
 		end
+
+		describe "should always follow its creator" do
+			pending (:followed_users) { should include(user) }
+		end
+
 	end
 	
 	describe "profile page" do

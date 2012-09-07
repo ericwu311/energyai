@@ -30,11 +30,13 @@ describe Building do
 	it { should respond_to(:feed) }
 	it { should respond_to(:followers) }
 	it { should respond_to(:followed_users) }
+	it { should respond_to(:followed_buildings) }
 	it { should respond_to(:following?) }
 	it { should respond_to(:follow!) }
 	it { should respond_to(:unfollow!) }
-	it { should respond_to(:user_bldg_relationships) }
-	it { should respond_to(:bldg_user_relationships) }
+	it { should respond_to(:relationships) }
+	it { should respond_to(:reverse_user_relationships) }
+	it { should respond_to(:reverse_bldg_relationships) }
 
 	it { should be_valid }
 
@@ -107,25 +109,98 @@ describe Building do
 			FactoryGirl.create(:user)
 		end
 
+		before do
+			@building.save
+			@building.follow!(other_user)
+			other_user.follow!(@building)
+		end
+
 		its(:creator) { should == user }
 
-		describe "should always follow its creator" do
-			its(:followed_users) { should include(user) }
-		end
+		it { should be_following(other_user) }
+		its(:followed_users)  { should include(other_user) }
 
-		describe "managers should alias followed_users" do
-			its(:followed_users) { should be its(:managers) }
-		end
+		# describe "managers should alias followed_users" do
+		# 	@building.managers.each do |manager|
+		# 		its(:followed_users) { should include(manager) }
+		# 	end
+		# end
 
 		describe "following user" do
-			its(:followers) { should include(other_user) }
+			subject { other_user }
+			its(:managed_buildings) { should include(@building) }
 		end
 
 		describe "user sets default building" do
 			before do
-				other_user.default_building = @building
+				other_user.default_building=(@building)
+				other_user.save
+				@building.save
 			end
 			its(:default_users) { should include(other_user) } 
+		end
+
+		describe "and unfollowing" do
+			before do
+				@building.unfollow!(other_user)
+			end
+
+			it { should_not be_following(other_user) }
+			its(:managers) { should_not include(other_user) }
+		end
+
+		it "should destroy associated user and building relations" do
+			relationships = @building.relationships
+			@building.destroy
+			relationships.each do |relationship|
+				BldgRelationship.find_by_id(relationship.id).should be_nil
+			end
+		end
+
+		it "should destroy associated reverse_user_relationships" do
+			reverse_user_relationships = @building.reverse_user_relationships
+			@building.destroy
+			reverse_user_relationships.each do |reverse_user_relationship|
+				UserBldgRelationships.find_by_id(reverse_user_relationship.id).should be_nil
+			end
+		end
+	end
+
+	describe "building relationships" do
+
+		let!(:other_building) do
+			FactoryGirl.create(:building)
+		end
+
+		before do 
+			@building.save
+			@building.follow!(other_building)
+			other_building.follow!(@building)
+		end
+
+		it { should be_following(other_building) }
+		its(:followed_buildings) { should include(other_building) }
+
+		describe "followed" do
+			subject { other_building }
+			its(:follower_buildings) { should include(@building) }
+		end
+
+		describe "and unfollowing" do
+			before do
+				@building.unfollow!(other_building)
+			end
+
+			it { should_not be_following(other_building) }
+			its(:followed_buildings) { should_not include(other_building) }
+		end
+
+		it "should destroy associated reverse_building relationships" do
+			reverse_bldg_relationships = @building.reverse_bldg_relationships
+			@building.destroy
+			reverse_bldg_relationships.each do |reverse_bldg_relationship|
+				BldgRelationships.find_by_id(reverse_bldg_relationship.id).should be_nil
+			end
 		end
 	end
 end

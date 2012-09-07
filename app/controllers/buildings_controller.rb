@@ -1,5 +1,5 @@
 class BuildingsController < ApplicationController
-	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :create, :new]
+	before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :create, :new, :following, :followers]
 	before_filter :correct_user, only: [:edit, :update]
 	before_filter :admin_user, only: :destroy
 
@@ -49,9 +49,19 @@ class BuildingsController < ApplicationController
     end
 
     def following
+        @title = "Following"
+        @building = Building.find(params[:id])
+        @users = @building.followed_users.paginate(page: params[:page])
+        @buildings = @building.followed_buildings.paginate(page: params[:page])
+        render 'show_follow_building'
     end
 
     def followers
+        @title = "Followers"
+        @building = Building.find(params[:id])
+        @users = @building.followers.paginate(page: params[:page])
+        @buildings= @building.followed_buildings.paginate(page: params[:page])
+        render 'show_follow_building'
     end
 
     private

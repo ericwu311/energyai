@@ -6,6 +6,8 @@ namespace :db do
 	    make_user_user_relationships
 	    make_buildings
 	    make_building_microalerts
+        make_user_building_relationships
+        make_building_relationships
 	end
 end
 
@@ -65,3 +67,22 @@ def make_building_microalerts
     	buildings.each { |building| building.microalerts.create!(content: content)}
     end
 end	
+
+def make_user_building_relationships
+    users = User.all
+    buildings = Building.all 
+    user = users.first
+    followed_buildings = buildings[2..25]
+    followers      = buildings[3..30]
+    followed_buildings.each { |followed| user.follow!(followed) }
+    followers.each      { |follower| follower.follow!(user) }
+end
+
+def make_building_relationships
+    buildings = Building.all 
+    building = buildings.first
+    followed_buildings = buildings[2..50]
+    followers      = buildings[3..30]
+    followed_buildings.each { |followed| building.follow!(followed) }
+    followers.each      { |follower| follower.follow!(building) }
+end
