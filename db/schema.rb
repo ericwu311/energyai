@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907230223) do
+ActiveRecord::Schema.define(:version => 20120908191924) do
 
   create_table "bldg_relationships", :force => true do |t|
     t.integer  "follower_id"
@@ -77,10 +77,6 @@ ActiveRecord::Schema.define(:version => 20120907230223) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
-
-  add_index "user_relationships", ["followed_id", "followed_type"], :name => "index_user_relationships_on_followed_id_and_followed_type"
-  add_index "user_relationships", ["follower_id", "followed_id", "followed_type"], :name => "unique_user_relation", :unique => true
-  add_index "user_relationships", ["follower_id"], :name => "index_user_relationships_on_follower_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

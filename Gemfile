@@ -10,6 +10,7 @@ gem 'will_paginate', '3.0.3'	# gem for autopaginating lists
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'carrierwave', '0.6.2'    # this gem is for building an uploder
 gem "mime-types", "~> 1.19"   # this gem is a dependency for carrierwave
+gem 'mysql'
 
 
 group :development, :test do

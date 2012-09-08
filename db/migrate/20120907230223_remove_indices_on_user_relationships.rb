@@ -1,5 +1,6 @@
 class RemoveIndicesOnUserRelationships < ActiveRecord::Migration
   def up
+  	#awkward migrations
 	#remove_index "user_relationships", :name => "index_user_bldg_relationships_on_followed_id_and_followed_type"
 	#remove_index "user_relationships", :name => "index_user_bldg_relationships_on_follower_id_and_followed_id", :unique => true
 	#remove_index "user_relationships", :name => "index_user_bldg_relationships_on_follower_id"
