@@ -13,6 +13,18 @@
 
 ActiveRecord::Schema.define(:version => 20120907230223) do
 
+  create_table "bldg_relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.string   "followed_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "bldg_relationships", ["followed_id", "followed_type"], :name => "index_bldg_relationships_on_followed_id_and_followed_type"
+  add_index "bldg_relationships", ["follower_id", "followed_id", "followed_type"], :name => "unique_bldg_relation", :unique => true
+  add_index "bldg_relationships", ["follower_id"], :name => "index_bldg_relationships_on_follower_id"
+
   create_table "buds", :force => true do |t|
     t.string   "name"
     t.string   "uid"
@@ -25,18 +37,6 @@ ActiveRecord::Schema.define(:version => 20120907230223) do
   end
 
   add_index "buds", ["building_id", "created_at"], :name => "index_buds_on_building_id_and_created_at"
-
-  create_table "bldg_relationships", :force => true do |t|
-    t.integer  "follower_id"
-    t.integer  "followed_id"
-    t.string   "followed_type"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  add_index "bldg_relationships", ["followed_id", "followed_type"], :name => "index_bldg_relationships_on_followed_id_and_followed_type"
-  add_index "bldg_relationships", ["follower_id", "followed_id", "followed_type"], :name => "uniquify_each_relation", :unique => true
-  add_index "bldg_relationships", ["follower_id"], :name => "index_bldg_relationships_on_follower_id"
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
