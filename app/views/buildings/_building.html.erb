@@ -1,0 +1,10 @@
+<li>
+	<%= avatar_for building, size: 52 %>
+	<%= link_to building.name, building %>
+	<% if current_user.admin? %>
+		| <%= link_to "delete", building, method: :delete, data: { confirm: "Destroying a building cannot be undone, Are you sure?" } %>
+	<% end %>
+	<p>
+		<%= building.address %>
+	</p>
+</li>

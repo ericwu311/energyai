@@ -37,34 +37,51 @@ describe "StaticPages" do
 
 		describe "for signed-in users" do
 			let(:user) { FactoryGirl.create(:user) }
+			let(:building) { FactoryGirl.create(:building) }
+			let(:user_with_building) { FactoryGirl.create(:user, default_building_id: building.id) }
 			before do
-        		FactoryGirl.create(:microalert, vocal: user, content: "Lorem ipsum")
-        		FactoryGirl.create(:microalert, vocal: user, content: "Dolor sit amet")
-        		sign_in user
-        		visit root_path
+        		FactoryGirl.create(:microalert, vocal: user_with_building, content: "Lorem ipsum")
+        		FactoryGirl.create(:microalert, vocal: user_with_building, content: "Dolor sit amet")
         	end
+			
+			describe "for users without building" do
+				before do 
+					sign_in user
+					visit root_path
+				end
 
-			describe "sidebar should pluralize properly" do
-        		it { should have_content(user.microalerts.count) }
-        		it { should have_content("2 alerts") }
-            end
+				it { should have_content("Select Default Building") } 
+				it { should have_selector('title', text: "Set building") }
+			end
 
-        	it "should render the user's feed" do
-        		user.feed.each do |item|
-        			page.should have_selector("li##{item.id}", text: item.content)
-        		end
-        	end
+			describe "for users with default building" do
+				before do
+					sign_in user_with_building
+	        		visit root_path
+	        	end
 
-        	describe "follower/following counts" do
-        		let(:other_user) { FactoryGirl.create(:user) }
-        		before do
-        			other_user.follow!(user)
-        			visit root_path
-        		end
+				describe "sidebar should pluralize properly" do
+	        		it { should have_content(user.microalerts.count) }
+	        		it { should have_content("2 alerts") }
+	            end
 
-        		it { should have_link("0 following", href: following_user_path(user)) }
-        		it { should have_link("1 followers", href: followers_user_path(user)) }
-        	end
+	        	it "should render the user's feed" do
+	        		user.feed.each do |item|
+	        			page.should have_selector("li##{item.id}", text: item.content)
+	        		end
+	        	end
+
+	        	describe "follower/following counts" do
+	        		let(:other_user) { FactoryGirl.create(:user) }
+	        		before do
+	        			other_user.follow!(user_with_building)
+	        			visit root_path
+	        		end
+
+	        		it { should have_link("0 following", href: following_user_path(user_with_building)) }
+	        		it { should have_link("1 followers", href: followers_user_path(user_with_building)) }
+	        	end
+	        end
         end
     end
 

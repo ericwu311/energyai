@@ -4,7 +4,8 @@ describe "Microalert Pages" do
 
 	subject { page }
 
-	let(:user) { FactoryGirl.create(:user) }
+	let(:building) { FactoryGirl.create(:building) }
+	let(:user) { FactoryGirl.create(:user, default_building_id: building.id) }
 	before { sign_in user }
 
 
@@ -60,7 +61,6 @@ describe "Microalert Pages" do
 						before {  delete user_microalert_path(user, FactoryGirl.create(:microalert)) }
 						specify { response.should redirect_to(root_path) }
 					end
-
 				end
 			end
 #		describe "as incorrect user" do

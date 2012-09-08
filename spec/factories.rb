@@ -4,6 +4,7 @@ FactoryGirl.define do
 		sequence(:email) { |n| "Person_#{n}@example.com" }
 		password "foobar"
 		password_confirmation "foobar"
+		default_building_id ""
 
 		factory :admin do
 			admin true
@@ -35,7 +36,7 @@ FactoryGirl.define do
 	factory :building do
 		sequence(:name)  { |n| "Building #{n}" }
 		sequence(:address) { |n| "123 Builing_#{n} ST, Moffett Field, CA 94035" }
+		association :creator, factory: :user
 	end		
-
 	
 end

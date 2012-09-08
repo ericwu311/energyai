@@ -1,3 +1,3 @@
-<% if current_user?(object.vocal) %>
-	<%= link_to "delete", user_microalert_path(@user, object), method: :delete, data: { confirm: "You sure?" }, title: object.content %>
+<% if (current_user?(object.vocal) || current_user_manages?(object.vocal)) %>
+	<%= link_to "delete", polymorphic_path([object.vocal, object]), method: :delete, data: { confirm: "You sure?" }, title: object.content %>
 <% end %>

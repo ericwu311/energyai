@@ -21,6 +21,12 @@ module SessionsHelper
 		user == current_user
 	end
 
+	def current_user_manages?(building)
+		# this is broken, since this is the wrong list of buildings.
+		current_user.buildings.include?(building) unless current_user.nil?
+	end
+
+
 	def signed_in_user
       unless signed_in?
         store_location
@@ -41,4 +47,16 @@ module SessionsHelper
 	def store_location
 		session[:return_to] = request.fullpath
 	end
+
+	def current_building=(building)
+		@current_building = building
+	end
+
+    def recent_buildings
+    	current_user.recent_buildings
+    end
+
+	# def current_building
+	# 	@current_building ||= Building.find_by_remember_token(cookies[:current_building])
+	# end
 end

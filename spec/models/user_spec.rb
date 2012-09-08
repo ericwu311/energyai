@@ -33,17 +33,19 @@ describe User do
 	it { should respond_to(:authenticate) }
 	it { should respond_to(:microalerts) }
 	it { should respond_to(:feed) }
-	it { should respond_to(:user_user_relationships) }
+	it { should respond_to(:relationships) }
 	it { should respond_to(:followed_users) }
 	it { should respond_to(:following?) }
 	it { should respond_to(:follow!) }
 	it { should respond_to(:unfollow!) }
-	it { should respond_to(:reverse_user_user_relationships) }	
+	it { should respond_to(:reverse_user_relationships) }	
+	it { should respond_to(:reverse_bldg_relationships) }	
 	it { should respond_to(:followers) }
-	it { should respond_to(:managed_buildings) }
+	it { should respond_to(:created_buildings) }  # these are buildings that user created
 	it { should respond_to(:followed_buildings) }
-	it { should respond_to(:building_followers) }
-	it { should respond_to(:default_building) }	
+	it { should respond_to(:managed_buildings) }  # these are buildings that follow the user.
+	it { should respond_to(:default_building) }  # need to add a session cookie to make this work
+	it { should respond_to(:recent_buildings) }  # these are the past 3 buildings that have been used
 	it { should be_valid }
  	it { should_not be_admin }
 
@@ -186,10 +188,13 @@ describe User do
 				FactoryGirl.create(:microalert, vocal: FactoryGirl.create(:user))
 			end
 			let(:followed_user) { FactoryGirl.create(:user) }
+			let(:followed_building) { FactoryGirl.create(:building) }
 
 			before do
 				@user.follow!(followed_user)
+				@user.follow!(followed_building)
 				3.times { followed_user.microalerts.create!(content: "Lorem ipsum") }
+				3.times { followed_building.microalerts.create!(content: "Level 4 warning") }
 			end
 
 			its(:feed) { should include(newer_microalert) }
@@ -200,55 +205,115 @@ describe User do
 				 	should include(microalert)
 				end
 			end
+			its(:feed) do
+				followed_building.microalerts.each do |microalert|
+					should include(microalert)
+				end
+			end
 		end				
 	end
 
 	describe "following" do
 		let(:other_user) { FactoryGirl.create(:user) }
+		let(:building) { FactoryGirl.create(:building) }
 
 		before do
 			@user.save
 			@user.follow!(other_user)
+			@user.follow!(building)
 			other_user.follow!(@user)
 		end
 
 		it { should be_following(other_user) }
+		it { should be_following(building) }
 		its(:followed_users) { should include(other_user) }
-		
+		its(:followed_buildings) { should include(building) }
+
 		describe "followed user" do
 			subject { other_user }
 			its(:followers) { should include(@user) }
 		end
+		
+		describe "followed building" do
+			subject { building }
+			its(:followers) { should include(@user) }
+		end
 
  		describe "and unfollowing" do
-			before { @user.unfollow!(other_user) }
+			before do
+				@user.unfollow!(other_user)
+				@user.unfollow!(building)
+			end
 
 			it { should_not be_following(other_user) }
-			its(:followed_users) {should_not include(other_user) }
+			it { should_not be_following(building) } 
+			its(:followed_users) { should_not include(other_user) }
+			its(:followed_buildings) { should_not include(building) }
 		end
 
 		it "should destroy associated relationships" do
-			relationships = @user.user_user_relationships
+			relationships = @user.relationships
 			@user.destroy
 			relationships.each do |relationship|
-				Relationship.find_by_id(relationship.id).should be_nil
+				UserRelationship.find_by_id(relationship.id).should be_nil
 			end
 		end
 
-		it "should destroy associated reverse_relationships" do
-			reverse_relationships = @user.reverse_user_user_relationships
+		it "should destroy associated reverse_user_relationships" do
+			reverse_user_relationships = @user.reverse_user_relationships
 			@user.destroy
-			reverse_relationships.each do |reverse_relationship|
-				Relationship.find_by_id(reverse_relationship.id).should be_nil
+			reverse_user_relationships.each do |reverse_user_relationship|
+				UserRelationship.find_by_id(reverse_user_relationship.id).should be_nil
+			end
+		end
+
+		it "should destroy associated reverse_building_relationships" do
+			reverse_bldg_relationships = @user.reverse_bldg_relationships
+			@user.destroy
+			reverse_bldg_relationships.each do |reverse_bldg_relationship|
+				BldgRelationship.find_by_id(reverse_bldg_relationship.id).should be_nil
 			end
 		end
 	end
 
 	describe "building associations" do
 
-		its(:managed_buildings) { should include(its(:default_building)) }
-		pending # users should follow biuldings.
-	end
 
+		let!(:older_building) do
+			FactoryGirl.create(:building, creator: @user, created_at: 1.day.ago)
+		end
+		let!(:newer_building) do
+			FactoryGirl.create(:building, creator: @user, created_at: 1.hour.ago)
+		end
+		let(:building) { FactoryGirl.create(:building) }
+
+		before do
+			@user.save
+			@user.follow!(building)
+		end
+
+		it "should have the right buildings in the right order" do
+			@user.buildings.should == [newer_building, older_building]
+		end
+		
+		pending # recent_buildings should have 3 most recent buildings accessed
+
+		describe "following buildings not created by user" do
+			it { should be_following(building) }
+			its(:followed_buildings) { should include(building) }
+		end
+
+		describe "default_building" do
+			
+			# set default building
+			before { @user.default_building=(older_building) }
+			# check that default building was set
+			its(:default_building) { should be older_building }
+			# its(:managed_buildings) { should include(@user.default_building) }
+ 
+		end
+
+
+	end
 
 end

@@ -11,3 +11,7 @@
 
 <%= f.label :password_confirmation, "Confirmation" %>
 <%= f.password_field :password_confirmation %>
+
+<%= f.label :default_building_id, "Select Default Building" %>
+<%= f.collection_select :default_building_id, Building.order(:name), :id, :name, include_blank: true %>  
+<!-- need to change this to managed buildings only -->
