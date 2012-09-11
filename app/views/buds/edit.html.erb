@@ -26,21 +26,20 @@
         <div id="leftcolumn">
           <h3>spi0:id</h3>
             <% if @bud.circuits.any? %>
-                <% for cir in @bud.circuits.where("side = ?", 0) do %>
+                <% for cir in @bud.circuits.where("channel < ?", 32) do %>
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud, d_side: 0), class: "btn btn-large btn-primary" %>
+            <%= link_to "+", new_bud_circuit_path(@bud), class: "btn btn-large btn-primary" %>
         </div>
 
         <div id="rightcolumn">
           <h3>spi1:id</h3>
             <% if @bud.circuits.any? %>
-                <% for cir in @bud.circuits.where("side = ?", 1) do %>
+                <% for cir in @bud.circuits.where("channel > ?", 31) do %>
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud, d_side: 1), class: "btn btn-large btn-primary" %>
         </div>
     </div>
 </div>
