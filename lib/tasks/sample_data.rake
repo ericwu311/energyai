@@ -81,17 +81,25 @@ end
 def make_user_user_relationships
 	users = User.all 
 	user = users.first
+    user2 = users[1]
 	followed_users = users[2..50]
 	followers      = users[3..40]
-	followed_users.each { |followed| user.follow!(followed) }
-	followers.each      { |follower| follower.follow!(user) }
+	followed_users.each do |followed|
+        user.follow!(followed) 
+        user2.follow!(followed)
+    end
+	followers.each      do |follower| 
+        follower.follow!(user) 
+        follower.follow!(user2)
+    end
 end
 
 def make_buildings
 	user = User.first
+    user2 = User.find_by_name("Mark Chung")
 	building = user.buildings.create!(name: "NASA Ames Building 19",
 		                 address: "NASA Ames Research Park, Moffett Field, CA, 94035")
-    40.times do |n|
+    20.times do |n|
     	name  = Faker::Company.name
     	street_address = Faker::Address.street_address
     	city = Faker::Address.city
@@ -99,6 +107,15 @@ def make_buildings
     	zip = Faker::Address.zip
     	user.buildings.create!(name: name,
     				 address: "#{street_address} #{city}, #{state} #{zip}")
+    end
+    20.times do |n|
+        name  = Faker::Company.name
+        street_address = Faker::Address.street_address
+        city = Faker::Address.city
+        state = Faker::Address.state_abbr
+        zip = Faker::Address.zip
+        user2.buildings.create!(name: name,
+                     address: "#{street_address} #{city}, #{state} #{zip}")
     end
 end
 
@@ -114,10 +131,17 @@ def make_user_building_relationships
     users = User.all
     buildings = Building.all 
     user = users.first
+    user2 = users[1]
     followed_buildings = buildings[2..25]
     followers      = buildings[3..30]
-    followed_buildings.each { |followed| user.follow!(followed) }
-    followers.each      { |follower| follower.follow!(user) }
+    followed_buildings.each do |followed|
+        user.follow!(followed) 
+        user2.follow!(followed)
+    end
+    followers.each      do |follower|
+        follower.follow!(user) 
+        follower.follow!(user2)
+    end
 end
 
 def make_building_relationships
