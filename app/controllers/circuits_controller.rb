@@ -3,8 +3,6 @@ class CircuitsController < ApplicationController
 
   	def new
   		@circuit = @bud.circuits.new
-      # set the spi side based on which button press for display
-      @d_side = params[:d_side]
   	end
 
     def index

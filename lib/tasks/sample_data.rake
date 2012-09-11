@@ -45,23 +45,9 @@ end
 
 def make_circuits
     buds = Bud.all(limit: 6)
-    s = 0
-    2.times do
-        f = 0
-        2.times do
-            n = 0
-            4.times do
-                name = Faker::PhoneNumber.phone_number
-                loc = (f)+(n*0.1)
-                side = s
-                buds.each { |bud| bud.circuits.create!(name: name,
-                                                        location: loc,
-                                                        side: side)}
-                n += 1
-            end
-            f += 1
-        end
-        s += 1
+    64.times do |n|
+        name  = Faker::PhoneNumber.phone_number
+        Bud.create!(channel: n)
     end
 end
 

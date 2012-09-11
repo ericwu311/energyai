@@ -1,18 +1,18 @@
 <!-- partial for bud show -->
 <li>
-	<% if circuit.side == 1 then %>
+	<% if circuit.channel > 31 then %>
         <div id="leftcolumn">
-			<b><%= circuit.location %></b>
+			<b><%= (circuit.channel-32)/4 %>.<%= circuit.channel%4 %></b>
 		</div>
         <div id="rightcolumn">
 			<%= circuit.name %>
 		</div>
-	<% else %>
+	<% else %> <!-- channel less than 32 -->
         <div id="leftcolumn">
 			<%= circuit.name %>
 		</div>
         <div id="rightcolumn">
-			<b><%= circuit.location %></b>
+			<b><%= (circuit.channel-3)/4 %>.<%= (circuit.channel-3)%4 %></b>
 		</div>
 	<% end %>
 </li>

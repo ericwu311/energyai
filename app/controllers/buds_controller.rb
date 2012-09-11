@@ -30,6 +30,11 @@ class BudsController < ApplicationController
   	def create
    		@bud = Bud.new(params[:bud])
    		if @bud.save
+        i = 3
+        while i < 64 do
+          @bud.circuits.create(channel: i)
+          i += 1
+        end
      		flash[:success] = "Bud Created!"
      		redirect_to @bud
    		else

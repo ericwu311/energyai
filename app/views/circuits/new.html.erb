@@ -1,3 +1,4 @@
+<!-- superfluous page? -->
 <% provide(:title, 'New Circuit') %>
 <h1>New Circuit</h1>
 
@@ -6,10 +7,8 @@
   	<%= render 'shared/error_messages', object: @circuit %>
   		<%= f.label :name %>
     	<%= f.text_field :name %>
-    	<%= f.label :side, "Side: spi, 0 (left) or 1 (right)" %>
-    	<%= f.text_field :side, value: @d_side %>
-    	<%= f.label :location, "Location: id, format: x.y" %>
-    	<%= f.text_field :location %>
+    	<%= f.label :channel %>
+    	<%= f.text_field :channel %>
   	<%= f.submit "Create", class: "btn btn-large btn-primary" %>
 	<% end %>
 </aside>
