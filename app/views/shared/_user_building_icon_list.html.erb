@@ -1,0 +1,14 @@
+<% if @users.any? %>
+	<div class="user_avatars">
+		<% @users.each do |user| %>
+			<%= link_to gravatar_for(user, size: 30), user %>
+		<% end %>
+	</div>
+<% end %>
+<% if @buildings.any? %>
+	<div class="building_avatars">
+		<% @buildings.each do |building| %>
+			<%= link_to avatar_for(building, size: 30), building %>
+		<% end %>
+	</div>
+<% end %>

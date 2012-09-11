@@ -60,7 +60,7 @@ class BuildingsController < ApplicationController
         @title = "Followers"
         @building = Building.find(params[:id])
         @users = @building.followers.paginate(page: params[:page])
-        @buildings= @building.followed_buildings.paginate(page: params[:page])
+        @buildings= @building.follower_buildings.paginate(page: params[:page])
         render 'show_follow_building'
     end
 

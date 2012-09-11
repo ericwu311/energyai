@@ -6,38 +6,8 @@
 		</section>
 		<section>
 			<%= render 'shared/building_stats' %>
-			<% if @users.any? %>
-				<div class="user_avatars">
-					<% @users.each do |user| %>
-						<%= link_to gravatar_for(user, size: 30), user %>
-					<% end %>
-				</div>
-			<% end %>
-			<% if @buildings.any? %>
-				<div class="building_avatars">
-					<% @buildings.each do |building| %>
-						<%= link_to avatar_for(building, size: 30), building %>
-					<% end %>
-				</div>
-			<% end %>
+			<%= render 'shared/user_building_icon_list' %>
 		</section>
 	</aside>
-	<div class="span5">
-		<h3><%= "#{@title} Users"%></h3>
-		<% if @users.any? %>
-			<ul class="users">
-				<%= render @users %>
-			</ul>
-			<%= will_paginate %>
-		<% end %>
-	</div>
-	<div class="span5">
-		<h3><%= "#{@title} Buildings"%></h3>
-		<% if @buildings.any? %>
-			<ul class="buildings">
-				<%= render @buildings %>
-			</ul>
-			<%= will_paginate %>
-		<% end %>
-	</div>
+	<%= render 'shared/user_building_detailed_lists' %>
 </div>

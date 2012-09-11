@@ -142,14 +142,14 @@ describe "AuthenticationPages" do
 				end
 			end
 
-			describe "in the Relationships controller" do
+			describe "in the User Relationships controller" do
 				describe "submitting to the create action" do
-					before { post relationships_path }
+					before { post user_relationships_path }
 					specify { response.should redirect_to(signin_path) }
 				end
 
 				describe "submitting to the destroy action" do
-					before { delete relationship_path(1) }
+					before { delete user_relationship_path(1) }
 					specify { response.should redirect_to(signin_path) }
 				end
 			end
@@ -181,6 +181,18 @@ describe "AuthenticationPages" do
 				describe "visiting the followers page" do
 					before { visit followers_building_path(building) }
 					it { should have_selector('title', text: 'Sign in') }
+				end
+			end
+
+			describe "in the Building Relationships controller" do
+				describe "submitting to the create action" do
+					before { post bldg_relationships_path }
+					specify { response.should redirect_to(signin_path) }
+				end
+
+				describe "submitting to the destroy action" do
+					before { delete bldg_relationship_path(1) }
+					specify { response.should redirect_to(signin_path) }
 				end
 			end
 

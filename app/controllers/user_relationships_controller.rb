@@ -2,19 +2,23 @@ class UserRelationshipsController < ApplicationController
   before_filter :signed_in_user
 
   def create
-    @user = User.find(params[:user_relationship][:followed_id][:followed_type])
-    current_user.follow!(@user)
+    if params[:user_relationship][:followed_type] == "User"
+      @followed = User.find(params[:user_relationship][:followed_id])
+    elsif params[:user_relationship][:followed_type] == "Building"
+      @followed = Building.find(params[:user_relationship][:followed_id])
+    end
+    current_user.follow!(@followed)
     respond_to do |format|
-      format.html { redirect_to @user }
+      format.html { redirect_to @followed }
       format.js
     end
   end
 
   def destroy
-    @user = UserRelationship.find(params[:id]).followed
-    current_user.unfollow!(@user)
+    @followed = UserRelationship.find(params[:id]).followed
+    current_user.unfollow!(@followed)
     respond_to do |format|
-      format.html { redirect_to @user }
+      format.html { redirect_to @followed }
       format.js
     end
   end

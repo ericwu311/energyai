@@ -134,6 +134,62 @@ describe "Building pages" do
     			page.should have_selector("li##{item.id}", text: item.content)
     		end
         end
+
+        pending "should toggle just the microalerts for the building"
+ 
+ 		describe "follow/unfollow buttons" do
+
+	  		let(:other_user) { FactoryGirl.create(:user) }
+	  		let(:building) { FactoryGirl.create(:building) }
+
+	  		before { sign_in user }
+
+	  		describe "following a building" do
+	  			before { visit building_path(building) }
+
+	  			it "should increment the followed building count" do
+					expect do
+						click_button "Follow"
+					end.to change(user.followed_buildings, :count).by(1)
+				end
+
+				it "should increment the building's followers count" do
+					expect do
+						click_button "Follow"
+					end.to change(building.followers, :count).by(1)
+				end
+
+				describe "toggling the button" do
+					before { click_button "Follow" }
+					it { should have_selector('input', value: 'Unfollow') }
+				end
+			end
+
+			describe "unfollowing a building" do
+
+				before do
+					user.follow!(building)
+					visit building_path(building)
+				end
+
+				it "should decrement the followed user count" do
+					expect do
+						click_button "Unfollow"
+					end.to change(user.followed_buildings, :count).by(-1)
+				end
+
+				it "should decrement the building's followers count" do
+					expect do
+						click_button "Unfollow"
+					end.to change(building.followers, :count).by(-1)
+				end
+
+				describe "toggling the button" do
+					before { click_button "Unfollow" }
+					it { should have_selector('input', value: 'Follow') }
+				end
+			end
+		end
 	end
 
 	describe "edit" do
@@ -176,4 +232,37 @@ describe "Building pages" do
 		end
 	end
 
+	describe "following/followers" do 
+		let(:user) { FactoryGirl.create(:user) }
+		let(:building) { FactoryGirl.create(:building) }
+		let(:other_building) { FactoryGirl.create(:building) }
+
+		before do
+			building.follow!(other_building)
+			building.follow!(user) 
+		end
+
+		describe "followed users and buildings" do
+			before do
+				sign_in user
+				visit following_building_path(building)
+			end
+
+			it { should have_selector('title', text: full_title('Following')) }
+			it { should have_selector('h3', text: 'Following') }
+			it { should have_link(other_building.name, href: building_path(other_building)) }
+			it { should have_link(user.name, href: user_path(user)) }
+		end
+
+		describe "followers buildings" do
+			before do
+				sign_in user
+				visit followers_building_path(other_building)
+			end
+
+			it { should have_selector('title', text: full_title('Followers')) }
+			it { should have_selector('h3', text: 'Followers') }
+			it { should have_link(building.name, href: building_path(building)) }
+		end
+	end
 end

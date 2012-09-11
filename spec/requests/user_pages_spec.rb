@@ -217,9 +217,14 @@ describe "User pages" do
 	describe "following/followers" do
 		let(:user) { FactoryGirl.create(:user) }
 		let(:other_user) { FactoryGirl.create(:user) }
-		before { user.follow!(other_user) }
+		let(:building) { FactoryGirl.create(:building) }
 
-		describe "followed users" do
+		before do
+			user.follow!(other_user)
+			user.follow!(building)
+		end
+
+		describe "followed users and buildings" do
 			before do
 				sign_in user
 				visit following_user_path(user)
@@ -228,9 +233,10 @@ describe "User pages" do
 			it { should have_selector('title', text: full_title('Following')) }
 			it { should have_selector('h3', text: 'Following') }
 			it { should have_link(other_user.name, href: user_path(other_user)) }
+			it { should have_link(building.name, href: building_path(building)) }
 		end
 
-		describe "followers" do
+		describe "followers user" do
 			before do
 				sign_in user
 				visit followers_user_path(other_user)
@@ -240,5 +246,6 @@ describe "User pages" do
 			it { should have_selector('h3', text: 'Followers') }
 			it { should have_link(user.name, href: user_path(user)) }
 		end
+
 	end
 end

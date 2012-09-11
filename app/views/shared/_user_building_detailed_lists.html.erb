@@ -1,0 +1,18 @@
+<div class="span5">
+	<h3><%= "#{@title} Users"%></h3>
+	<% if @users.any? %>
+		<ul class="users">
+			<%= render @users %>
+		</ul>
+		<%= will_paginate %>
+	<% end %>
+</div>
+<div class="span5">
+	<h3><%= "#{@title} Buildings"%></h3>
+	<% if @buildings.any? %>
+		<ul class="buildings">
+			<%= render @buildings %>
+		</ul>
+		<%= will_paginate %>
+	<% end %>
+</div>
