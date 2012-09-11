@@ -13,6 +13,7 @@
 class Building < ActiveRecord::Base
 	attr_accessible :address, :name, :avatar
 	has_many :microalerts, as: :vocal, dependent: :destroy
+	#has_many :buds
 	belongs_to :creator, class_name: "User", foreign_key: :creator_id
 	has_many :default_users, class_name: "User", foreign_key: :default_building_id, inverse_of: :default_building
 	has_many :relationships, class_name: "BldgRelationship", foreign_key: "follower_id", dependent: :destroy

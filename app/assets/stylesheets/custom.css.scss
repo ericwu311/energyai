@@ -675,3 +675,25 @@ input.error, textarea.error {
             border-radius: 4px 0 4px 0;
   }
 }
+
+/* buds and circuits */
+
+#leftcolumn {
+  float: left;
+}
+
+#rightcolumn {
+  float: right; 
+}
+
+.inline form {
+  display: inline;
+}
+
+div.inline {
+  float:left;
+}
+
+.clearBoth {
+clear:both;
+}

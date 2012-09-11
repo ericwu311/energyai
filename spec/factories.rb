@@ -9,7 +9,23 @@ FactoryGirl.define do
 		factory :admin do
 			admin true
 		end
-	end		
+	end	
+
+	factory :bud do
+		sequence(:name)  { |n| "Bud #{n}" }
+		sequence(:uid)  { |n| "U #{n}" }
+		hardware_v "1.0"
+		firmware_v "1.0"
+	end	
+
+	factory :circuit do
+		sequence(:name) { |n| "Circuit #{n}" }
+		sequence(:location) { |n| n+(n*0.1) }
+		#only build up to 8 at a time
+		#sequence(:side) { n/8 }
+		side 0
+		association :bud, factory: :bud
+	end
 
 	factory :microalert do
 		#content = Faker::Lorem.sentence(5) doesn't work in rspec environment

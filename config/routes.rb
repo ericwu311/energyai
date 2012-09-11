@@ -17,6 +17,10 @@ Energyai::Application.routes.draw do
   end
   resources :bldg_relationships, only: [:create, :destroy]
 
+  resources :buds do
+    resources :circuits
+  end
+
   root to: 'static_pages#home'
   
   match '/signin',  to: 'sessions#new'

@@ -1,7 +1,9 @@
 
 development:
-  adapter: postgresql
-  encoding: unicode
+  #adapter: postgresql
+  adapter: mysql
+  #encoding: unicode
+  encoding: utf8
   database: energyai_development
   username: 
   password:
@@ -9,16 +11,20 @@ development:
   pool: 5
 
 test: &test
-  adapter: postgresql
-  encoding: unicode
+  #adapter: postgresql
+  adapter: mysql
+  #encoding: unicode
+  encoding: utf8
   database: energyai_test
   pool: 5
   username: 
   password:
 
 production:
-  adapter: postgresql
-  encoding: unicode
+  #adapter: postgresql
+  adapter: mysql
+  #encoding: unicode
+  encoding: utf8
   database: energyai_production
   pool: 5
   username: 

@@ -1,0 +1,28 @@
+<% provide(:title, @bud.uid) %>
+
+<h1>Bud uid : <%= @bud.uid %></h1>
+
+<div class="row">
+  	<aside class="span6 offset3">
+      <h2>Panel Label: <%= @bud.name %></h2>
+        hardware: <%= @bud.hardware_v %><br>
+        firmware: <%= @bud.firmware_v %><br>
+        active: <%= @bud.active %>
+
+        <h2>Panel Details</h2>
+        <div id="leftcolumn">
+          <h3>spi0:id</h3>
+            <% if @bud.circuits.any? %>
+              <%= render @bud.circuits.where("side = ?", 0) %>
+            <% end %>
+        </div>
+        <div id="rightcolumn">
+          <h3>spi1:id</h3>
+            <% if @bud.circuits.any? %>
+              <%= render @bud.circuits.where("side = ?", 1) %>
+            <% end %>
+        </div>
+
+  	</aside>
+    <%= link_to "Edit", edit_bud_path, class: "btn btn-large btn-primary" %>
+</div>

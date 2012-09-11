@@ -1,0 +1,18 @@
+<!-- partial for bud show -->
+<li>
+	<% if circuit.side == 1 then %>
+        <div id="leftcolumn">
+			<b><%= circuit.location %></b>
+		</div>
+        <div id="rightcolumn">
+			<%= circuit.name %>
+		</div>
+	<% else %>
+        <div id="leftcolumn">
+			<%= circuit.name %>
+		</div>
+        <div id="rightcolumn">
+			<b><%= circuit.location %></b>
+		</div>
+	<% end %>
+</li>

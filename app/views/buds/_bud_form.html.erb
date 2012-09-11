@@ -1,0 +1,15 @@
+<!-- partial for buildings edit -->
+<%= form_for(@bud) do |f| %>
+    <%= render 'shared/error_messages', object: @bud %>
+    <%= f.label :uid %>
+    <%= f.text_field :uid %>
+
+    <%= f.label :name, "Panel Label" %>
+    <%= f.text_field :name %>
+
+    <%= f.label :active, "Active?" %>
+    <%= f.check_box :active %>
+
+	<%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+<% end %>
+<%= link_to "Edit", edit_bud_path, class: "btn btn-large btn-primary" %>
