@@ -78,11 +78,15 @@ describe "bud pages" do
 				it { should have_content('Create Bud') }
 			end
 		end
+
+		describe "heart beat" do # a circuit spec
+			let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
+			it { should have_content('less than a minute') }
+		end
 	end
 
 	describe "show" do
 		let(:bud) { FactoryGirl.create(:bud) }
-		let(:circuit) { bud.circuits.build(name: "Lorem ipsum", location: 0.0, side: 0) }
 		before(:each) { visit bud_path(bud) }
 
 		it { should have_selector('h1', text: bud.uid) }
@@ -101,9 +105,6 @@ describe "bud pages" do
 
 		it { should have_selector('h1', text: 'Bud Configuration') }
 	  	it { should have_selector('title', text: bud.name) }
-	  	it { should have_selector('a', href: "/buds/#{bud.id}/circuits/new?d_side=0") }
-	  	it { should have_selector('a', href: "/buds/#{bud.id}/circuits/new?d_side=1") }
-		it { should have_content("+") }
 
 	  	#should only be active for admin
 	  	it { should_not have_content ('Remove Bud') }

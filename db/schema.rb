@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120908191924) do
+ActiveRecord::Schema.define(:version => 20120911045814) do
 
   create_table "bldg_relationships", :force => true do |t|
     t.integer  "follower_id"
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(:version => 20120908191924) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "bud_id"
-    t.float    "location"
-    t.integer  "side"
+    t.integer  "channel"
+    t.boolean  "active"
   end
 
   add_index "circuits", ["bud_id", "created_at"], :name => "index_circuits_on_bud_id_and_created_at"

@@ -4,19 +4,20 @@
 	<div class="inline">
 		<%= form_for [bud, circuit] do |f| %>
   			<%= render 'shared/error_messages', object: circuit %>
-    		<%= f.text_field :name %>
+    		<div class="inline"><%= f.text_field :name %></div>
+			<% if circuit.channel > 31 then %>
+				<b><%= (circuit.channel-32)/4 %>.<%= circuit.channel%4 %></b>
+			<% else %>
+				<b><%= (circuit.channel-3)/4 %>.<%= (circuit.channel-3)%4 %></b>
+			<% end %>
+    		<div class="inline"><%= f.check_box :active %></div>
 
     		<!-- Hidden submit button to work with IE6 -->
     		<%= f.submit "submit", style: "position: absolute; left: -9999px; width: 1px; height: 1px;" %>
 		<% end %>
 	</div>
-
 	<div class="inline">
-		<b><%= circuit.location %></b>
-	</div>
-
-	<div class="inline">
-		<%= button_to "X", bud_circuit_path(bud, circuit), method: :delete, class: :destroy, class: "btn",
-			data: { confirm: "Are you sure?" } %>
-	</div>
+     <%= button_to "X", bud_circuit_path(bud, circuit), method: :delete, class: :destroy, class: "btn",
+       data: { confirm: "Are you sure?" } %>
+   </div>
 </section>

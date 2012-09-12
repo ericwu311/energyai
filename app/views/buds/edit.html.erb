@@ -3,7 +3,7 @@
 <h1>Bud Configuration</h1>
 
 <div class="row">
-    <div class="span6 offset3">
+    <div class="span8 offset2">
         <%= if signed_in? && current_user.admin?
             button_to "Remove Bud", @bud, method: :delete, class: :destroy, class: "btn btn-large btn-primary", data: { confirm: "Are you sure?" }
         end %>
@@ -26,21 +26,23 @@
         <div id="leftcolumn">
           <h3>spi0:id</h3>
             <% if @bud.circuits.any? %>
-                <% for cir in @bud.circuits.where("side = ?", 0) do %>
+                <% for cir in @bud.circuits.where("channel < ?", 32) do %>
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud, d_side: 0), class: "btn btn-large btn-primary" %>
+            <%= button_to "+", controller: 'buds', action: 'more_circuits_left', id: @bud.id,
+                class: "btn btn-large btn-primary" %>
         </div>
 
         <div id="rightcolumn">
           <h3>spi1:id</h3>
             <% if @bud.circuits.any? %>
-                <% for cir in @bud.circuits.where("side = ?", 1) do %>
+                <% for cir in @bud.circuits.where("channel > ?", 31) do %>
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud, d_side: 1), class: "btn btn-large btn-primary" %>
+            <%= button_to "+", controller: 'buds', action: 'more_circuits_right', id: @bud.id,
+                class: "btn btn-large btn-primary" %>
         </div>
     </div>
 </div>

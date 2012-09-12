@@ -13,13 +13,13 @@
         <div id="leftcolumn">
           <h3>spi0:id</h3>
             <% if @bud.circuits.any? %>
-              <%= render @bud.circuits.where("side = ?", 0) %>
+              <%= render @bud.circuits.where("channel < ?", 32).where(active: true) %>
             <% end %>
         </div>
         <div id="rightcolumn">
           <h3>spi1:id</h3>
             <% if @bud.circuits.any? %>
-              <%= render @bud.circuits.where("side = ?", 1) %>
+              <%= render @bud.circuits.where("channel > ?", 31).where(active: true) %>
             <% end %>
         </div>
 

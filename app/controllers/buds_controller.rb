@@ -30,6 +30,16 @@ class BudsController < ApplicationController
   	def create
    		@bud = Bud.new(params[:bud])
    		if @bud.save
+        i = 3
+        while i < 7 do
+          @bud.circuits.create(channel: i)
+          i += 1
+        end
+        i = 32
+        while i < 36 do
+          @bud.circuits.create(channel: i)
+          i += 1
+        end
      		flash[:success] = "Bud Created!"
      		redirect_to @bud
    		else
@@ -46,5 +56,33 @@ class BudsController < ApplicationController
       else 
         flash[:error] = "That requires admin priveleges"
       end
+    end
+
+    def more_circuits_left  # adds 4 circuits to spi0
+      @bud = Bud.find(params[:id])
+      i = 0
+      for cir in @bud.circuits.where("channel < ?", 32) do
+        i = [cir.channel, i].max
+      end
+      i += 1
+      4.times do
+        @bud.circuits.create(channel: i)
+        i += 1
+      end
+      redirect_to edit_bud_path(@bud)
+    end
+
+    def more_circuits_right   # adds 4 circuits to spi1
+      @bud = Bud.find(params[:id])
+      i = 31
+      for cir in @bud.circuits.where("channel > ?", 32) do
+        i = [cir.channel, i].max
+      end
+      i += 1
+      4.times do
+        @bud.circuits.create(channel: i)
+        i += 1
+      end
+      redirect_to edit_bud_path(@bud)
     end
 end

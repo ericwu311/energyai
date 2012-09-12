@@ -12,12 +12,16 @@
 #
 
 class Circuit < ActiveRecord::Base
-  attr_accessible :name, :location, :side
-  # side : left = 0, right = 1
-  # location : group# . individual# double ie: 0.3
+	#
+	# => Circuit Mapping:
+	# => Channels 0-2 (first 3) are voltages
+	# => 3-31 circuits spi0
+	# => 32-64 circuits spi1
+	#
+  attr_accessible :name, :channel, :active
   belongs_to :bud
   validates :bud_id, presence: true
-  validates :name, presence: true
-  validates :side, presence: true, numericality: { greater_than: -1, less_than: 2, message: "must be 0 or 1" }
-  default_scope order: 'circuits.location ASC'
+  validates_presence_of :name, on: :update
+  validates :channel, presence: true, numericality: { greater_than: -1, less_than: 65 }
+  default_scope order: 'circuits.channel ASC'
 end

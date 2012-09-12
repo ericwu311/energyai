@@ -15,13 +15,12 @@ require 'spec_helper'
 
 describe Circuit do
 	let(:bud) { FactoryGirl.create(:bud) }
-	before { @circuit = bud.circuits.build(name: "Lorem ipsum", location: 0.0, side: 0) }
+  let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
 
-	subject { @circuit }
+	subject { circuit }
 
 	it { should respond_to(:name) }
-  it { should respond_to(:location) }
-  it { should respond_to(:side) }
+  it { should respond_to(:channel) }
   it { should respond_to(:bud_id) }
   it { should respond_to(:bud) }
   its(:bud) { should == bud }
@@ -36,7 +35,7 @@ describe Circuit do
   	end
 
 	describe "when bud_id is not present" do
-    	before { @circuit.bud_id = nil }
+    	before { circuit.bud_id = nil }
     	it { should_not be_valid }
   	end
 end
