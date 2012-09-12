@@ -3,7 +3,7 @@
 <h1>Bud Configuration</h1>
 
 <div class="row">
-    <div class="span6 offset3">
+    <div class="span8 offset2">
         <%= if signed_in? && current_user.admin?
             button_to "Remove Bud", @bud, method: :delete, class: :destroy, class: "btn btn-large btn-primary", data: { confirm: "Are you sure?" }
         end %>
@@ -30,7 +30,8 @@
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
                 <% end %>
             <% end %>
-            <%= link_to "+", new_bud_circuit_path(@bud), class: "btn btn-large btn-primary" %>
+            <%= button_to "+", controller: 'buds', action: 'more_circuits_left', id: @bud.id,
+                class: "btn btn-large btn-primary" %>
         </div>
 
         <div id="rightcolumn">
@@ -40,6 +41,8 @@
                     <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
                 <% end %>
             <% end %>
+            <%= button_to "+", controller: 'buds', action: 'more_circuits_right', id: @bud.id,
+                class: "btn btn-large btn-primary" %>
         </div>
     </div>
 </div>

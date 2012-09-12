@@ -30,6 +30,9 @@ Energyai::Application.routes.draw do
   match '/blog'  => redirect("http://www.verdigristech.com/blog"), as: :blog
   match '/terms' => redirect("http://www.verdigristech.com/terms"), as: :terms
   match '/build',   to: 'buildings#new'
+  match '/more_circuits_left(/:id)' => 'buds#more_circuits_left'
+  match '/more_circuits_right(/:id)' => 'buds#more_circuits_right'
+
 
 #  get "static_pages/home"
 

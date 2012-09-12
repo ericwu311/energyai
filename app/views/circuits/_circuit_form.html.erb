@@ -16,4 +16,8 @@
     		<%= f.submit "submit", style: "position: absolute; left: -9999px; width: 1px; height: 1px;" %>
 		<% end %>
 	</div>
+	<div class="inline">
+     <%= button_to "X", bud_circuit_path(bud, circuit), method: :delete, class: :destroy, class: "btn",
+       data: { confirm: "Are you sure?" } %>
+   </div>
 </section>

@@ -36,12 +36,15 @@ class CircuitsController < ApplicationController
   	end
 
     def destroy
-      #right now anyone can destroy any circuit
-      #eventually put in priveleges: owner or admin only
-      @circuit = @bud.circuits.find(params[:id])
-      @circuit.destroy
-      flash[:success] = "Circuit removed"
-      redirect_to edit_bud_path(@bud)
+        #only admin has access to circuit deletion
+      if signed_in? && current_user.admin?
+        @circuit = @bud.circuits.find(params[:id])
+        @circuit.destroy
+        flash[:success] = "Circuit removed"
+        redirect_to edit_bud_path(@bud)
+      else 
+        flash[:error] = "That requires admin priveleges"
+      end
     end
 
     private

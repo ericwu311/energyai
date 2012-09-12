@@ -78,6 +78,11 @@ describe "bud pages" do
 				it { should have_content('Create Bud') }
 			end
 		end
+
+		describe "heart beat" do # a circuit spec
+			let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
+			it { should have_content('less than a minute') }
+		end
 	end
 
 	describe "show" do
@@ -100,7 +105,6 @@ describe "bud pages" do
 
 		it { should have_selector('h1', text: 'Bud Configuration') }
 	  	it { should have_selector('title', text: bud.name) }
-		it { should have_content("+") }
 
 	  	#should only be active for admin
 	  	it { should_not have_content ('Remove Bud') }

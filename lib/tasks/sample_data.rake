@@ -44,7 +44,7 @@ def make_buds
 end
 
 def make_circuits
-    buds = Bud.all(limit: 6)
+    buds = Bud.all(limit: 3)
     64.times do |n|
         name  = Faker::PhoneNumber.phone_number
         Bud.create!(channel: n)
