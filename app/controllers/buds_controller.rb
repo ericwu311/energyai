@@ -30,11 +30,13 @@ class BudsController < ApplicationController
   	def create
    		@bud = Bud.new(params[:bud])
    		if @bud.save
+        # create initial circuits, spi0
         i = 3
         while i < 7 do
           @bud.circuits.create(channel: i)
           i += 1
         end
+        # spi1
         i = 32
         while i < 36 do
           @bud.circuits.create(channel: i)
