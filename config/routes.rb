@@ -2,7 +2,7 @@ Energyai::Application.routes.draw do
 
   resources :users do
     member do
-      get :following, :followers #, :buildings
+      get :following, :followers, :buildings
     end
     resources :microalerts, only: [:new, :create, :destroy]
   end

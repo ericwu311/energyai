@@ -248,4 +248,32 @@ describe "User pages" do
 		end
 
 	end
+
+	describe "buildings page" do
+		let(:user) { FactoryGirl.create(:user) }
+		let(:followed_building) { FactoryGirl.create(:building) }
+		let(:commissioned_building) { FactoryGirl.create(:building, creator: user) }
+		let(:managed_building) { FactoryGirl.create(:building) }
+
+		before do
+			user.follow!(followed_building)
+			managed_building.follow!(user)
+		end
+
+		describe "managed, followed, or created" do
+			before do
+				sign_in user
+				visit buildings_user_path(user)
+			end
+
+			it { should have_selector('title', text: full_title('My Buildings')) }
+			it { should have_selector('h3', text: 'following') }
+			it { should have_selector('h3', text: 'commissioned') }
+			it { should have_selector('h3', text: 'managing') }
+			it { should have_link(followed_building.name, href: building_path(followed_building)) }
+			it { should have_link(commissioned_building.name, href: building_path(commissioned_building)) }
+			it { should have_link(managed_building.name, href: building_path(managed_building)) }
+		end
+	end
+
 end

@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: buds
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  uid         :string(255)
+#  hardware_v  :string(255)
+#  firmware_v  :string(255)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  active      :boolean          default(FALSE)
+#  building_id :integer
+#
+
 require 'spec_helper'
 
 describe Bud do

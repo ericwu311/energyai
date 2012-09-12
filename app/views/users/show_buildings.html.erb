@@ -1,0 +1,38 @@
+<% provide(:title, @title) %>
+<div class ="row-fluid">
+	<aside class="span2">
+		<section>
+			<%= render 'shared/user_info', object: @user %>
+		</section>
+		<section>
+			<%= render 'shared/user_stats' %>
+		</section>
+	</aside>
+	<div class="span3">
+		<h3><%="following"%></h3>
+		<% if @followed_buildings.any? %>
+			<ul class="buildings">
+				<%= render partial: "buildings/building", collection: @followed_buildings %>
+			</ul>
+			
+		<% end %>
+	</div>
+	<div class="span3">
+		<h3><%= "commissioned"%></h3>
+		<% if @created_buildings.any? %>
+			<ul class="buildings">
+				<%= render partial: "buildings/building", collection: @created_buildings %>
+			</ul>
+			
+		<% end %>
+	</div>	
+	<div class="span3">
+		<h3><%= "managing"%></h3>
+		<% if @managed_buildings.any? %>
+			<ul class="buildings">
+				<%= render partial: "buildings/building", collection: @managed_buildings %>
+			</ul>
+			
+		<% end %>
+	</div>	
+</div>

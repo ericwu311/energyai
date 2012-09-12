@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: circuits
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  bud_id     :integer
+#  location   :float
+#  side       :integer
+#
+
 require 'spec_helper'
 
 describe Circuit do

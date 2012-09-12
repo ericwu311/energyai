@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: user_relationships
+#
+#  id            :integer          not null, primary key
+#  follower_id   :integer
+#  followed_id   :integer
+#  followed_type :string(255)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 
 require 'spec_helper'
 

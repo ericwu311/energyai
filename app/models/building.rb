@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  avatar     :string(255)
+#  creator_id :integer
 #
 
 class Building < ActiveRecord::Base

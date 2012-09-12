@@ -230,6 +230,8 @@ aside {
     padding: 0 10px;
     border-left: 1px solid $grayLighter;
     color: gray;
+    font-size: 10px;
+
     &:first-child{
       padding-left: 0px;
       border: 0;
@@ -241,6 +243,7 @@ aside {
   }
   strong {
     display: block;
+    font-size: 13px;
   }
 }
 

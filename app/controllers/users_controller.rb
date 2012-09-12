@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers, :buildings]
   before_filter :correct_user, only: [:edit, :update]
   before_filter :admin_user, only: :destroy
   
@@ -75,6 +75,15 @@ class UsersController < ApplicationController
     @users = @user.followers.paginate(page: params[:page])
     @buildings = @user.managed_buildings.paginate(page: params[:page])
     render 'show_follow'
+  end
+
+  def buildings
+    @title = "My Buildings"
+    @user = User.find(params[:id])
+    @managed_buildings = @user.managed_buildings.paginate(page: params[:page])
+    @followed_buildings = @user.followed_buildings.paginate(page: params[:page])
+    @created_buildings = @user.buildings.paginate(page: params[:page])
+    render 'show_buildings'
   end
 
   private
