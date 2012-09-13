@@ -18,9 +18,11 @@ describe Circuit do
   let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
 
 	subject { circuit }
-
 	it { should respond_to(:name) }
   it { should respond_to(:channel) }
+  it { should respond_to(:circuit_type_id) }
+  it { should respond_to(:status) }
+  it { should respond_to(:ip) }
   it { should respond_to(:bud_id) }
   it { should respond_to(:bud) }
   its(:bud) { should == bud }

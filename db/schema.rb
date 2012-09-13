@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120911045814) do
+ActiveRecord::Schema.define(:version => 20120912233638) do
 
   create_table "bldg_relationships", :force => true do |t|
     t.integer  "follower_id"
@@ -51,14 +51,31 @@ ActiveRecord::Schema.define(:version => 20120911045814) do
 
   create_table "circuits", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "bud_id"
     t.integer  "channel"
     t.boolean  "active"
+    t.integer  "circuit_type_id"
+    t.integer  "building_id"
+    t.string   "status"
+    t.string   "ip"
   end
 
   add_index "circuits", ["bud_id", "created_at"], :name => "index_circuits_on_bud_id_and_created_at"
+
+  create_table "items", :force => true do |t|
+    t.string   "name"
+    t.integer  "circuit_id"
+    t.string   "status"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "device_id"
+    t.integer  "building_id"
+    t.integer  "count"
+  end
+
+  add_index "items", ["circuit_id", "created_at"], :name => "index_items_on_circuit_id_and_created_at"
 
   create_table "microalerts", :force => true do |t|
     t.string   "content"
