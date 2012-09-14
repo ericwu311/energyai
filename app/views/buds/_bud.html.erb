@@ -6,16 +6,6 @@
 		<%= link_to bud.uid, bud %>
 	</div>
 	<div class="span2">
-		<% if bud.circuits.any? %> <!-- get the most recently updated circuit -->
-			<% beat_list = [] %>
-			<% i = 0 %>
-			<% for c in bud.circuits do %>
-				<% beat_list[i] = c.updated_at %>
-				<% i += 1 %>
-			<% end %>
-			<%= time_ago_in_words(beat_list.max) %>
-		<% else %>
-			<%= time_ago_in_words(bud.updated_at) %>
-		<% end %>
+		<%= time_ago_in_words(bud.updated_at) %> ago
 	</div>
 </li>

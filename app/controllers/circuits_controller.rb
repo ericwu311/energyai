@@ -13,6 +13,10 @@ class CircuitsController < ApplicationController
       @circuit = @bud.circuits.find(params[:id])
     end
 
+    def show
+      @circuit = @bud.circuits.find(params[:id])
+    end
+
     def update
       @circuit = @bud.circuits.find(params[:id])
       if @circuit.update_attributes(params[:circuit])

@@ -1,17 +1,17 @@
 <!-- partial for bud show -->
 <li>
 	<% if circuit.channel > 31 then %>
-        <div id="leftcolumn">
+        <div id="leftcolumn" class="span1">
 			<b><%= (circuit.channel-32)/4 %>.<%= circuit.channel%4 %></b>
 		</div>
-        <div id="rightcolumn">
-			<%= circuit.name %>
+        <div id="rightcolumn" class="span1">
+			<%= link_to circuit.name, bud_circuit_path(@bud, circuit) %>
 		</div>
 	<% else %> <!-- channel less than 32 -->
-        <div id="leftcolumn">
-			<%= circuit.name %>
+        <div id="leftcolumn" class="span1">
+			<%= link_to circuit.name, bud_circuit_path(@bud, circuit) %>
 		</div>
-        <div id="rightcolumn">
+        <div id="rightcolumn" class="span1">
 			<b><%= (circuit.channel-3)/4 %>.<%= (circuit.channel-3)%4 %></b>
 		</div>
 	<% end %>

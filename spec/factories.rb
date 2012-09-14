@@ -25,6 +25,13 @@ FactoryGirl.define do
 		association :bud, factory: :bud
 	end
 
+	factory :item do
+		sequence(:name) { |n| "Item #{n}" }
+		status "live"
+		count 1
+		association :circuit, factory: :circuit
+	end
+
 	factory :microalert do
 		#content = Faker::Lorem.sentence(5) doesn't work in rspec environment
 		sequence(:content) { |n| "Lorem Ipsum #{n}" }
