@@ -4,9 +4,9 @@ namespace :db do
 	    make_users
 	    make_microalerts
 	    make_user_user_relationships
+        make_buildings
 	    make_buds
         make_circuits
-	    make_buildings
 	    make_building_microalerts
         make_user_building_relationships
         make_building_relationships
@@ -35,16 +35,58 @@ def make_users
     end
 end
 
+def make_buildings
+    user = User.first
+    user2 = User.find_by_name("Mark Chung")
+    building = user.buildings.create!(name: "NASA Ames Building 19",
+                         address: "NASA Ames Research Park, Moffett Field, CA, 94035")
+    20.times do |n|
+        name  = Faker::Company.name
+        street_address = Faker::Address.street_address
+        city = Faker::Address.city
+        state = Faker::Address.state_abbr
+        zip = Faker::Address.zip
+        user.buildings.create!(name: name,
+                     address: "#{street_address} #{city}, #{state} #{zip}")
+    end
+    20.times do |n|
+        name  = Faker::Company.name
+        street_address = Faker::Address.street_address
+        city = Faker::Address.city
+        state = Faker::Address.state_abbr
+        zip = Faker::Address.zip
+        user2.buildings.create!(name: name,
+                     address: "#{street_address} #{city}, #{state} #{zip}")
+    end
+end
+
+
 def make_buds
-	35.times do |n|
-    	name  = Faker::PhoneNumber.phone_number
-    	uid = "#{n+1}"
-    	hardware_v = "1.0"
-    	firmware_v = "1.0"
-    	Bud.create!(name: name,
-    				 uid: uid,
-    				 hardware_v: hardware_v,
-	    			 firmware_v: firmware_v)
+    buildings = Building.all(limit:10)
+    x = 0
+    buildings.each do |building|
+    	4.times do |n|
+    	   name  = Faker::PhoneNumber.phone_number
+    	   uid = "#{n+1+x}"
+    	   hardware_v = "1.0"
+    	   firmware_v = "1.0"
+    	   Bud.create!(name: name,
+    				    uid: uid,
+    			        hardware_v: hardware_v,
+	    			    firmware_v: firmware_v,
+                        building_id: building.id)
+        end
+        x += 4
+    end
+    10.times do |n|
+        name  = Faker::PhoneNumber.phone_number
+        uid = "#{n+61}"
+        hardware_v = "1.0"
+        firmware_v = "1.0"
+        Bud.create!(name: name,
+                uid: uid,
+                hardware_v: hardware_v,
+                firmware_v: firmware_v)
     end
 end
 
@@ -81,31 +123,6 @@ def make_user_user_relationships
 	followers.each      do |follower| 
         follower.follow!(user) 
         follower.follow!(user2)
-    end
-end
-
-def make_buildings
-	user = User.first
-    user2 = User.find_by_name("Mark Chung")
-	building = user.buildings.create!(name: "NASA Ames Building 19",
-		                 address: "NASA Ames Research Park, Moffett Field, CA, 94035")
-    20.times do |n|
-    	name  = Faker::Company.name
-    	street_address = Faker::Address.street_address
-    	city = Faker::Address.city
-    	state = Faker::Address.state_abbr
-    	zip = Faker::Address.zip
-    	user.buildings.create!(name: name,
-    				 address: "#{street_address} #{city}, #{state} #{zip}")
-    end
-    20.times do |n|
-        name  = Faker::Company.name
-        street_address = Faker::Address.street_address
-        city = Faker::Address.city
-        state = Faker::Address.state_abbr
-        zip = Faker::Address.zip
-        user2.buildings.create!(name: name,
-                     address: "#{street_address} #{city}, #{state} #{zip}")
     end
 end
 

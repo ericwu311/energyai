@@ -1,6 +1,4 @@
 <% provide(:title, "Configure Building #{@building.name}") %>
-<h1>Configure Building</h1>
-
 <div class="row-fluid">
   <div class="span2">
     <%= avatar_for @building %>
@@ -10,6 +8,14 @@
       <%= render 'fields', f: f %>
       <%= f.submit "Save changes", class: "btn btn-primary" %>
     <% end %>
-
+  </div>
+  <div class="span10">	
+	<h2>Configure Building</h2>
+	<hr>
+	<h4>Buds</h4>
+	<%= render partial: 'buds/bud', collection: @building.buds %>
+    <hr>
+    <h4>Managers</h4>
+    <%= render partial: 'users/user', collection: @building.managers %>
   </div>
 </div>
