@@ -6,6 +6,7 @@ namespace :db do
 	    make_user_user_relationships
 	    make_buds
         make_circuits
+        make_items
 	    make_buildings
 	    make_building_microalerts
         make_user_building_relationships
@@ -43,21 +44,38 @@ def make_buds
     	firmware_v = "1.0"
     	Bud.create!(name: name,
     				 uid: uid,
+    				 active: true,
     				 hardware_v: hardware_v,
 	    			 firmware_v: firmware_v)
     end
 end
 
 def make_circuits
-    buds = Bud.all(limit: 3)
+    buds = Bud.all(limit: 5)
     buds.each do |bud|
         4.times do |n|
-            bud.circuits.create!(channel: n+3)
+            bud.circuits.create!(name: "Circuit L#{n}",
+            					 channel: n+3,
+            					 active: true)
         end
         4.times do |n|
-            bud.circuits.create!(channel: n+32)
+            bud.circuits.create!(name: "Circuit R#{n}",
+            					 channel: n+32,
+            					 active: true)
         end
     end
+end
+
+def make_items
+	circuits = Circuit.all(limit: 10)
+	circuits.each do |circuit|
+		2.times do |n|
+			name = Faker::Lorem.words(num = 1)
+			circuit.items.create!(name: name,
+								  status: "ON",
+								  count: 1)
+		end
+	end
 end
 
 def make_microalerts

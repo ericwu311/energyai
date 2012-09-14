@@ -1,0 +1,12 @@
+<% provide(:title, @circuit.name) %>
+
+<h1>Circuit: <%= @circuit.name %></h1>
+
+<div class="row">
+  	<aside class="span6 offset3">
+  		<h2> Devices Connected to Circuit </h2>
+  		<% if @circuit.items.any? %>
+        	<%= render @circuit.items %>
+        <% end %>
+  	</aside>
+</div>

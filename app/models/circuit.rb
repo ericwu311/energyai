@@ -20,6 +20,7 @@ class Circuit < ActiveRecord::Base
 	#
   attr_accessible :name, :channel, :active, :circuit_type_id, :status, :ip
   belongs_to :bud
+  has_many :items, dependent: :destroy
   validates :bud_id, presence: true
   #validates :building_id, presence: true
   validates_presence_of :name, on: :update

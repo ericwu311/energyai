@@ -1,6 +1,6 @@
 <% provide(:title, @bud.uid) %>
 
-<h1>Bud uid : <%= @bud.uid %></h1>
+<h1>Bud uid: <%= @bud.uid %></h1>
 
 <div class="row">
   	<aside class="span6 offset3">
@@ -8,7 +8,7 @@
         hardware: <%= @bud.hardware_v %><br>
         firmware: <%= @bud.firmware_v %><br>
         active: <%= @bud.active %><br>
-        heart beat: <%= time_ago_in_words(@bud.updated_at) %>
+        heart beat: <%= time_ago_in_words(@bud.updated_at) %> ago
 
         <h2>Panel Details</h2>
         <div id="leftcolumn">

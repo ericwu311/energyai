@@ -45,7 +45,15 @@ $(function() {
             <ul>
               <% if b.circuits.any? %>
                 <% for c in b.circuits.where(active: true) %>
-                  <li><a class="m1" href="#"><%= c.name %></a></li>
+                  <li><a class="m1" href="#"><%= c.name %></a>
+                  <ul>
+                    <% if c.items.any? %>
+                      <% for i in c.items %>
+                        <li><a class="m1" href="#"><%= i.name %></a></li>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                  </li>
                 <% end %>
               <% end %>
             </ul>

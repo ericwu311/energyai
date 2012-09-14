@@ -15,17 +15,17 @@ require 'spec_helper'
 
 describe Circuit do
 	let(:bud) { FactoryGirl.create(:bud) }
-  let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
+    let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
 
 	subject { circuit }
 	it { should respond_to(:name) }
-  it { should respond_to(:channel) }
-  it { should respond_to(:circuit_type_id) }
-  it { should respond_to(:status) }
-  it { should respond_to(:ip) }
-  it { should respond_to(:bud_id) }
-  it { should respond_to(:bud) }
-  its(:bud) { should == bud }
+    it { should respond_to(:channel) }
+    it { should respond_to(:circuit_type_id) }
+    it { should respond_to(:status) }
+    it { should respond_to(:ip) }
+    it { should respond_to(:bud_id) }
+    it { should respond_to(:bud) }
+    its(:bud) { should == bud }
 	it { should be_valid }
 
 	describe "accessible attributes" do
@@ -40,4 +40,9 @@ describe Circuit do
     	before { circuit.bud_id = nil }
     	it { should_not be_valid }
   	end
+
+    describe "when channel is not present" do
+        before { circuit.channel = nil }
+        it { should_not be_valid }
+    end
 end

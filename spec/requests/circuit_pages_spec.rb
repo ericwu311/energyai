@@ -96,19 +96,33 @@ describe "circuit pages" do
 	end
 
 	describe "show" do
+		let(:new_name) { "New Name" }
 
-		before(:each) { visit bud_path(bud) }
-
-		describe "should display" do
+		describe "should display actives" do
 			before(:each) do
 				circuit1 = Factory(:circuit, bud: bud)
 				circuit1.bud=(bud)
+				circuit1.name = new_name
 				circuit1.save
 				bud.save
+				visit bud_path(bud)
 			end
 
 			specify { bud.circuits.count.should eql(2) }
 			it { should have_content(circuit.name) } 		# active = true
+			it { should have_content(new_name) } 		# active = true
+		end
+
+		describe "should not display inactives" do
+			before(:each) do
+				circuit.active = false
+				circuit.save
+				bud.save
+				visit bud_path(bud)
+			end
+
+			specify { bud.circuits.count.should eql(1) }
+			it { should_not have_content(circuit.name) } 		# active = false
 		end
 	end
 
@@ -131,7 +145,7 @@ describe "circuit pages" do
 		end
 	end
 
-	describe "more" do
+	describe "more circuits" do
 		let(:submit) { "+" }
 
 		before(:each) do

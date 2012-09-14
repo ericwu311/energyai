@@ -18,7 +18,9 @@ Energyai::Application.routes.draw do
   resources :bldg_relationships, only: [:create, :destroy]
 
   resources :buds do
-    resources :circuits
+    resources :circuits do
+      resources :items
+    end
   end
 
   root to: 'static_pages#home'
