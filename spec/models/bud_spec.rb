@@ -16,8 +16,10 @@
 require 'spec_helper'
 
 describe Bud do
+	let(:building) { FactoryGirl.create(:building) }
+
   	before do
-		@bud = Bud.new(name: "bud 1", uid: "test 130", hardware_v: "1.0", firmware_v: "1.0") 
+		@bud = Bud.new(name: "bud 1", uid: "test 130", hardware_v: "1.0", firmware_v: "1.0", building_id: building.id) 
 	end
 
 	subject { @bud }
@@ -28,6 +30,7 @@ describe Bud do
 	it { should respond_to(:firmware_v) }
 	it { should respond_to(:active) }
 	it { should respond_to(:circuits) }
+	it { should respond_to(:building) }
 
 	it { should be_valid }
 
@@ -49,4 +52,5 @@ describe Bud do
 
 		it { should_not be_valid }
 	end
+
 end

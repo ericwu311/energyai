@@ -48,16 +48,31 @@ def make_users
 end
 
 def make_buds
-  35.times do |n|
-    name  = Faker::PhoneNumber.phone_number
-    uid = "#{n+1}"
-    hardware_v = "1.0"
-    firmware_v = "1.0"
-
-    Bud.create!(name: name,
-      uid: uid,
-      hardware_v: hardware_v,
-      firmware_v: firmware_v)
+  buildings = Building.all(limit:10)
+  x = 0
+  buildings.each do |building|
+  	4.times do |n|
+  	   name  = Faker::PhoneNumber.phone_number
+  	   uid = "#{n+1+x}"
+  	   hardware_v = "1.0"
+  	   firmware_v = "1.0"
+  	   Bud.create!(name: name,
+  				    uid: uid,
+  			        hardware_v: hardware_v,
+    			    firmware_v: firmware_v,
+                      building_id: building.id)
+      end
+      x += 4
+  end
+  10.times do |n|
+      name  = Faker::PhoneNumber.phone_number
+      uid = "#{n+61}"
+      hardware_v = "1.0"
+      firmware_v = "1.0"
+      Bud.create!(name: name,
+              uid: uid,
+              hardware_v: hardware_v,
+              firmware_v: firmware_v)
   end
 end
 

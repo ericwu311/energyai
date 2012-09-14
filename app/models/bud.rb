@@ -14,7 +14,7 @@
 #
 
 class Bud < ActiveRecord::Base
-	attr_accessible :name, :uid, :hardware_v, :firmware_v, :active
+	attr_accessible :name, :uid, :hardware_v, :firmware_v, :active, :building_id
 	has_many :circuits, dependent: :destroy
 	belongs_to :building
 	validates :name, length: { maximum: 50 }
