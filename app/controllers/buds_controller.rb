@@ -1,16 +1,16 @@
 class BudsController < ApplicationController
-  	def new
-  		@bud = Bud.new
-  	end
+    def new
+      @bud = Bud.new
+    end
 
-  	def show
-  		@bud = Bud.find(params[:id])
+    def show
+      @bud = Bud.find(params[:id])
       @circuits = @bud.circuits.paginate(page: params[:page])
-  	end
+    end
 
-  	def edit
-  		@bud = Bud.find(params[:id])
-  	end
+    def edit
+      @bud = Bud.find(params[:id])
+    end
 
     def update
       @bud = Bud.find(params[:id])
@@ -23,13 +23,13 @@ class BudsController < ApplicationController
       end
     end
 
-  	def index
-  		@buds = Bud.paginate(page: params[:page])
-  	end
+    def index
+      @buds = Bud.paginate(page: params[:page])
+    end
 
-  	def create
-   		@bud = Bud.new(params[:bud])
-   		if @bud.save
+    def create
+      @bud = Bud.new(params[:bud])
+      if @bud.save
         # create initial circuits, spi0
         i = 3
         while i < 7 do
@@ -42,12 +42,12 @@ class BudsController < ApplicationController
           @bud.circuits.create(channel: i)
           i += 1
         end
-     		flash[:success] = "Bud Created!"
-     		redirect_to @bud
-   		else
-     		render 'new'
-   		end
-  	end
+        flash[:success] = "Bud Created!"
+        redirect_to @bud
+      else
+        render 'new'
+      end
+    end
 
     def destroy
       if signed_in? && current_user.admin?
@@ -68,6 +68,10 @@ class BudsController < ApplicationController
       end
       i += 1
       4.times do
+        if i >= 32 then
+          flash[:error] = "Can't add any more left circuits"
+          break
+        end
         @bud.circuits.create(channel: i)
         i += 1
       end
@@ -82,6 +86,10 @@ class BudsController < ApplicationController
       end
       i += 1
       4.times do
+        if i >= 64 then
+          flash[:error] = "Can't add any more right circuits"
+          break
+        end
         @bud.circuits.create(channel: i)
         i += 1
       end
