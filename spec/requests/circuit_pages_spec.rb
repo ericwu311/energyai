@@ -2,165 +2,180 @@ require 'spec_helper'
 
 describe "circuit pages" do
 
-	subject { page }
+  subject { page }
 
-	let(:admin) { FactoryGirl.create(:admin) }
-	let(:bud) { FactoryGirl.create(:bud) }
-	let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
+  let(:admin) { FactoryGirl.create(:admin) }
+  let(:bud) { FactoryGirl.create(:bud) }
+  let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
 
-	before do
-		sign_in admin
-		circuit.save
-	end
+  before do
+    sign_in admin
+    circuit.save
+  end
 
-	describe "new" do
-		before(:each) { visit new_bud_circuit_path(bud) }
-		let(:submit) { "Create" }
+  describe "new" do
+    before(:each) { visit new_bud_circuit_path(bud) }
+    let(:submit) { "Create" }
 
-	  	describe "with invalid information" do
-	  		it "should not create a circuit" do
-	  			expect { click_button submit }.not_to change(Circuit, :count)
-	  		end
+      describe "with invalid information" do
+        it "should not create a circuit" do
+          expect { click_button submit }.not_to change(Circuit, :count)
+        end
 
-	  		describe "after submission" do
-	  			before { click_button submit }
-	  			it { should have_content('error') }
-	  			it { should have_content('can\'t be blank') }
-	  		end
-	  	end
+        describe "after submission" do
+          before { click_button submit }
+          it { should have_content('error') }
+          it { should have_content('can\'t be blank') }
+        end
+      end
  
- 	  	describe "with valid information" do
- 	  		let(:new_name) { "New Name" }
+      describe "with valid information" do
+        let(:new_name) { "New Name" }
 
-	  		before(:each) do
-	  			fill_in 'circuit_name',  				with: new_name
-	  			fill_in 'circuit_channel',  			with: 0
-		    end
+        before(:each) do
+          fill_in 'circuit_name',         with: new_name
+          fill_in 'circuit_channel',        with: 0
+        end
 
-			it "should create a circuit" do
-		      	expect { click_button submit }.to change(Circuit, :count).by(1)
-	    	end
+      it "should create a circuit" do
+            expect { click_button submit }.to change(Circuit, :count).by(1)
+        end
 
-	    	describe "after submission" do
-	    		before do
-	    			click_button submit
-		      		visit bud_path(bud)
-		      	end
+        describe "after submission" do
+          before do
+            click_button submit
+              visit bud_path(bud)
+            end
 
-		      	it { should_not have_content(new_name) } 	# active = false
-	    	end
-	    end
-	end
+            it { should_not have_content(new_name) }  # active = false
+        end
+      end
+  end
 
-	describe "edit" do
-		before(:each) { visit edit_bud_path(bud, circuit) }
+  describe "edit" do
+    before(:each) { visit edit_bud_path(bud, circuit) }
 
-		it { should have_selector("input", value: circuit.name) }
-		it { should have_selector("input", value: circuit.active) }
-		it { should have_selector("form", method: "post", action: "bud/#{bud[:id]}/circuit/#{circuit[:id]}") }
+    it { should have_selector("input", value: circuit.name) }
+    it { should have_selector("input", value: circuit.active) }
+    it { should have_selector("form", method: "post", action: "bud/#{bud[:id]}/circuit/#{circuit[:id]}") }
 
-		describe "with invalid information" do
-			let(:new_name) { "" }
+    describe "with invalid information" do
+      let(:new_name) { "" }
 
-			before(:each) do
-				fill_in 'circuit_name', with: new_name
-				click_button "submit"
-			end
+      before(:each) do
+        fill_in 'circuit_name', with: new_name
+        click_button "submit"
+      end
 
-			it { should have_content('failed') }
-			it { should have_selector("input", value: circuit.name) }
-			specify { circuit.reload.name.should_not == new_name }
-		end
+      it { should have_content('failed') }
+      it { should have_selector("input", value: circuit.name) }
+      specify { circuit.reload.name.should_not == new_name }
+    end
 
-		describe "with valid information" do
-			let(:new_name) { "New Name" }
+    describe "with valid information" do
+      let(:new_name) { "New Name" }
 
-			before(:each) do
-				fill_in 'circuit_name', with: new_name
-				click_button "submit"
-			end
+      before(:each) do
+        fill_in 'circuit_name', with: new_name
+        click_button "submit"
+      end
 
-			specify { circuit.reload.name.should == new_name }
-			it { should have_selector("input", value: new_name) }
+      specify { circuit.reload.name.should == new_name }
+      it { should have_selector("input", value: new_name) }
 
-			describe "set to inactive" do
-				before(:each) do
-					find(:css, "#circuit_active[value='1']").set(false)
-					click_button "submit"
-					visit bud_path(bud)
-				end
+      describe "set to inactive" do
+        before(:each) do
+          find(:css, "#circuit_active[value='1']").set(false)
+          click_button "submit"
+          visit bud_path(bud)
+        end
 
-				it { should_not have_content(circuit.name) } # active = false
-			end
-		end
-	end
+        it { should_not have_content(circuit.name) } # active = false
+      end
+    end
+  end
 
-	describe "show" do
-		let(:new_name) { "New Name" }
+  describe "show" do
+    let(:new_name) { "New Name" }
 
-		describe "should display actives" do
-			before(:each) do
-				circuit1 = Factory(:circuit, bud: bud)
-				circuit1.bud=(bud)
-				circuit1.name = new_name
-				circuit1.save
-				bud.save
-				visit bud_path(bud)
-			end
+    describe "should display actives" do
+      before(:each) do
+        circuit1 = Factory(:circuit, bud: bud)
+        circuit1.bud=(bud)
+        circuit1.name = new_name
+        circuit1.save
+        bud.save
+        visit bud_path(bud)
+      end
 
-			specify { bud.circuits.count.should eql(2) }
-			it { should have_content(circuit.name) } 		# active = true
-			it { should have_content(new_name) } 		# active = true
-		end
+      specify { bud.circuits.count.should eql(2) }
+      it { should have_content(circuit.name) }    # active = true
+      it { should have_content(new_name) }    # active = true
+    end
 
-		describe "should not display inactives" do
-			before(:each) do
-				circuit.active = false
-				circuit.save
-				bud.save
-				visit bud_path(bud)
-			end
+    describe "should not display inactives" do
+      before(:each) do
+        circuit.active = false
+        circuit.save
+        bud.save
+        visit bud_path(bud)
+      end
 
-			specify { bud.circuits.count.should eql(1) }
-			it { should_not have_content(circuit.name) } 		# active = false
-		end
-	end
+      specify { bud.circuits.count.should eql(1) }
+      it { should_not have_content(circuit.name) }    # active = false
+    end
+  end
 
-	describe "delete" do
-		let(:submit) { "X" }
+  describe "delete" do
+    let(:submit) { "X" }
 
-		before(:each) { visit edit_bud_path(bud, circuit) }
+    before(:each) { visit edit_bud_path(bud, circuit) }
 
-		it "should remove" do
-			expect { click_button submit }.to change(Circuit, :count).by(-1)
-		end
+    it "should remove" do
+      expect { click_button submit }.to change(Circuit, :count).by(-1)
+    end
 
-		describe "after submission" do
-			before do
-				click_button submit
-			end
-			#removal should leave no circuits, and no circuits to delete
-			specify { bud.circuits.count.should eql(0) }
-			it { should_not have_link("X") }
-		end
-	end
+    describe "after submission" do
+      before do
+        click_button submit
+      end
+      #removal should leave no circuits, and no circuits to delete
+      specify { bud.circuits.count.should eql(0) }
+      it { should_not have_link("X") }
+    end
+  end
 
-	describe "more circuits" do
-		let(:submit) { "+" }
+  describe "more circuits" do
+    let(:submit) { "+" }
 
-		before(:each) do
-			visit edit_bud_path(bud, circuit)
-		end
+    before(:each) do
+      visit edit_bud_path(bud, circuit)
+    end
 
-		it "should add" do
-			expect { click_button submit }.to change(Circuit, :count).by(4)
-		end
+    it "should add" do
+      expect { click_button submit }.to change(Circuit, :count).by(4)
+    end
 
-		describe "after submission" do
-			before(:each) do
-				click_button submit
-			end
-			specify { bud.circuits.count.should eql(5) }
-		end
-	end
+    describe "after submission" do
+      before(:each) do
+        click_button submit
+      end
+      
+      specify { bud.circuits.count.should eql(5) }
+    end
+
+    describe "with full channels" do
+      before(:each) do
+        circuit1 = Factory(:circuit, bud: bud)
+        circuit1.bud=(bud)
+        circuit1.channel = 31   #highest possible left (spi0) channel
+        circuit1.save
+        bud.save
+      end
+
+      it "should not add" do
+        expect { click_button submit }.to change(Circuit, :count).by(0)
+      end
+    end
+  end
 end

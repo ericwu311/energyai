@@ -17,7 +17,9 @@ class Circuit < ActiveRecord::Base
 	# => Channels 0-2 (first 3) are voltages
 	# => 3-31 circuits spi0
 	# => 32-64 circuits spi1
-	#
+
+  # status and active are overloaded right now, eventually move to just one
+  # building id is used in the php but not rails
   attr_accessible :name, :channel, :active, :circuit_type_id, :status, :ip
   belongs_to :bud
   has_many :items, dependent: :destroy
