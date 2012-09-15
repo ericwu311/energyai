@@ -196,7 +196,8 @@ describe "Building pages" do
 
 		let(:user) { FactoryGirl.create(:user) }
 		let(:building) { FactoryGirl.create(:building) }
-		
+		let(:manager) { FactoryGirl.create(:user) }
+
 		before do 
 			sign_in user
 			visit edit_building_path(building) 
@@ -230,7 +231,10 @@ describe "Building pages" do
 			specify { building.reload.name.should  == new_name }
 			specify { building.reload.address.should == new_address }
 		end
-	end
+
+		describe "unmanage buttons" do
+			
+		end
 
 	describe "following/followers" do 
 		let(:user) { FactoryGirl.create(:user) }
