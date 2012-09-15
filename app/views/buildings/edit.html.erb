@@ -3,7 +3,6 @@
   <div class="span2">
     <%= avatar_for @building %>
     <a href="#" target="_new">change</a >
-
     <%= form_for(@building) do |f| %>
       <%= render 'fields', f: f %>
       <%= f.submit "Save changes", class: "btn btn-primary" %>
@@ -12,10 +11,17 @@
   <div class="span10">	
 	<h2>Configure Building</h2>
 	<hr>
-	<h4>Buds</h4>
-	<%= render partial: 'buds/bud', collection: @building.buds %>
-    <hr>
-    <h4>Managers</h4>
-    <%= render partial: 'users/user', collection: @building.managers %>
+	<section>
+		<h4>Buds</h4>
+		<ul class="buds">
+			<%= render partial: 'buds/bud', collection: @building.buds %>
+		</ul>
+	</section>
+	<section>
+	    <h4>Managers</h4>
+	    <ul class="managers">
+		    <%= render partial: 'users/manager', collection: @building.managers %>
+		</ul>
+	</section>
   </div>
 </div>

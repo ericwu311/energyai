@@ -5,9 +5,9 @@ namespace :db do
       make_users
       make_microalerts
       make_user_user_relationships
+      make_buildings
       make_buds
       make_circuits
-      make_buildings
       make_building_microalerts
       make_user_building_relationships
       make_building_relationships
@@ -58,9 +58,9 @@ def make_buds
   	   firmware_v = "1.0"
   	   Bud.create!(name: name,
   				    uid: uid,
-  			        hardware_v: hardware_v,
+			        hardware_v: hardware_v,
     			    firmware_v: firmware_v,
-                      building_id: building.id)
+              building_id: building.id)
       end
       x += 4
   end

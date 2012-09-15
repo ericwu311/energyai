@@ -1,0 +1,10 @@
+<li>
+	<%= gravatar_for manager, size: 52 %>
+	<%= link_to manager.name, manager %>
+	<% if current_user.admin? && !current_user?(manager) %>
+		| <%= link_to "delete", manager, method: :delete, data: { confirm: "Are you sure?" } %>
+	<% end %>
+	<section>
+		<%= render 'follow_form' if signed_in? %>
+	</section>
+</li>
