@@ -18,7 +18,7 @@ describe Building do
 	let(:user) { FactoryGirl.create(:user) }
 
 	before do
-		@building = user.buildings.new(name: "Example Building", address: "252 Liebre CT, Sunnyvale, CA 94086") 
+		@building = user.buildings.build(name: "Example Building", address: "252 Liebre CT, Sunnyvale, CA 94086") 
 	end
 
 	subject { @building }
@@ -126,6 +126,7 @@ describe Building do
 		# 		its(:followed_users) { should include(manager) }
 		# 	end
 		# end
+
 
 		describe "following user" do
 			subject { other_user }

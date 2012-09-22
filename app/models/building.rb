@@ -12,9 +12,11 @@
 #
 
 class Building < ActiveRecord::Base
-	attr_accessible :address, :name, :avatar
+	attr_accessible :address, :name, :avatar, :buds_attributes, :relationships_attributes, :bud_ids
 	has_many :microalerts, as: :vocal, dependent: :destroy
-	has_many :buds
+	has_many :buds, dependent: :nullify
+	accepts_nested_attributes_for :buds, allow_destroy: true
+
 	belongs_to :creator, class_name: "User", foreign_key: :creator_id
 	has_many :default_users, class_name: "User", foreign_key: :default_building_id, inverse_of: :default_building
 	has_many :relationships, class_name: "BldgRelationship", foreign_key: "follower_id", dependent: :destroy
@@ -24,12 +26,14 @@ class Building < ActiveRecord::Base
 	has_many :reverse_bldg_relationships, class_name: "BldgRelationship", as: :followed, dependent: :destroy
 	has_many :followers, through: :reverse_user_relationships, source: :follower
 	has_many :follower_buildings, through: :reverse_bldg_relationships, source: :follower	
+	accepts_nested_attributes_for :relationships
 
 	mount_uploader :avatar, AvatarUploader
 
 	validates :name, presence: true, length: { maximum: 50 }
 	validates_uniqueness_of :name, scope: :address, case_sensitive: false
 	validates :address, presence: true
+	validates :creator_id, presence: true
 
 	default_scope order: 'buildings.created_at DESC'
 	# need to make an optional address identifier to bypass uniqueness limit
@@ -55,5 +59,13 @@ class Building < ActiveRecord::Base
 
 	def managers
 		self.followed_users
+	end
+
+
+	def add_buds(buds)
+		self.buds << buds
+	end
+
+	def new_bud_ids
 	end
 end

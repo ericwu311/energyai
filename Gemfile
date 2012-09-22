@@ -11,7 +11,7 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem 'carrierwave', '0.6.2'    # this gem is for building an uploder
 gem "mime-types", "~> 1.19"   # this gem is a dependency for carrierwave
 gem 'mysql'
-
+gem 'attribute_normalizer'
 
 group :development, :test do
   gem 'rspec-rails', '2.10.0'	# rspec
@@ -33,7 +33,7 @@ group :test do
   gem 'factory_girl_rails', '1.4.0' # use to create models for testing
   gem 'cucumber-rails', '1.2.1', require: false
   gem 'database_cleaner', '0.7.0'
-  gem 'guard-spork', '0.3.2'  	#spork and guard for testing environment.
+  gem 'guard-spork', '0.3.2' 	#spork and guard for testing environment.
   gem 'spork', '0.9.0'
   gem 'launchy', '2.1.0'        # not sure what this gem does
   gem 'rb-fsevent', '0.9.1', :require => false  # fs event for mac osx

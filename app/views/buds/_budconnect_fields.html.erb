@@ -1,0 +1,8 @@
+<fieldset>
+	<%= f.label :name, "Panel Label" %>
+	<%= f.text_field :name %>
+	<%= f.label :active, "Active?" %>
+	<%= f.check_box :active %> </br>
+	<%= f.hidden_field :remove %>	
+	<%= link_to "disconnect", '#', class: "disconnect_fields" %>	
+</fieldset>

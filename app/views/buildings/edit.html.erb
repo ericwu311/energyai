@@ -4,8 +4,15 @@
     <%= avatar_for @building %>
     <a href="#" target="_new">change</a >
     <%= form_for(@building) do |f| %>
-      <%= render 'fields', f: f %>
-      <%= f.submit "Save changes", class: "btn btn-primary" %>
+		<%= render 'fields', f: f %>
+		<%= f.submit "Save changes", class: "btn btn-primary" %>
+
+		<%= f.fields_for :buds do |builder| %>
+			<%= render 'buds/budconnect_fields', f: builder %>
+		<% end %>
+		<%= f.label :bud %>
+		<%= f.collection_select :new_bud_ids, Bud.order(:uid), :id, :uid, { :include_blank => true }, {multiple: true} %> 
+		<!-- <%= link_to_add_fields "Connect Bud", f, :buds %>	 -->
     <% end %>
   </div>
   <div class="span10">	

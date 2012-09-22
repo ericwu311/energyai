@@ -32,6 +32,7 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.2)
+    attribute_normalizer (1.1.0)
     bcrypt-ruby (3.0.1)
     bootstrap-sass (2.0.4.0)
     bootstrap-will_paginate (0.0.6)
@@ -198,6 +199,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate (~> 2.5.0)
+  attribute_normalizer
   bcrypt-ruby (~> 3.0.1)
   bootstrap-sass (~> 2.0.4.0)
   bootstrap-will_paginate (= 0.0.6)

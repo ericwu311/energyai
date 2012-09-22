@@ -50,10 +50,12 @@ end
 def make_buds
   buildings = Building.all(limit:10)
   x = 0
+  time = Time.new
   buildings.each do |building|
   	4.times do |n|
-  	   name  = Faker::PhoneNumber.phone_number
-  	   uid = "#{n+1+x}"
+       prefix = ('a'..'z').to_a.shuffle[0..2].join 
+  	   name  = "#{prefix}#{Faker::PhoneNumber.phone_number[0..3]}"
+  	   uid = "BUD-#{time.strftime("%y%j")}-800#{n+1+x}"
   	   hardware_v = "1.0"
   	   firmware_v = "1.0"
   	   Bud.create!(name: name,
