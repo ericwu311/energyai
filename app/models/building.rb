@@ -12,7 +12,7 @@
 #
 
 class Building < ActiveRecord::Base
-	attr_accessible :address, :name, :avatar, :buds_attributes, :relationships_attributes, :bud_ids
+	attr_accessible :address, :name, :avatar, :buds_attributes, :relationships_attributes, :new_bud_ids
 	has_many :microalerts, as: :vocal, dependent: :destroy
 	has_many :buds, dependent: :nullify
 	accepts_nested_attributes_for :buds, allow_destroy: true
@@ -36,6 +36,8 @@ class Building < ActiveRecord::Base
 	validates :creator_id, presence: true
 
 	default_scope order: 'buildings.created_at DESC'
+	attr_accessor :new_bud_ids  #create a virtual attribute 
+
 	# need to make an optional address identifier to bypass uniqueness limit
 
 	def feed
@@ -61,11 +63,15 @@ class Building < ActiveRecord::Base
 		self.followed_users
 	end
 
-
 	def add_buds(buds)
-		self.buds << buds
+		if !buds.nil?
+			self.buds << buds
+		else
+			nil
+		end
 	end
 
-	def new_bud_ids
+	def new_bud_ids=(ids)
+		self.add_buds(Bud.where(id: ids))
 	end
 end

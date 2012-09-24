@@ -13,3 +13,9 @@ jQuery ->
     regexp = new RegExp($(this).data('id'), 'g')
     $(this).before($(this).data('fields').replace(regexp, time))
     event.preventDefault()
+
+	$('#editBuildingsTab a').on 'click', (e) ->
+  	event.preventDefault()
+  	$(this).tab('show')
+	
+	$('#editBuildingTab').tab()

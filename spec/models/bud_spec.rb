@@ -31,6 +31,8 @@ describe Bud do
 	it { should respond_to(:active) }
 	it { should respond_to(:circuits) }
 	it { should respond_to(:building) }
+	it { should respond_to(:new_bud_ids) }
+	it { should respond_to(:follow!) }
 
 	it { should be_valid }
 

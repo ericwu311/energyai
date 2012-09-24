@@ -1,34 +1,26 @@
 <% provide(:title, "Configure Building #{@building.name}") %>
 <div class="row-fluid">
   <div class="span2">
-    <%= avatar_for @building %>
-    <a href="#" target="_new">change</a >
-    <%= form_for(@building) do |f| %>
-		<%= render 'fields', f: f %>
-		<%= f.submit "Save changes", class: "btn btn-primary" %>
-
-		<%= f.fields_for :buds do |builder| %>
-			<%= render 'buds/budconnect_fields', f: builder %>
+		<%= avatar_for @building %>
+		<a href="#" target="_new">change</a >
+		<%= form_for(@building) do |f| %>
+			<%= render 'fields', f: f %>
+			<%= f.submit "Save changes", class: "btn btn-primary" %>
 		<% end %>
-		<%= f.label :bud %>
-		<%= f.collection_select :new_bud_ids, Bud.order(:uid), :id, :uid, { :include_blank => true }, {multiple: true} %> 
-		<!-- <%= link_to_add_fields "Connect Bud", f, :buds %>	 -->
-    <% end %>
-  </div>
+	</div>
   <div class="span10">	
-	<h2>Configure Building</h2>
-	<hr>
-	<section>
-		<h4>Buds</h4>
-		<ul class="buds">
-			<%= render partial: 'buds/bud', collection: @building.buds %>
+		<h2>Configure Building</h2>
+		<ul id="editBuildingsTab" class="nav nav-tabs" data-tabs="tabs">
+			<li class="active"><%= link_to 'Buds', '#buds', data: { toggle: 'tab' } %></li>
+			<li><%= link_to 'People', '#people', data: { toggle: 'tab' } %></li>
 		</ul>
-	</section>
-	<section>
-	    <h4>Managers</h4>
-	    <ul class="managers">
-		    <%= render partial: 'users/manager', collection: @building.managers %>
-		</ul>
-	</section>
+		<div id="editBuildingsTabContent" class="tab-content">
+			<div class="tab-pane active" id="buds">
+				<%= render 'budtab' %>
+			</div>
+			<div class="tab-pane" id="people">
+				<%= render 'peopletab' %>
+			</div>
+		</div>
   </div>
 </div>

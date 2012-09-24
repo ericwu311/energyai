@@ -12,6 +12,6 @@
 		<%= link_to 'Edit', edit_bud_path(bud), class: "btn" if (signed_in? && bud.managers.include?(current_user)) %> 
 	</div>
 	<div class="span2">
-		<%= link_to bud.building.name, edit_building_path(bud.building) %> 
+		<%= link_to bud.building.name, edit_building_path(bud.building) if !bud.building.nil?%> 
 	</div>
 </li>

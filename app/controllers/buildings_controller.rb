@@ -34,13 +34,14 @@ class BuildingsController < ApplicationController
 
     def update
         @building = Building.find(params[:id])
-        @new_buds = Bud.where(id: params[:building].delete(:new_bud_ids))
-        
         if @building.update_attributes(params[:building])
             #handle a successful update.
-            @building.add_buds(@new_buds)
-            flash[:success] = "Building successfully configured."
-            redirect_to @building
+            flash[:success] = "Building successfully configured."  
+            if (params[:commit] == "Save Buds")
+                redirect_to edit_building_path(@building)
+            else
+                redirect_to @building
+            end
         else
             render 'edit'
         end
