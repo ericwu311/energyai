@@ -1,6 +1,4 @@
-<section>
-	<h4>Managers</h4>
-	<ul class="managers">
-	    <%= render partial: 'users/manager', collection: @building.managers %>
-	</ul>
-</section>
+<%= form_for @building do |f| %>
+	<%= render 'peopletab_mangagers', f: f %>	
+	<%= render 'peopletab_add_managers', f: f %>
+<% end %>

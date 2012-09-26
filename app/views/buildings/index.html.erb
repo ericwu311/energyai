@@ -1,5 +1,6 @@
-<% provide(:title, 'All Buildings') %>
-<h1>All Buildings</h1>
+<% provide(:title, 'Buildings') %>
+<%- model_class = Building -%>
+<h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 
 <%= will_paginate %>
 

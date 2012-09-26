@@ -12,7 +12,7 @@
 #
 
 class Building < ActiveRecord::Base
-	attr_accessible :address, :name, :avatar, :buds_attributes, :relationships_attributes, :new_bud_ids
+	attr_accessible :address, :name, :avatar, :buds_attributes, :relationships_attributes, :new_bud_ids, :new_user_ids
 	has_many :microalerts, as: :vocal, dependent: :destroy
 	has_many :buds, dependent: :nullify
 	accepts_nested_attributes_for :buds, allow_destroy: true
@@ -26,7 +26,7 @@ class Building < ActiveRecord::Base
 	has_many :reverse_bldg_relationships, class_name: "BldgRelationship", as: :followed, dependent: :destroy
 	has_many :followers, through: :reverse_user_relationships, source: :follower
 	has_many :follower_buildings, through: :reverse_bldg_relationships, source: :follower	
-	accepts_nested_attributes_for :relationships
+	accepts_nested_attributes_for :relationships, allow_destroy: true
 
 	mount_uploader :avatar, AvatarUploader
 
@@ -36,7 +36,7 @@ class Building < ActiveRecord::Base
 	validates :creator_id, presence: true
 
 	default_scope order: 'buildings.created_at DESC'
-	attr_accessor :new_bud_ids  #create a virtual attribute 
+	attr_accessor :new_bud_ids, :new_user_ids  #create a virtual attribute 
 
 	# need to make an optional address identifier to bypass uniqueness limit
 
@@ -74,4 +74,15 @@ class Building < ActiveRecord::Base
 	def new_bud_ids=(ids)
 		self.add_buds(Bud.where(id: ids))
 	end
+
+	def new_user_ids=(ids)
+		ids.each do |user_id|
+			if !user_id.blank?
+				self.follow!(User.find(user_id))
+			end
+		end
+	end
+			
+
+
 end

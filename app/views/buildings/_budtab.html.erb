@@ -1,16 +1,4 @@
-<section>
-	<h4>Buds</h4>
-	<ul class="buds">
-		<%= form_for(@building) do |f| %>
-			<%= f.fields_for :buds do |builder| %>
-				<%= render 'buds/budconnect_fields', f: builder %>
-			<% end %>
-			<%= f.label "Available Buds" %>
-				<!-- this code is broken, we need to return authorizes buds only list -->
-			<%= f.collection_select :new_bud_ids, Bud.order(:uid).find_all{ |bud| !@building.buds.include?(bud) }, :id, :uid, { :include_blank => true }, {multiple: true} %>	
-			<%= f.submit "Save Buds", class: "btn btn-primary" %> 
-			<!-- <%= link_to_add_fields "Connect Bud", f, :buds %>	 -->   
-		<% end %>
-		<%= render partial: 'buds/bud', collection: @building.buds %>
-	</ul>
-</section>
+<%= form_for(@building) do |f| %>
+	<%= render 'budtab_connected_buds', f: f %>
+	<%= render 'budtab_additional_buds', f: f %>
+<% end %>

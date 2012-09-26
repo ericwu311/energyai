@@ -5,21 +5,21 @@
 		<a href="#" target="_new">change</a >
 		<%= form_for(@building) do |f| %>
 			<%= render 'fields', f: f %>
-			<%= f.submit "Save changes", class: "btn btn-primary" %>
+			<%= f.submit "Save Building", class: "btn btn-primary" %>
 		<% end %>
 	</div>
   <div class="span10">	
-		<h2>Configure Building</h2>
+		<h2>Configure <%= @building.name %></h2>
 		<ul id="editBuildingsTab" class="nav nav-tabs" data-tabs="tabs">
-			<li class="active"><%= link_to 'Buds', '#buds', data: { toggle: 'tab' } %></li>
-			<li><%= link_to 'People', '#people', data: { toggle: 'tab' } %></li>
+			<li class="active"><%= link_to 'People', '#people', data: { toggle: 'tab' } %></li>
+			<li><%= link_to 'Buds', '#buds', data: { toggle: 'tab' } %></li>
 		</ul>
 		<div id="editBuildingsTabContent" class="tab-content">
-			<div class="tab-pane active" id="buds">
-				<%= render 'budtab' %>
-			</div>
-			<div class="tab-pane" id="people">
+			<div class="tab-pane active" id="people">
 				<%= render 'peopletab' %>
+			</div>
+			<div class="tab-pane" id="buds">
+				<%= render 'budtab' %>
 			</div>
 		</div>
   </div>

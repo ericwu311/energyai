@@ -37,9 +37,11 @@ class BuildingsController < ApplicationController
         if @building.update_attributes(params[:building])
             #handle a successful update.
             flash[:success] = "Building successfully configured."  
-            if (params[:commit] == "Save Buds")
+            if (params[:commit] == "Add New Buds" || params[:commit] == "Save Buds")
                 redirect_to edit_building_path(@building)
-            else
+            elsif (params[:commit] == "Save Users" || params[:commit] == "Add Managers")
+                redirect_to edit_building_path(@building)
+            else 
                 redirect_to @building
             end
         else

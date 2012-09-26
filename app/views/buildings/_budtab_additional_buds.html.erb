@@ -1,0 +1,23 @@
+<table class="table table-hover">
+		<thead>
+			<tr>
+				<th width='50%'><%= 'Connect Additional' %></th>
+				<th width='50%'></th>
+			</tr>
+		<tbody>   
+	    <tr> 
+	    	<td>  	  	
+				<!-- this code is broken, we need to return authorizes buds only list -->
+					<%= f.collection_select :new_bud_ids, Bud.order(:uid).find_all{ |bud| !@building.buds.include?(bud) }, :id, :uid, { :include_blank => true }, {multiple: true} %>	
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>
+					<%= f.submit "Add New Buds", class: "btn btn-primary" %> 
+				<!-- <%= link_to_add_fields "Connect Bud", f, :buds %>	 -->   
+			  </td>
+			  <td></td>
+			</tr>
+	  </tbody>
+	</table>
