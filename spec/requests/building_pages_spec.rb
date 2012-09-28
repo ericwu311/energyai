@@ -22,8 +22,8 @@ describe "Building pages" do
 			visit buildings_path
 	    end
 
-		it { should have_selector('title', text: 'All Buildings') }
-		it { should have_selector('h1',    text: 'All Buildings') }
+		it { should have_selector('title', text: 'Buildings') }
+		it { should have_selector('h1',    text: 'Buildings') }
 
 		describe "pagination" do
 			it { should have_selector('div.pagination') }
@@ -201,6 +201,7 @@ describe "Building pages" do
 		let(:building) { FactoryGirl.create(:building, creator: user) }
 		let(:manager) { FactoryGirl.create(:user) }
 		let(:bud) { FactoryGirl.create(:bud, building: building) }
+		let(:named_user) { FactoryGirl.create(:user, name: "IKnow YourName") } 
 
 		before do 
 			sign_in user
@@ -215,7 +216,7 @@ describe "Building pages" do
 		describe "with invalid information" do
 			before do
 				fill_in "Address", with: ""
-				click_button "Save changes" 
+				click_button "Save Building" 
 			end
 
 			it { should have_content('error') }
@@ -227,7 +228,7 @@ describe "Building pages" do
 			before do
 				fill_in "Name",             with: new_name
 				fill_in "Address",          with: new_address
-				click_button "Save changes"
+				click_button "Save Building"
 			end
 
 			it { should have_selector('title', text: new_name) }
@@ -237,22 +238,48 @@ describe "Building pages" do
 			specify { building.reload.address.should == new_address }
 		end
 
-		describe "unmanage buttons" do
+		pending "unmanage buttons" do
 			it "should decrement the followed user count" do
 				expect do
-					click_button "Unassign"
+					click_link "Unassign"
+					click_button "Save Users"
 				end.to change(building.managers, :count).by(-1)
 			end
 
 			it "should decrement the mangers' manageed buildings" do
 				expect do
-					click_button "Unassign"
+					click_link "Unassign"
+					click_button "Save Users"
 				end.to change(manager.managed_buildings, :count).by(-1)
 			end
 		end
 
-		describe "nested form for associated buds" do
-			it { should have_content(bud.name) }
+		pending "addition managers" do
+			it "should increment the managers count" do
+				expect do
+					select 'IKnow YourName', :from => 'new_user_ids'
+					click_button "Add Managers"
+				end.to change(building.managers, :count).by(1)
+			end
+
+			it "should increment the manged building for new user selected" do
+				expect do
+					select 'IKnow YourName', :from => 'new_user_ids'
+					click_button "Add Managers"
+				end.to change(named_user.managed_buildings, :count).by(1)
+			end
+		end
+
+		describe "bud tab" do
+			let(:bud1) { FactoryGirl.create(:bud) }		
+			before do
+				building.new_bud_ids=(bud1.id)
+				click_link "Buds"
+			end
+
+			describe "nested form for associated buds" do
+				it { should have_content(bud1.uid) }
+			end
 		end
 	end
 
@@ -279,6 +306,8 @@ describe "Building pages" do
 		end
 
 		describe "followers buildings" do
+			let(:bud2) { FactoryGirl.create(:bud, building: building) }
+
 			before do
 				sign_in user
 				visit followers_building_path(other_building)

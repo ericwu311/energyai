@@ -258,6 +258,7 @@ describe "User pages" do
 		before do
 			user.follow!(followed_building)
 			managed_building.follow!(user)
+			commissioned_building.save
 		end
 
 		describe "managed, followed, or created" do

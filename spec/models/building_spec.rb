@@ -38,6 +38,9 @@ describe Building do
 	it { should respond_to(:relationships) }
 	it { should respond_to(:reverse_user_relationships) }
 	it { should respond_to(:reverse_bldg_relationships) }
+	it { should respond_to(:new_bud_ids) }
+	it { should respond_to(:new_user_ids) }
+
 
 	it { should be_valid }
 

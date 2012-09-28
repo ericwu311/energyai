@@ -3,12 +3,14 @@ require 'spec_helper'
 describe "circuit pages" do
 
   subject { page }
-
+  let(:user) { FactoryGirl.create(:user) }
+  let(:building) { FactoryGirl.create(:building, creator: user) }
+  let(:bud) { FactoryGirl.create(:bud, building: building) }
   let(:admin) { FactoryGirl.create(:admin) }
-  let(:bud) { FactoryGirl.create(:bud) }
   let(:circuit) { FactoryGirl.create(:circuit, bud: bud) }
 
   before do
+    building.follow!(admin)
     sign_in admin
     circuit.save
   end

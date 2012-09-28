@@ -6,7 +6,8 @@
 			</tr>
 		<tbody>   
 	    <tr> 
-	    	<td>  	
+	    	<td>
+	    	  	<%= f.label :new_user_ids, "Select Additional Managers" %>
 		    	<%= f.collection_select :new_user_ids, User.order(:name).find_all{ |user| !@building.managers.include?(user) }, :id, :name, { :include_blank => true }, { multiple: true } %>
  				</td>
 			<td></td>

@@ -100,8 +100,14 @@ describe "bud pages" do
 	end
 
 	describe "edit" do
-		let(:bud) { FactoryGirl.create(:bud) }
-		before(:each) { visit edit_bud_path(bud) }
+		let(:user) { FactoryGirl.create(:user) }
+		let(:building) {FactoryGirl.create(:building, creator: user)}
+		let(:bud) { FactoryGirl.create(:bud, building: building) }
+		before(:each) do
+			building.follow!(user)
+			sign_in user
+		   	visit edit_bud_path(bud)
+		end
 
 		it { should have_selector('h1', text: 'Bud Configuration') }
 	  	it { should have_selector('title', text: bud.name) }
@@ -143,9 +149,12 @@ describe "bud pages" do
 		end
 
 		describe "with admin delete" do
+
 			let(:admin)  { FactoryGirl.create(:admin) }
 			let(:submit) { "Remove Bud" }
+
 			before do
+				building.follow!(admin)
 				sign_in admin
 				visit edit_bud_path(bud)
 			end

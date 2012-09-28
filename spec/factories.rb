@@ -1,5 +1,5 @@
 FactoryGirl.define do
-	factory :user do
+	factory :user, aliases: [:creator] do
 		sequence(:name)  { |n| "Person #{n}" }
 		sequence(:email) { |n| "Person_#{n}@example.com" }
 		password "foobar"
@@ -16,6 +16,7 @@ FactoryGirl.define do
 		sequence(:uid)  { |n| "U #{n}" }
 		hardware_v "1.0"
 		firmware_v "1.0"
+		association :building, factory: :building
 	end	
 
 	factory :circuit do
@@ -42,6 +43,5 @@ FactoryGirl.define do
 		sequence(:name)  { |n| "Building #{n}" }
 		sequence(:address) { |n| "123 Builing_#{n} ST, Moffett Field, CA 94035" }
 		association :creator, factory: :user
-	end		
-	
+	end			
 end

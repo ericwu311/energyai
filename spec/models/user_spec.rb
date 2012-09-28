@@ -279,18 +279,19 @@ describe User do
 
 	describe "building associations" do
 
-
-		let!(:older_building) do
-			FactoryGirl.create(:building, creator: @user, created_at: 1.day.ago)
-		end
-		let!(:newer_building) do
-			FactoryGirl.create(:building, creator: @user, created_at: 1.hour.ago)
-		end
 		let(:building) { FactoryGirl.create(:building) }
-
+		
 		before do
 			@user.save
 			@user.follow!(building)
+		end
+		
+		let!(:older_building) do
+			FactoryGirl.create(:building, creator: @user, created_at: 1.day.ago) 
+		end
+
+		let!(:newer_building) do
+			FactoryGirl.create(:building, creator: @user, created_at: 1.hour.ago)
 		end
 
 		it "should have the right buildings in the right order" do
@@ -311,10 +312,6 @@ describe User do
 			# check that default building was set
 			its(:default_building) { should be older_building }
 			# its(:managed_buildings) { should include(@user.default_building) }
- 
 		end
-
-
 	end
-
 end
