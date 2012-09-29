@@ -1,48 +1,35 @@
-<% provide(:title, @bud.name) %>
-
-<h1>Bud Configuration</h1>
-
-<div class="row">
-    <div class="span8 offset2">
-        <%= if signed_in? && current_user.admin?
-            button_to "Remove Bud", @bud, method: :delete, class: :destroy, class: "btn btn-large btn-primary", data: { confirm: "Are you sure?" }
-        end %>
-        
-      	<%= form_for(@bud) do |f| %>
-        	<%= render 'shared/error_messages', object: @bud %>
-            <%= f.label :uid %>
-            <%= f.text_field :uid %>
-
-        	<%= f.label :name, "Panel Label" %>
-        	<%= f.text_field :name %>
-
-            <%= f.label :active, "Active?" %>
-            <%= f.check_box :active %>
-
-        	<%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
-      	<% end %>
-
-        <h2>Circuit Labels</h2>
-        <div id="leftcolumn">
-          <h3>spi0:id</h3>
-            <% if @bud.circuits.any? %>
-                <% for cir in @bud.circuits.where("channel < ?", 32) do %>
-                    <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
-                <% end %>
-            <% end %>
-            <%= button_to "+", controller: 'buds', action: 'more_circuits_left', id: @bud.id,
-                class: "btn btn-large btn-primary" %>
+<% provide(:title, "Configure Bud #{@bud.name}") %>
+<div class="row-fluid">
+    <aside class="span2">
+        <section>
+            <%= render 'buildings/building_info', object: @bud.building %>
+        </section>
+        <section>
+            <%= link_to 'Edit', edit_building_path(@bud.building), class: "btn" if (signed_in? && @bud.managers.include?(current_user)) %> 
+        </section>
+    </aside>
+    <div class="span7">
+        <h2>Configure Bud <%= @bud.uid %></h2>
+            <%= render 'budconfigure_label', bud: @bud %>
+        <legend>Circuit Details</legend>
+        <div class="row-fluid">
+            <div id="leftcolumn" class="span6">
+                <%= render 'budcircuit_formleft' %>
+            </div>
+            <div id="rightcolumn" class="span6">
+                <%= render 'budcircuit_formright' %>
+            </div>
         </div>
-
-        <div id="rightcolumn">
-          <h3>spi1:id</h3>
-            <% if @bud.circuits.any? %>
-                <% for cir in @bud.circuits.where("channel > ?", 31) do %>
-                    <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
-                <% end %>
-            <% end %>
-            <%= button_to "+", controller: 'buds', action: 'more_circuits_right', id: @bud.id,
-                class: "btn btn-large btn-primary" %>
-        </div>
+    </div>
+    <div class="span3">
+        <h3><%= @bud.building.name %> <small>connected buds<small></h3>
+        <hr>
+        <ul class="nav nav-pills nav-stacked">
+        <% @bud.building.buds.each do |bud| %>
+            <li <%= "class=active" if @bud == bud %>>
+                <%= link_to "#{bud.name} #{bud.uid}", edit_bud_path(bud) %>
+            </li>
+        <% end %>
+        </ul>
     </div>
 </div>

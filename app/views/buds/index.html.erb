@@ -8,22 +8,19 @@
 
 <%= will_paginate %>
 <div class="container-fluid">
-	<div class="span2">
-		<h3>Panel Name</h3>
-	</div>
-	<div class="span2">
-		<h3>Bud UID</h3>
-	</div>
-	<div class="span2">
-		<h3>Heart Beat</h3>
-	</div>
-	<div class="span2">
-		<h3>Building</h3>
-	</div>
-</div>
-<div class="container-fluid">
-	<ul class="buds">
-		<%= render @buds %>
-	</ul>
+	<table class="table buds">
+		<thead>
+			<tr>
+				<th>Panel Name</th>
+				<th>Bud UID</th>
+				<th>Heart Beat</th>
+				<th>Actions</th>
+				<th>Building</th>
+			</tr>
+		<thead>
+		<tbody>
+			<%= render @buds %>
+		</tbody>
+	</table>
 </div>
 <%= will_paginate %>

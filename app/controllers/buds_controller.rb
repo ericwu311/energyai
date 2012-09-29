@@ -33,17 +33,9 @@ class BudsController < ApplicationController
     @bud = Bud.new(params[:bud])
     if @bud.save
       # create initial circuits, spi0
-      i = 3
-      while i < 7 do
-        @bud.circuits.create(channel: i)
-        i += 1
-      end
+      4.upto(7) { |i| @bud.circuits.create(channel: i) }
       # spi1
-      i = 32
-      while i < 36 do
-        @bud.circuits.create(channel: i)
-        i += 1
-      end
+      32.upto(35) { |i| @bud.circuits.create(channel: i) }
       flash[:success] = "Bud Created!"
       redirect_to @bud
     else
@@ -64,36 +56,38 @@ class BudsController < ApplicationController
 
   def more_circuits_left  # adds 4 circuits to spi0
     @bud = Bud.find(params[:id])
-    i = 0
-    for cir in @bud.circuits.where("channel < ?", 32) do
-      i = [cir.channel, i].max
-    end
-    i += 1
+    # current_channel = 0
+    circuits = @bud.circuits.where("channel < ?", 32)
+    max_circuit = circuits.max_by { |cir| cir.channel }
+    current_channel = max_circuit.channel unless max_circuit.nil?
+    new_channel = current_channel.nil? ? 4 : current_channel + 1  
+
     4.times do
-      if i >= 32 then
-        flash[:error] = "Can't add any more left circuits"
-        break
+      if new_channel >= 32 
+        flash[:error] = "Can't add any more circuits on spi0"
+      else 
+        @bud.circuits.create(channel: new_channel)
+        new_channel += 1
       end
-      @bud.circuits.create(channel: i)
-      i += 1
     end
     redirect_to edit_bud_path(@bud)
   end
 
   def more_circuits_right   # adds 4 circuits to spi1
     @bud = Bud.find(params[:id])
-    i = 31
-    for cir in @bud.circuits.where("channel > ?", 32) do
-      i = [cir.channel, i].max
-    end
-    i += 1
+    # current_channel = 31
+    circuits = @bud.circuits.where("channel > ?", 32)
+    max_circuit = circuits.max_by { |cir| cir.channel }
+    current_channel = max_circuit.channel unless max_circuit.nil?
+    new_channel = current_channel.nil? ? 32 : current_channel + 1
+    
     4.times do
-      if i >= 64 then
+      if new_channel >= 64 then
         flash[:error] = "Can't add any more right circuits"
-        break
+      else
+        @bud.circuits.create(channel: new_channel)
+        new_channel += 1
       end
-      @bud.circuits.create(channel: i)
-      i += 1
     end
     redirect_to edit_bud_path(@bud)
   end

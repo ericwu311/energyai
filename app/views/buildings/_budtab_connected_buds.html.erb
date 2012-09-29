@@ -1,12 +1,6 @@
 <table class="table table-hover">
   <thead>
-    <tr>
-      <th><%= Bud.human_attribute_name(:name) %> <h5><small>panel label</small></h5></th>
-      <th><%= Bud.human_attribute_name(:uid).upcase %></th>
-      <th><%= 'Heart Beat' %></th>
-      <th><%= Bud.human_attribute_name(:active) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
+    <%= render 'buds/bud_table_header' %>
   </thead>
   <tbody>
 		<%= f.fields_for :buds do |builder| %>

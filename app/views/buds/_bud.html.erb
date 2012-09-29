@@ -1,17 +1,17 @@
-<li>
-	<div class="span2">
+<tr>
+	<td>
 		<%= bud.name %>
-	</div>
-	<div class="span2">
+	</td>
+	<td>
 		<%= link_to bud.uid, bud %>
-	</div>
-	<div class="span2">
+	</td>
+	<td>
 		<%= time_ago_in_words(bud.updated_at) %> ago
-	</div>
-	<div class="span2">
+	</td>
+	<td>
 		<%= link_to 'Edit', edit_bud_path(bud), class: "btn" if (signed_in? && bud.managers.include?(current_user)) %> 
-	</div>
-	<div class="span2">
+		<%= link_to "Destroy", bud, method: :delete, class: "btn btn-mini btn-danger", data: { confirm: "Permanently destroy your Bud and associated history, are you sure?" } if (signed_in? && current_user.admin?) %>
+	<td>
 		<%= link_to bud.building.name, edit_building_path(bud.building) if !bud.building.nil?%> 
-	</div>
-</li>
+	</td>
+</tr>

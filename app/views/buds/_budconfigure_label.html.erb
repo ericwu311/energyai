@@ -1,0 +1,13 @@
+<%= form_for(bud, html: { class: "form-inline" } ) do |f| %>
+    <%= render 'shared/error_messages', object: bud %>
+	<fieldset>
+	<table class="table">
+		<thead>
+		    <%= render 'bud_table_header', f: f %>
+		</thead>
+		<tbody>   
+			<%= render 'bud_table_body', f: f %>
+		</tbody>
+	</table>
+	</fieldset>
+<% end %>

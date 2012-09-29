@@ -58,7 +58,7 @@ describe "bud pages" do
 
 			it "should list each bud" do
 				Bud.paginate(page: 1).each do |bud|
-				  page.should have_selector('li', text: bud.name)
+				  page.should have_selector('tr', text: bud.name)
 				end
 			end
 		end
@@ -109,7 +109,7 @@ describe "bud pages" do
 		   	visit edit_bud_path(bud)
 		end
 
-		it { should have_selector('h1', text: 'Bud Configuration') }
+		it { should have_selector('h2', text: 'Configure Bud') }
 	  	it { should have_selector('title', text: bud.name) }
 
 	  	#should only be active for admin
@@ -118,7 +118,7 @@ describe "bud pages" do
 	  	describe "without entering name" do
 	  		before do
 	  			fill_in 'bud_name', with: ''
-	  			click_button "Save changes"
+	  			click_button "Update"
 	  		end
 	  		#activated buds should have a panel name
 	  		it { should have_content('error') }
@@ -128,8 +128,8 @@ describe "bud pages" do
 	  	describe "with invalid information" do
 	  		let(:temp) { FactoryGirl.create(:bud) }
 	  		before do
-	  			fill_in 'bud_uid',	with: temp.uid
-	  			click_button "Save changes"
+	  			fill_in 'bud_name', with: ''
+	  			click_button "Update"
 	  		end 
 	  		#shouldn't be able to re-use uid
 			it { should have_content('error') }
@@ -140,34 +140,34 @@ describe "bud pages" do
 			let(:new_name) { "New Name" }
 			before do
 				fill_in 'bud_name',             with: new_name
-				fill_in 'bud_uid',            with: bud.uid
-				click_button "Save changes"
+				click_button "Update"
 			end
 			it { should have_content(new_name) }
 			it { should have_selector('div.alert.alert-success') }
 			specify { bud.reload.name.should == new_name }
 		end
 
-		describe "with admin delete" do
+		# no longer allow deleting from edit page
+		# describe "with admin delete" do
 
-			let(:admin)  { FactoryGirl.create(:admin) }
-			let(:submit) { "Remove Bud" }
+		# 	let(:admin)  { FactoryGirl.create(:admin) }
+		# 	let(:submit) { "Remove Bud" }
 
-			before do
-				building.follow!(admin)
-				sign_in admin
-				visit edit_bud_path(bud)
-			end
-			it "should remove a bud" do
-				expect { click_button submit }.to change(Bud, :count).by(-1)
-			end
-			describe "after submission" do
-				before do
-					click_button submit
-					visit buds_path
-				end
-				it { should_not have_content(bud.name) }
-			end
-		end
+		# 	before do
+		# 		building.follow!(admin)
+		# 		sign_in admin
+		# 		visit edit_bud_path(bud)
+		# 	end
+		# 	it "should remove a bud" do
+		# 		expect { click_button submit }.to change(Bud, :count).by(-1)
+		# 	end
+		# 	describe "after submission" do
+		# 		before do
+		# 			click_button submit
+		# 			visit buds_path
+		# 		end
+		# 		it { should_not have_content(bud.name) }
+		# 	end
+		# end
 	end
 end
