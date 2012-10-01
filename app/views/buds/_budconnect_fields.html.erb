@@ -1,0 +1,11 @@
+<tr>
+	<td><%= f.text_field :name, class: "span10" %></td>
+	<td><%= f.object.uid %></td>
+	<td><%= time_ago_in_words(f.object.updated_at) unless (f.object.updated_at.nil?) %></td>
+	<td><%= f.check_box :active %></td>
+	<td>
+		<%= link_to "edit", edit_bud_path(f.object), class: "btn btn-mini" if (signed_in? && f.object.managers.include?(current_user)) %>
+		<%= f.hidden_field :remove %>
+		<%= link_to "Unlink", '#', class: "btn btn-mini btn-danger disconnect_fields" %>
+	</td>
+</tr>	

@@ -1,0 +1,8 @@
+<tr>
+	<td><%= f.text_field :name, class: "input-small" %></td>
+	<td><%= f.object.uid %></td>
+    <td><%= time_ago_in_words(f.object.updated_at) unless (f.object.updated_at.nil?) %></td>
+    <td><%= f.check_box :active %></td>
+    <td><%= f.submit "Update", class: "btn btn-mini btn-primary" %>
+    </td>
+</tr>

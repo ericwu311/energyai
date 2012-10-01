@@ -1,0 +1,23 @@
+<table class="table table-hover">
+		<thead>
+			<tr>
+				<th width='50%'><%= 'Select Additional Managers' %></th>
+				<th width='50%'></th>
+			</tr>
+		<tbody>   
+	    <tr> 
+	    	<td>
+	    	  	<%= f.label :new_user_ids, "Select Additional Managers" %>
+		    	<%= f.collection_select :new_user_ids, User.order(:name).find_all{ |user| !@building.managers.include?(user) }, :id, :name, { :include_blank => true }, { multiple: true } %>
+ 				</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>
+				<%= f.submit "Add Managers", class: "btn btn-primary" %>		
+		  </td>
+		  <td></td>
+		</tr>
+  </tbody>
+</table>
+

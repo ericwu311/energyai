@@ -13,14 +13,15 @@ class BuildingsController < ApplicationController
 	end
 
 	def new
-  		@building = Building.new
+  		@building = current_user.buildings.new
     end
 
     def create
-    	@building = Building.new(params[:building])
+    	@building = current_user.buildings.build(params[:building])
     	if @building.save
     		# handle a successful save.
     		flash[:success] = "New building successfully created!"
+            @building.follow!(@building.creator)  #building creator by default is manager
     		redirect_to @building
     	else
     		render 'new'
@@ -35,8 +36,14 @@ class BuildingsController < ApplicationController
         @building = Building.find(params[:id])
         if @building.update_attributes(params[:building])
             #handle a successful update.
-            flash[:success] = "Building successfully configured."
-            redirect_to @building
+            flash[:success] = "Building successfully configured."  
+            if (params[:commit] == "Add New Buds" || params[:commit] == "Save Buds")
+                redirect_to edit_building_path(@building)
+            elsif (params[:commit] == "Save Users" || params[:commit] == "Add Managers")
+                redirect_to edit_building_path(@building)
+            else 
+                redirect_to @building
+            end
         else
             render 'edit'
         end

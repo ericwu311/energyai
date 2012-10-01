@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
   has_many :reverse_bldg_relationships, class_name: "BldgRelationship", as: :followed, dependent: :destroy
   has_many :followers, through: :reverse_user_relationships, source: :follower
   has_many :managed_buildings, through: :reverse_bldg_relationships, source: :follower
-	has_many :buildings, :foreign_key => :creator_id
+	has_many :buds, through: :managed_buildings
+  has_many :buildings, :foreign_key => :creator_id
   belongs_to :default_building, class_name: "Building", inverse_of: :default_users
 
 	# before_save { |user| user.email = email.downcase }

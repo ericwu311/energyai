@@ -5,9 +5,9 @@ namespace :db do
       make_users
       make_microalerts
       make_user_user_relationships
+      make_buildings
       make_buds
       make_circuits
-      make_buildings
       make_building_microalerts
       make_user_building_relationships
       make_building_relationships
@@ -50,17 +50,19 @@ end
 def make_buds
   buildings = Building.all(limit:10)
   x = 0
+  time = Time.new
   buildings.each do |building|
   	4.times do |n|
-  	   name  = Faker::PhoneNumber.phone_number
-  	   uid = "#{n+1+x}"
+       prefix = ('a'..'z').to_a.shuffle[0..2].join 
+  	   name  = "#{prefix}#{Faker::PhoneNumber.phone_number[0..3]}"
+  	   uid = "BUD-#{time.strftime("%y%j")}-800#{n+1+x}"
   	   hardware_v = "1.0"
   	   firmware_v = "1.0"
   	   Bud.create!(name: name,
   				    uid: uid,
-  			        hardware_v: hardware_v,
+			        hardware_v: hardware_v,
     			    firmware_v: firmware_v,
-                      building_id: building.id)
+              building_id: building.id)
       end
       x += 4
   end

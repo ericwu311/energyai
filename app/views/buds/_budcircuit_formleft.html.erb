@@ -1,0 +1,19 @@
+<table class="table table-border table-striped">
+<thead>
+    <tr>
+        <th> spi0:id </th>
+    </tr>
+</thead>
+<tbody>
+    <% if @bud.circuits.any? %>
+        <% for cir in @bud.circuits.where("channel < ?", 32) do %>
+            <%= render 'circuits/circuit_form', bud: @bud, circuit: cir %>
+        <% end %>
+    <% end %>
+    <tr>
+        <td>
+        <%= button_to "+", controller: 'buds', action: 'more_circuits_left', id: @bud.id, class: "btn btn-mini btn-primary" %>
+        </td>
+    </tr>
+</tbody>
+</table>

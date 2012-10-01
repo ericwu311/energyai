@@ -22,8 +22,8 @@ describe "Building pages" do
 			visit buildings_path
 	    end
 
-		it { should have_selector('title', text: 'All Buildings') }
-		it { should have_selector('h1',    text: 'All Buildings') }
+		it { should have_selector('title', text: 'Buildings') }
+		it { should have_selector('h1',    text: 'Buildings') }
 
 		describe "pagination" do
 			it { should have_selector('div.pagination') }
@@ -102,6 +102,14 @@ describe "Building pages" do
 				expect { click_button submit }.to change(Building, :count).by(1)
 			end
 
+			it "should increase the Buildings created by user " do
+				expect { click_button submit }.to change(user.buildings, :count).by(1)
+			end
+
+			it "should increase the managed buildings count" do
+				expect { click_button submit }.to change(user.managed_buildings, :count).by(1)
+			end				
+
 			describe "after saving the building" do
 				before { click_button submit }
 				# this is broken since we don't have a specific unique identifier for buildings
@@ -111,11 +119,6 @@ describe "Building pages" do
 				it { should have_selector('div.alert.alert-success', text: 'success')}
 			end
 		end
-
-		describe "should always follow its creator" do
-			pending (:followed_users) { should include(user) }
-		end
-
 	end
 	
 	describe "profile page" do
@@ -195,10 +198,14 @@ describe "Building pages" do
 	describe "edit" do
 
 		let(:user) { FactoryGirl.create(:user) }
-		let(:building) { FactoryGirl.create(:building) }
-		
+		let(:building) { FactoryGirl.create(:building, creator: user) }
+		let(:manager) { FactoryGirl.create(:user) }
+		let(:bud) { FactoryGirl.create(:bud, building: building) }
+		let(:named_user) { FactoryGirl.create(:user, name: "IKnow YourName") } 
+
 		before do 
 			sign_in user
+			building.follow!(manager)
 			visit edit_building_path(building) 
 		end	
 
@@ -209,7 +216,7 @@ describe "Building pages" do
 		describe "with invalid information" do
 			before do
 				fill_in "Address", with: ""
-				click_button "Save changes" 
+				click_button "Save Building" 
 			end
 
 			it { should have_content('error') }
@@ -221,7 +228,7 @@ describe "Building pages" do
 			before do
 				fill_in "Name",             with: new_name
 				fill_in "Address",          with: new_address
-				click_button "Save changes"
+				click_button "Save Building"
 			end
 
 			it { should have_selector('title', text: new_name) }
@@ -229,6 +236,50 @@ describe "Building pages" do
 			it { should have_link('Sign out', href: signout_path) }
 			specify { building.reload.name.should  == new_name }
 			specify { building.reload.address.should == new_address }
+		end
+
+		pending "unmanage buttons" do
+			it "should decrement the followed user count" do
+				expect do
+					click_link "Unassign"
+					click_button "Save Users"
+				end.to change(building.managers, :count).by(-1)
+			end
+
+			it "should decrement the mangers' manageed buildings" do
+				expect do
+					click_link "Unassign"
+					click_button "Save Users"
+				end.to change(manager.managed_buildings, :count).by(-1)
+			end
+		end
+
+		pending "addition managers" do
+			it "should increment the managers count" do
+				expect do
+					select 'IKnow YourName', :from => 'new_user_ids'
+					click_button "Add Managers"
+				end.to change(building.managers, :count).by(1)
+			end
+
+			it "should increment the manged building for new user selected" do
+				expect do
+					select 'IKnow YourName', :from => 'new_user_ids'
+					click_button "Add Managers"
+				end.to change(named_user.managed_buildings, :count).by(1)
+			end
+		end
+
+		describe "bud tab" do
+			let(:bud1) { FactoryGirl.create(:bud) }		
+			before do
+				building.new_bud_ids=(bud1.id)
+				click_link "Buds"
+			end
+
+			describe "nested form for associated buds" do
+				it { should have_content(bud1.uid) }
+			end
 		end
 	end
 
@@ -255,6 +306,8 @@ describe "Building pages" do
 		end
 
 		describe "followers buildings" do
+			let(:bud2) { FactoryGirl.create(:bud, building: building) }
+
 			before do
 				sign_in user
 				visit followers_building_path(other_building)

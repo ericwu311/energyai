@@ -6,8 +6,12 @@
 			<%= render 'building_info', object: @building %>
 		</section>
 		<section>
+			<%= link_to 'Edit', edit_building_path(@building), class: "btn" if (signed_in? && @building.managers.include?(current_user)) %> 
+		</section>
+		<section>
 			<%= render 'follow_form' if signed_in? %>
 		</section>
+
 	</aside>
 	<div class="span10">
 		<div class="boxlabel-rt span4">

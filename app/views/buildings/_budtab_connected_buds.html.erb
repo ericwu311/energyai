@@ -1,0 +1,19 @@
+<table class="table table-hover">
+  <thead>
+    <%= render 'buds/bud_table_header' %>
+  </thead>
+  <tbody>
+		<%= f.fields_for :buds do |builder| %>
+			<%= render 'buds/budconnect_fields', f: builder %>
+    <% end %>
+    <tr>
+    	<td>
+    			<%= f.submit "Save Buds", class: "btn btn-primary" %>
+			</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+    </tr>
+  </tbody>
+</table>
